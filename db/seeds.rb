@@ -10,7 +10,7 @@ require 'csv'
 def seed_actors
 	Actor.delete_all
 	csv_file_path = Rails.root.join('db/data/actors.csv')
-	puts "Seeding users from #{csv_file_path}..."
+	puts "Seeding actors from #{csv_file_path}..."
 	f = File.new(csv_file_path, 'r')
 	csv = CSV.new(f)
 	headers = csv.shift
@@ -22,7 +22,27 @@ def seed_actors
 		}
 		inv = Actor.create(a_information)
 	end
-	puts "Seeding users from #{csv_file_path} done."
+	puts "Seeding actors from #{csv_file_path} done."
 end
 
-seed_actors
+def seed_model(model, fname)
+	model.delete_all
+	csv_file_path = Rails.root.join("db/data/#{fname}.csv")
+	puts "Seeding  from #{csv_file_path}..."
+	f = File.new(csv_file_path, 'r')
+	csv = CSV.new(f)
+	headers = csv.shift
+	attributes = model.attribute_names
+
+	csv.each do |row|
+		inv = model.new()
+		row.each_with_index do |attr,idx|
+			inv[attributes[idx]]=attr
+		end
+		puts inv
+		inv.save
+	end
+	puts "Seeding #{inv} from #{csv_file_path} done."
+end
+
+seed_model(Conversation,"conversations")
