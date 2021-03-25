@@ -9,7 +9,7 @@ class Dialogue < ActiveRecord::Base
                        :dependent => :destroy
   has_many :destination, :through => :children
 end
-class Dialogue_Link < ActiveRecord::Base
+class DialogueLink < ActiveRecord::Base
   belongs_to :origin, :class_name => "Dialogue"
   belongs_to :destination, :class_name => "Dialogue"
 end
