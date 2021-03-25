@@ -3,6 +3,7 @@ class CreateDialogues < ActiveRecord::Migration
     create_table :dialogues do |t|
       # t.primary_key :id
       t.references :conversation, index: true, foreign_key: true
+      t.text :dialoguetext
       t.integer :incid
       t.references :actor
       t.string :title
