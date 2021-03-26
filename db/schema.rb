@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20210324033936) do
 
   create_table "dialogues", force: :cascade do |t|
     t.integer  "conversation_id"
+    t.text     "dialoguetext"
     t.integer  "incid"
     t.integer  "actor_id"
     t.string   "title"
