@@ -29,6 +29,24 @@ def seed_model(model, fname,skipID=false)
 	puts "Seeding #{model} from #{csv_file_path} done."
 end
 
+def sql_seed(fname)
+	file_path= 
+	sql_file_path = Rails.root.join("db/data/#{fname}.csv")
+	statements = File.read(sql_file_path).split
+
+	connection = ActiveRecord::Base.connection();
+	connection.execute("delete from #{fname}")
+	connection.transaction
+	statements.each do |statement|
+		connection.execute(statement)
+	end
+	connection.commit
+	connection.close
+end
+
+
+
 seed_model(Conversation,"conversations")
 seed_model(Actor,"actors")
-seed_model(Dialogue,"dialogues",true)
+# seed_model(Dialogue,"dialogues",true)
+sql_seed("dialogues")

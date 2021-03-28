@@ -1,5 +1,6 @@
 class Dialogue < ActiveRecord::Base
   belongs_to :conversation
+  belongs_to :actor
   has_many :parents,  :foreign_key => 'origin_id',
                        :class_name => 'Dialogue_Link',
                        :dependent => :destroy
