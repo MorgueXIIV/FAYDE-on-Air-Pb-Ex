@@ -32,36 +32,38 @@ end
 def sql_seed(fname)
 	sql_file_path = Rails.root.join("db/data/#{fname}.sql")
 	statements = File.read(sql_file_path).split("\n")
-	puts "read #{sql_file_path}, and now"
+	puts "read #{sql_file_path}\n"
 	# REMOVE THE TRANSACTION-RELATED STATEMENTS; THEY'RE IRRELEVANT TO THIS
 	statements.pop
 	statements.shift
-	puts "#{statements[0]}" #reassure raker that's a realstaement fro debugging purposes
-	puts "#{statements[-1]}"
+	# puts "#{statements[0]}" #reassure raker that's a real statemement fro debugging purposes
+	# puts "#{statements[-1]}"
 
 	connection = ActiveRecord::Base.connection();
-	puts "made connection"
+	puts "made activerecord base connection"
 
 	connection.execute("delete from #{fname}")
-	puts "deleted records"
+	puts "deleted old records records"
+
+	puts "Now loading records, printing 1 dot every 1000 records so you know I'm doing it:"
 
 	ActiveRecord::Base.transaction do
 		statements.each_with_index do |statement, idx|
 			connection.execute(statement)
-			if (idx % 100) == 0 then
-				print '.'
+			if (idx % 1000) == 0 then
+				print '.' #reassurance dot every 1000 records
 			end
 		end
 	end
-	puts "committed transaction"
+	puts "Finished! All records should be in the database now!"
 	connection.close
 	puts "closed connection "
 end
 
 
 
-# seed_model(Conversation,"conversations")
-# seed_model(Actor,"actors")
+seed_model(Conversation,"conversations")
+seed_model(Actor,"actors")
 # seed_model(Dialogue,"dialogues",true)
 sql_seed("dialogues")
-puts "Dialogues must be loaded into the database \n manually with sqlite3, my appologies \n(they're extremely numerous, it takes literally hours otherwise)"
+# puts "Dialogues must be loaded into the database \n manually with sqlite3, my appologies \n(they're extremely numerous, it takes literally hours otherwise)"
