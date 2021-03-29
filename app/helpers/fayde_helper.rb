@@ -1,0 +1,2 @@
+module FaydeHelper
+end

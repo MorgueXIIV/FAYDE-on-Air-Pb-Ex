@@ -1,4 +1,4 @@
-class CreateDialogues < ActiveRecord::Migration
+class CreateDialogues < ActiveRecord::Migration[5.2]
   def change
     create_table :dialogues do |t|
       # t.primary_key :id
