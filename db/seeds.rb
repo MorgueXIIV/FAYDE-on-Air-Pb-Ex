@@ -30,23 +30,38 @@ def seed_model(model, fname,skipID=false)
 end
 
 def sql_seed(fname)
-	file_path= 
-	sql_file_path = Rails.root.join("db/data/#{fname}.csv")
-	statements = File.read(sql_file_path).split
+	sql_file_path = Rails.root.join("db/data/#{fname}.sql")
+	statements = File.read(sql_file_path).split("\n")
+	puts "read #{sql_file_path}, and now"
+	# REMOVE THE TRANSACTION-RELATED STATEMENTS; THEY'RE IRRELEVANT TO THIS
+	statements.pop
+	statements.shift
+	puts "#{statements[0]}" #reassure raker that's a realstaement fro debugging purposes
+	puts "#{statements[-1]}"
 
 	connection = ActiveRecord::Base.connection();
+	puts "made connection"
+
 	connection.execute("delete from #{fname}")
-	connection.transaction
-	statements.each do |statement|
-		connection.execute(statement)
+	puts "deleted records"
+
+	ActiveRecord::Base.transaction do
+		statements.each_with_index do |statement, idx|
+			connection.execute(statement)
+			if (idx % 100) == 0 then
+				print '.'
+			end
+		end
 	end
-	connection.commit
+	puts "committed transaction"
 	connection.close
+	puts "closed connection "
 end
 
 
 
-seed_model(Conversation,"conversations")
-seed_model(Actor,"actors")
+# seed_model(Conversation,"conversations")
+# seed_model(Actor,"actors")
 # seed_model(Dialogue,"dialogues",true)
 sql_seed("dialogues")
+puts "Dialogues must be loaded into the database \n manually with sqlite3, my appologies \n(they're extremely numerous, it takes literally hours otherwise)"
