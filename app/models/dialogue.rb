@@ -9,6 +9,15 @@ class Dialogue < ActiveRecord::Base
                        :class_name => 'Dialogue_Link',
                        :dependent => :destroy
   has_many :destination, :through => :children
+
+  def searchText(query)
+    return Dialogue.where("dialoguetext LIKE ?", "%" + query + "%")
+  end
+
+  def showShort
+    return "#{actor.name}: #{dialoguetext}"
+  end
+
 end
 class DialogueLink < ActiveRecord::Base
   belongs_to :origin, :class_name => "Dialogue"

@@ -41,3 +41,6 @@ yarn-debug.log*
 #ignore sublime workspace stuff
 **.sublime-project
 **.sublime-workspace
+
+# ignore gemfile lock because we'll each have a different one
+Gemfile.lock
