@@ -1,5 +1,6 @@
 import React from 'react'
-
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 
 let tipTop = "You: I'm not taking 'style' tips from someone who dresses like a washed-up TipTop racer."
 
@@ -34,7 +35,7 @@ class App extends React.Component {
     render () {
         return (
             <div>
-            <h1>FAYDE Playback Experiment</h1>
+            <h1>FAYDE On-Air Playback Experiment</h1>
             <label>
                     Select a database file:
                     <input type='file' accept='.db' /><br />
@@ -46,10 +47,8 @@ class App extends React.Component {
                 </label>
                 <button type='submit'>Search</button>
             </form>
-            <textarea value={textCheck(this.state.submission)}></textarea>
+            <textarea readOnly value={textCheck(this.state.submission)}></textarea>
             </div>
         );
     }
   }
-
-export default App
