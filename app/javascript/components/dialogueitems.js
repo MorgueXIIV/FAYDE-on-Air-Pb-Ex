@@ -7,8 +7,8 @@ class DialogueItems extends React.Component {
   }
   render() {
     return (
-      
+      <ul>{this.props.children}</ul>
     )
   }
 }
-export default ResultsItems
+export default DialogueItems

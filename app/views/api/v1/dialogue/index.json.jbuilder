@@ -1,0 +1,1 @@
+json.array! @dialogue, partial: "api/v1/dialogue/dialogue", as: :dialogue

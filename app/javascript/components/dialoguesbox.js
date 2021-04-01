@@ -1,22 +1,41 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
-
-import DialogueItems from "./dialogues";
+import axios from "axios";
+import DialogueItems from "./dialogueitems";
+import DialogueItem from "./dialogueitem";
 
 class DialogueBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      DialogueItems: []
+      dialogueItems: []
     }
+    this.getDialogue = this.getDialogue.bind(this);
   }
+  componentDidMount() {
+    this.getDialogue();
+  }
+  getDialogue() {
+    axios
+      .get("/api/v1/dialogue/555")
+      .then(response => {
+        const dialogueItems = response.data;
+        this.setState({ dialogueItems });
+      })
+      .catch(error=> {
+        console.log(error)
+      })
+  }
+
+
     render() {
       return (
-      <DialogueItems>
-        <p>Test</p>
-      </DialogueItems>
-      )
+        <DialogueItems>
+            {this.state.dialogueItems.map(dialogueItem => (
+              <DialogueItem key={dialogueItem.id} dialogueItem={dialogueItem} />
+            ))}
+        </DialogueItems>
+        );
     }
 }
 
