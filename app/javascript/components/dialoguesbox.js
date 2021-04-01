@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from "axios";
+
 import DialogueItems from "./dialogueitems";
 import DialogueItem from "./dialogueitem";
 
@@ -9,13 +10,13 @@ class DialogueBox extends React.Component {
     super(props);
     this.state = {
       dialogueItems: []
-    }
-    this.getDialogue = this.getDialogue.bind(this);
+    };
+    this.getDialogueItems = this.getDialogueItems.bind(this);
   }
   componentDidMount() {
-    this.getDialogue();
+    this.getDialogueItems();
   }
-  getDialogue() {
+  getDialogueItems() {
     axios
       .get("/api/v1/dialogue/555")
       .then(response => {
