@@ -1,10 +1,23 @@
 class SearchController < ApplicationController
 	def result
 		if params[:query].blank? then
-			@resultStrings=[]
+			@results=[]
 		else
 			searchResults = Dialogue.where("dialoguetext LIKE ?", "%#{params[:query]}%")
-			@resultStrings = searchResults.map { |result| result.showShort }
+			@results=searchResults
+			# @resultStrings = searchResults.map { |result| result.showShort }
 		end
+	end
+
+	def search  
+	  if params[:search].blank?  
+	    redirect_to(root_path, alert: "Empty field!") and return  
+	  else  
+	    @parameter = params[:search].downcase  
+	    @results = Dialogue.where("dialoguetext LIKE ?", "%#{params[:query]}%")  
+	  end
+	end
+
+	def form
 	end
 end

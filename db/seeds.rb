@@ -29,6 +29,23 @@ def seed_model(model, fname,skipID=false)
 	puts "Seeding #{model} from #{csv_file_path} done."
 end
 
+def seed_links()
+	DialogueLink.delete_all
+	csv_file_path = Rails.root.join("db/data/links.csv")
+	puts "Seeding DialogueLinks from #{csv_file_path}..."
+	f = File.new(csv_file_path, 'r')
+	csv = CSV.new(f)
+	headers = csv.shift
+	
+	csv.each do |row|
+		orig=Dialogue.where("conversation_id = ? AND incid = ?",  row[0],row[1]).first
+		dest=Dialogue.where("conversation_id = ? AND incid = ?",  row[2],row[3]).first
+		prio=row[4]
+		inv = DialogueLink.create(origin: orig, destination: dest, priority: prio )
+	end
+	puts "Seeding from #{csv_file_path} done."
+end
+
 def sql_seed(fname)
 	sql_file_path = Rails.root.join("db/data/#{fname}.sql")
 	statements = File.read(sql_file_path).split("\n")
@@ -62,8 +79,7 @@ end
 
 
 
-seed_model(Conversation,"conversations")
-seed_model(Actor,"actors")
-# seed_model(Dialogue,"dialogues",true)
-sql_seed("dialogues")
-# puts "Dialogues must be loaded into the database \n manually with sqlite3, my appologies \n(they're extremely numerous, it takes literally hours otherwise)"
+# seed_model(Conversation,"conversations")
+# seed_model(Actor,"actors")
+# sql_seed("dialogues")
+seed_links
