@@ -1,5 +1,5 @@
 <p> <ol><%  @backOptions.each do | result | %>
-<li><%= result.showShort %></li>
+<li> <%= link_to result.showShort, {:controller => 'conversation', :action => 'trace', :dialogueid => "#{result.id}-#{@idsList}" } %></li>
 <% end %> </ol> </p>
 
 <p> <ol><%  @builtConvo.each do | result | %>
@@ -7,5 +7,6 @@
 <% end %> </ol> </p>
 
 <p> <ol><%  @forwOptions.each do | result | %>
-<li><%= result.showShort %></li>
+
+<li> <%= link_to result.showShort, {:controller => 'conversation', :action => 'trace', :dialogueid => "#{@idsList}-#{result.id}" } %></li>
 <% end %> </ol> </p>
