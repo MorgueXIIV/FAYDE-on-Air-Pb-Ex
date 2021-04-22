@@ -37,11 +37,15 @@ def seed_links()
 	csv = CSV.new(f)
 	headers = csv.shift
 	
-	csv.each do |row|
+	puts "Now loading records, printing 1 dot every 1000 records so you know I'm doing it:"
+	csv.each_with_index do |row,idx|
 		orig=Dialogue.where("conversation_id = ? AND incid = ?",  row[0],row[1]).first
 		dest=Dialogue.where("conversation_id = ? AND incid = ?",  row[2],row[3]).first
 		prio=row[4]
 		inv = DialogueLink.create(origin: orig, destination: dest, priority: prio )
+		if (idx % 1000) == 0 then
+			print '.' #reassurance dot every 1000 records
+		end
 	end
 	puts "Seeding from #{csv_file_path} done."
 end
@@ -78,8 +82,15 @@ def sql_seed(fname)
 end
 
 
-
-# seed_model(Conversation,"conversations")
-# seed_model(Actor,"actors")
-# sql_seed("dialogues")
-seed_links
+if Conversation.count < 1000
+	seed_model(Conversation,"conversations")
+end
+if Actor.count < 300
+	seed_model(Actor,"actors")
+end
+if Dialogue.count < 90000
+	sql_seed("dialogues")
+end
+if DialogueLink.count < 100000
+	seed_links
+end

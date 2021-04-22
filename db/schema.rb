@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_04_07_205704) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "actors", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -33,10 +36,10 @@ ActiveRecord::Schema.define(version: 2021_04_07_205704) do
   end
 
   create_table "dialogues", force: :cascade do |t|
-    t.integer "conversation_id"
+    t.bigint "conversation_id"
     t.text "dialoguetext"
     t.integer "incid"
-    t.integer "actor_id"
+    t.bigint "actor_id"
     t.string "title"
     t.integer "difficultypass"
     t.text "sequence"
@@ -48,4 +51,5 @@ ActiveRecord::Schema.define(version: 2021_04_07_205704) do
     t.index ["conversation_id"], name: "index_dialogues_on_conversation_id"
   end
 
+  add_foreign_key "dialogues", "conversations"
 end
