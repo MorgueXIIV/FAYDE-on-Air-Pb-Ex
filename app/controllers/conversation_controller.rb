@@ -12,11 +12,14 @@ class ConversationController < ApplicationController
 				@builtConvo.unshift @backOptions.first
 				@backOptions=@builtConvo.first.origin.all		
 			end
-			@forwOptions = @builtconvo.last.destination.all
+
+			@forwOptions = @builtConvo.last.destination.all
 			while @forwOptions.length == 1 do
 				@builtConvo.push @forwOptions.first
 				@forwOptions=@builtConvo.last.destination.all		
 			end
+
+			@idsList= @builtConvo.map { |e| e.id }.join("-")
 		end
 	end
 end
