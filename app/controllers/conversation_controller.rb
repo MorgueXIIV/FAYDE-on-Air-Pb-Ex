@@ -3,30 +3,21 @@ class ConversationController < ApplicationController
 	def trace
 		if params[:dialogueid].blank? then
 		else
-			idsList=params[:dialogueid].split("-")
+			thisDialogue = Dialogue.find(params[:dialogueid])
 
-			@builtConvo = idsList.map { |e| Dialogue.find(e) }
-			# for idsList.each do |oneid|
-			# 	thisDialogue = Dialogue.find(oneid)
-			# 	@builtConvo.push(thisDialogue)
-			# end
+			@builtConvo = []
+			@builtConvo.push(thisDialogue)
 
-			# thisDialogue = 
-			@backOptions = @builtConvo.first.origin.all
+			@backOptions = thisDialogue.origin.all
 			while @backOptions.length == 1 do
 				@builtConvo.unshift @backOptions.first
 				@backOptions=@builtConvo.first.origin.all		
 			end
-
-			# thisDialogue = 
-			@forwOptions = @builtConvo.last.destination.all
+			@forwOptions = thisDialogue.destination.all
 			while @forwOptions.length == 1 do
 				@builtConvo.push @forwOptions.first
-				@forwOptions=@builtConvo.last.destination.all
+				@forwOptions=@builtConvo.last.destination.all		
 			end
-
-			idsList=@builtConvo.map { |e| e.id }
-			@idsList=idsList.join("-")
 		end
 	end
 end
