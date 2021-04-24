@@ -1,7 +1,7 @@
 <h2> Conversation </h2>
 <h3><%= @conversationDescribe.id  %>: <%= @conversationDescribe.title  %></h3> <p> <%= @conversationDescribe.title %> </p>
 <p> <ol><%  @backOptions.each do | result | %>
-<li> <%= link_to result.showShort, {:controller => 'conversation', :action => 'trace', :dialogueid => "#{result.id}-#{@idsList}" } %></li>
+<li> <%= link_to result.showShort(true), {:controller => 'conversation', :action => 'trace', :dialogueid => "#{result.id}-#{@idsList}" } %></li>
 <% end %> </ol> </p>
 
 <p> <ul><%  @builtConvo.each do | result | %>

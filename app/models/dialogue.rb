@@ -10,12 +10,77 @@ class Dialogue < ActiveRecord::Base
                        :dependent => :destroy
   has_many :destination, :through => :children
 
+  scope :blankHub, -> {where("dialoguetext = ?", 0)}
+  scope :notHub, -> {where("dialoguetext != ?", 0)}
+  # scope :published, -> { where(published: true) }
+  # scope :saidBy, ->(actorName) { actor.name == actorName) }
+
+
   def searchText(query)
     return Dialogue.where("dialoguetext LIKE ?", "%" + query + "%")
   end
 
-  def showShort
-    return "#{actor.name}: #{dialoguetext}"
+  def showShort(addParentNamesToHubs=false)
+    if isHub?
+      shortName= "HUB: "
+      shortName+=showDetails.join("/")
+      if addParentNamesToHubs then
+        shortName+="{Hub From: #{getLeastHubParentName}}" 
+      else
+        shortName+=title
+      end
+    else
+      return "#{actor.name}: #{dialoguetext}"
+    end
+  end
+
+  def isHub?
+    dialoguetext=="0"
+  end
+
+  def showDetails
+    lomgpossinfo=[conditionstring,userscript,sequence]
+    lomgpossinfo=lomgpossinfo.reject{|info| info.nil? or info.length<2 }
+
+    if difficultypass>0 then
+      lomgpossinfo.unshift("passive check (estimate; requires #{difficultypass} in #{actor.name})")
+    end
+
+    # lomginfo=lomgpossinfo.join(": ")
+    return lomgpossinfo
+  end
+
+  def getLeastHubParentName
+    grandparentslist=[]
+    greatgrandparentslist=[]
+    if isHub?
+      parents=origin
+      parents.each do |parent|
+        if not (parent.isHub?)
+          return parent.title+"[1]"
+        else
+          grandparentslist+=parent.origin
+        end
+      end
+      grandparentslist.each do |parent|
+        if not parent.isHub?
+          return parent.title+"[2]"
+        else
+          greatgrandparentslist+=parent.origin
+        end
+      end
+      greatgrandparentslist.each do |parent|
+        if not parent.isHub?
+          return parent.title+"[3]"
+        else
+          greatgrandparentslist+=parent.origin
+        end
+      end
+      # GIVE UP ?
+      return "(no useful parent)"
+    else
+      return "(this isn't a hub)"
+    end
   end
 
 end
