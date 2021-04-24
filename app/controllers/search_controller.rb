@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
 	def result
+		@pageTitle = "Search"
 		if params[:query].blank? then
 			@results=[]
 		else

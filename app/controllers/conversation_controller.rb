@@ -1,13 +1,17 @@
 class ConversationController < ApplicationController
 
 	def trace
+		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
 		else
 			idsList=params[:dialogueid].split("-")
 
 			@builtConvo = idsList.map { |e| Dialogue.find(e) }
 
-			@backOptions = @builtConvo.first.origin.all
+			firstc = @builtConvo.first
+			@conversationDescribe = firstc.conversation
+
+			@backOptions = firstc.origin.all
 			while @backOptions.length == 1 do
 				@builtConvo.unshift @backOptions.first
 				@backOptions=@builtConvo.first.origin.all		
