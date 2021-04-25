@@ -7,10 +7,12 @@ class SearchController < ApplicationController
 		else
 			# searchResults = Dialogue.where("dialoguetext LIKE ?", "%#{params[:query]}%").first(500)
 			query=query.split(" ")
-			if query.length == 1 then
-				searchResults = Dialogue.searchText(query.first)
+			query=query.reject{|e| e.length<3}
+			if query.empty? then
+				searchResults = []
 			else
-				searchResults = Dialogue.searchText(query.first).searchText(query.last)
+				query=query.first(10)
+				searchResults = Dialogue.includes(:actor).searchTexter(query).first(500)
 			end
 
 			@results=searchResults

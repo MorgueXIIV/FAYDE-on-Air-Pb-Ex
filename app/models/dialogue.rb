@@ -17,9 +17,14 @@ class Dialogue < ActiveRecord::Base
   scope :saidBy, ->(actorName) { where(actor.name == actorName) }
   scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
 
-  # def this.searchText(query)
-  #   return Dialogue.where("dialoguetext LIKE ?", "%" + query + "%")
-  # end
+  scope :searchTexter, ->(query) do 
+    if query.length==1
+      searchText(query.first)
+    else
+      quer1= query.pop
+      searchTexter(query).where("dialoguetext LIKE ?", "%" + quer1 + "%")
+    end
+  end
 
   def showShort(addParentNamesToHubs=false)
     if isHub?
@@ -32,6 +37,7 @@ class Dialogue < ActiveRecord::Base
           shortName+=title
         end
       end
+      return shortName
     else
       return "#{actor.name}: #{dialoguetext}"
     end
