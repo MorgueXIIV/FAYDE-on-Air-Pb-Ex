@@ -5,7 +5,15 @@
 <% end %> </ol> </p>
 
 <p> <ul><%  @builtConvo.each do | result | %>
-<li><%= result.incid %>. <%= result.showShort %></li>
+	<li><%= result.incid %>. <%= result.showShort %>
+		<i> 
+			<ul> 
+				<% result.showDetails.each do | deet | %>
+					<li> <%= deet %> </li>
+				<% end %> 
+			</ul>
+		</i>
+	</li>
 <% end %> </ul> </p>
 
 <p> <ol><%  @forwOptions.each do | result | %>

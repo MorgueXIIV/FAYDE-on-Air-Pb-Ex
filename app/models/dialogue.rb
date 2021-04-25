@@ -12,13 +12,14 @@ class Dialogue < ActiveRecord::Base
 
   scope :blankHub, -> {where("dialoguetext = ?", 0)}
   scope :notHub, -> {where("dialoguetext != ?", 0)}
+
   # scope :published, -> { where(published: true) }
-  # scope :saidBy, ->(actorName) { actor.name == actorName) }
+  scope :saidBy, ->(actorName) { where(actor.name == actorName) }
+  scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
 
-
-  def searchText(query)
-    return Dialogue.where("dialoguetext LIKE ?", "%" + query + "%")
-  end
+  # def this.searchText(query)
+  #   return Dialogue.where("dialoguetext LIKE ?", "%" + query + "%")
+  # end
 
   def showShort(addParentNamesToHubs=false)
     if isHub?
@@ -27,7 +28,9 @@ class Dialogue < ActiveRecord::Base
       if addParentNamesToHubs then
         shortName+="{Hub From: #{getLeastHubParentName}}" 
       else
-        shortName+=title
+        if shortName.length<12
+          shortName+=title
+        end
       end
     else
       return "#{actor.name}: #{dialoguetext}"
