@@ -10,23 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_07_205704) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 2021_04_26_122500) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  end
+
+  create_table "alternates", force: :cascade do |t|
+    t.string "alternateline"
+    t.string "conditionstring"
+    t.integer "dialogue_id"
+    t.index ["dialogue_id"], name: "index_alternates_on_dialogue_id"
+  end
+
+  create_table "checks", force: :cascade do |t|
+    t.string "isred"
+    t.string "difficulty"
+    t.string "flagname"
+    t.string "skilltype"
+    t.integer "dialogue_id"
+    t.index ["dialogue_id"], name: "index_checks_on_dialogue_id"
   end
 
   create_table "conversations", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "dialogue_links", force: :cascade do |t|
@@ -36,20 +44,25 @@ ActiveRecord::Schema.define(version: 2021_04_07_205704) do
   end
 
   create_table "dialogues", force: :cascade do |t|
-    t.bigint "conversation_id"
+    t.integer "conversation_id"
     t.text "dialoguetext"
     t.integer "incid"
-    t.bigint "actor_id"
+    t.integer "actor_id"
     t.string "title"
     t.integer "difficultypass"
     t.text "sequence"
     t.text "conditionstring"
     t.text "userscript"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["actor_id"], name: "index_dialogues_on_actor_id"
     t.index ["conversation_id"], name: "index_dialogues_on_conversation_id"
   end
 
-  add_foreign_key "dialogues", "conversations"
+  create_table "modifiers", force: :cascade do |t|
+    t.string "variable"
+    t.string "modification"
+    t.string "tooltip"
+    t.integer "dialogue_id"
+    t.index ["dialogue_id"], name: "index_modifiers_on_dialogue_id"
+  end
+
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  variable: MyString
+  modification: MyString
+  tooltip: MyString
+  dialogue: one
+
+two:
+  variable: MyString
+  modification: MyString
+  tooltip: MyString
+  dialogue: two

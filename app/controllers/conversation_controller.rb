@@ -6,24 +6,30 @@ class ConversationController < ApplicationController
 		else
 			idsList=params[:dialogueid].split("-")
 
-			@builtConvo = idsList.map { |e| Dialogue.includes(:actor).find(e) }
+			begin
+				@builtConvo = idsList.map { |e| Dialogue.includes(:actor).find(e) }
 
-			firstc = @builtConvo.first
-			@conversationDescribe = firstc.conversation
+				firstc = @builtConvo.first
+				@conversationDescribe = firstc.conversation
 
-			@backOptions = firstc.origin.includes(:actor).all
-			while @backOptions.length == 1 do
-				@builtConvo.unshift @backOptions.first
-				@backOptions=@builtConvo.first.origin.includes(:actor).all		
+				@backOptions = firstc.origin.includes(:actor).all
+				while @backOptions.length == 1 do
+					@builtConvo.unshift @backOptions.first
+					@backOptions=@builtConvo.first.origin.includes(:actor).all		
+				end
+
+				@forwOptions = @builtConvo.last.destination.all
+				while @forwOptions.length == 1 do
+					@builtConvo.push @forwOptions.first
+					@forwOptions=@builtConvo.last.destination.includes(:actor).all		
+				end
+
+				@idsList= @builtConvo.map { |e| e.id }.join("-")		
+			rescue
+				render :controller => 'conversation', :action => "error"
 			end
-
-			@forwOptions = @builtConvo.last.destination.all
-			while @forwOptions.length == 1 do
-				@builtConvo.push @forwOptions.first
-				@forwOptions=@builtConvo.last.destination.includes(:actor).all		
-			end
-
-			@idsList= @builtConvo.map { |e| e.id }.join("-")
 		end
+	end
+	def error
 	end
 end

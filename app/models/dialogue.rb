@@ -1,6 +1,11 @@
 class Dialogue < ActiveRecord::Base
   belongs_to :conversation
   belongs_to :actor
+  has_many :alternates
+  has_one :check
+  has_many :modifiers
+
+
   has_many :parents,  :foreign_key => 'destination_id',
                        :class_name => 'DialogueLink',
                        :dependent => :destroy
@@ -10,14 +15,13 @@ class Dialogue < ActiveRecord::Base
                        :dependent => :destroy
   has_many :destination, :through => :children
 
-  scope :blankHub, -> {where("dialoguetext = ?", 0)}
-  scope :notHub, -> {where("dialoguetext != ?", 0)}
+  # scope :blankHub, -> {where("dialoguetext = ?", 0)}
+  # scope :notHub, -> {where("dialoguetext != ?", 0)}
 
-  # scope :published, -> { where(published: true) }
-  scope :saidBy, ->(actorName) { where(actor.name == actorName) }
+  scope :saidBy, ->(actorID) { where(actor)==actorID }
   scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
 
-  scope :searchTexter, ->(query) do 
+  scope :searchTexter, ->(query) do
     if query.length==1
       searchText(query.first)
     else
@@ -28,7 +32,7 @@ class Dialogue < ActiveRecord::Base
 
   def showShort(addParentNamesToHubs=false)
     if isHub?
-      shortName= "HUB: "
+      shortName= "HUB: (#{actor.name})"
       shortName+=showDetails.join("/")
       if addParentNamesToHubs then
         shortName+="{Hub From: #{getLeastHubParentName}}" 
@@ -44,7 +48,7 @@ class Dialogue < ActiveRecord::Base
   end
 
   def isHub?
-    dialoguetext=="0"
+    dialoguetext.length<2
   end
 
   def showDetails
