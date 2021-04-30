@@ -5,10 +5,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <!--%= favicon_link_tag 'favicon.ico' %>-->
+    <%= stylesheet_link_tag "/stylesheets/dark.css" %>
   </head>
 
   <body>
-    <p>
+    <p class="menu">
       <b><%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> | <%= link_to "Home", {:controller => 'fayde', :action => 'index' } %></b>
       <% if @pageTitle != "Search" then %>
         <%= form_tag(search_path, method: :get) do %>
@@ -17,7 +18,8 @@
       <% end %> 
     </p> 
     <hr />
-
+    <div class="main">
     <%= yield %>
+    </div>
   </body>
 </html>

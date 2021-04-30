@@ -2,7 +2,7 @@ class Dialogue < ActiveRecord::Base
   belongs_to :conversation
   belongs_to :actor
   has_many :alternates
-  has_one :check
+  has_many :checks
   has_many :modifiers
 
 
@@ -53,6 +53,7 @@ class Dialogue < ActiveRecord::Base
 
   def showDetails
     lomgpossinfo=[conditionstring,userscript,sequence]
+    alternates.all.each{ |alt| lomgpossinfo.push(alt.showShort)} 
     lomgpossinfo=lomgpossinfo.reject{|info| info.nil? or info.length<2 }
 
     if difficultypass>0 then

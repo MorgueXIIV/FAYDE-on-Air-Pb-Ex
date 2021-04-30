@@ -1,0 +1,13 @@
+ .main
+ { background-color: darkslategray;
+ color: gainsboro;
+ border-color: beige; 
+ }
+ 
+ .menu
+ {
+ 	background-color: black;
+ 	color: whitesmoke;
+ 	border-color: beige;
+ 	
+ }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_26_122500) do
+ActiveRecord::Schema.define(version: 2021_04_30_001611) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
@@ -53,6 +53,10 @@ ActiveRecord::Schema.define(version: 2021_04_26_122500) do
     t.text "sequence"
     t.text "conditionstring"
     t.text "userscript"
+    t.integer "origins_count"
+    t.integer "destinations_count"
+    t.integer "alternates_count"
+    t.integer "checks_count"
     t.index ["actor_id"], name: "index_dialogues_on_actor_id"
     t.index ["conversation_id"], name: "index_dialogues_on_conversation_id"
   end

@@ -7,7 +7,10 @@ class ConversationController < ApplicationController
 			idsList=params[:dialogueid].split("-")
 
 			begin
-				@builtConvo = idsList.map { |e| Dialogue.includes(:actor).find(e) }
+				@builtConvo = idsList.map { |e| Dialogue.includes(:actor).find_by_id(e) }
+				if not @builtConvo.index(nil).nil? then
+					render :controller => 'conversation', :action => "error"
+				end
 
 				firstc = @builtConvo.first
 				@conversationDescribe = firstc.conversation
@@ -25,8 +28,7 @@ class ConversationController < ApplicationController
 				end
 
 				@idsList= @builtConvo.map { |e| e.id }.join("-")		
-			rescue
-				render :controller => 'conversation', :action => "error"
+			rescue 
 			end
 		end
 	end
