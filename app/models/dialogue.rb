@@ -34,7 +34,7 @@ class Dialogue < ActiveRecord::Base
       searchText(query.first).saidBy(actor)
     else
       quer1= query.pop
-      searchTextsAct(query).where("dialoguetext LIKE ?", "%" + quer1 + "%")
+      searchTextsAct(query, actor).where("dialoguetext LIKE ?", "%" + quer1 + "%")
     end
   end
 
