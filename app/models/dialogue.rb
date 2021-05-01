@@ -15,10 +15,13 @@ class Dialogue < ActiveRecord::Base
                        :dependent => :destroy
   has_many :destination, :through => :children
 
-  # scope :blankHub, -> {where("dialoguetext = ?", 0)}
-  # scope :notHub, -> {where("dialoguetext != ?", 0)}
+  scope :isHub, -> {where("length(dialoguetext) = ?", 0)}
+  scope :notHub, -> {where("length(dialoguetext) > ?", 1)}
 
   scope :saidBy, ->(actorID) { where("actor_id = ?", actorID) }
+  # scope :saidByNamePart
+
+  #single word/phrase search text
   scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
 
   scope :searchTexts, ->(query) do
@@ -29,6 +32,7 @@ class Dialogue < ActiveRecord::Base
       searchTexts(query).where("dialoguetext LIKE ?", "%" + quer1 + "%")
     end
   end
+
   scope :searchTextsAct, ->(query, actor) do
     if query.length==1
       searchText(query.first).saidBy(actor)
@@ -56,7 +60,7 @@ class Dialogue < ActiveRecord::Base
   end
 
   def isHub?
-    dialoguetext.length<2
+    return dialoguetext.length<1
   end
 
   def showDetails
