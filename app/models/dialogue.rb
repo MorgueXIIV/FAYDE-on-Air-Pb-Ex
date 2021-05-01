@@ -1,6 +1,6 @@
 class Dialogue < ActiveRecord::Base
   belongs_to :conversation
-  belongs_to :actor
+  belongs_to :actor, counter_cache: true
   has_many :alternates
   has_many :checks
   has_many :modifiers
@@ -18,12 +18,20 @@ class Dialogue < ActiveRecord::Base
   # scope :blankHub, -> {where("dialoguetext = ?", 0)}
   # scope :notHub, -> {where("dialoguetext != ?", 0)}
 
-  scope :saidBy, ->(actorID) { where(actor)==actorID }
+  scope :saidBy, ->(actorID) { where("actor_id = ?", actorID) }
   scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
 
-  scope :searchTexter, ->(query) do
+  scope :searchTexts, ->(query) do
     if query.length==1
       searchText(query.first)
+    else
+      quer1= query.pop
+      searchTexter(query).where("dialoguetext LIKE ?", "%" + quer1 + "%")
+    end
+  end
+  scope :searchTextsAct, ->(query, actor) do
+    if query.length==1
+      searchText(query.first).saidBy(actor)
     else
       quer1= query.pop
       searchTexter(query).where("dialoguetext LIKE ?", "%" + quer1 + "%")

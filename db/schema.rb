@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_001611) do
+ActiveRecord::Schema.define(version: 2021_05_01_110821) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
+    t.integer "dialogues_count"
   end
 
   create_table "alternates", force: :cascade do |t|
