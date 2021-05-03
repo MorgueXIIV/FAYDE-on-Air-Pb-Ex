@@ -14,7 +14,10 @@
   <body>
 
     <div class="menu">
-      <b><%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> 
+    
+      External: <a href="https://asterfialla.com/tropeaday" target="_blank"> Remember to check out Aster's Trope-a-Day project against anti-Asian racism </a> <br />
+      <b>
+        <%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> 
         | <%= link_to "Home", {:controller => 'fayde', :action => 'index' } %> 
         | <%= link_to "Config/Style", {:controller => 'fayde', :action => 'css_configuration' } %>
         | <%= link_to "ORB MODE", {:controller => 'conversation', :action => 'orbindex' } %></b>
@@ -23,8 +26,9 @@
           Quick Search: <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %> <%= submit_tag 'Search' %>
         <% end %>
       <% end %> 
+    
   </div>
-    <div <%= cookies[:nicmode]==true ?  "id=wideline" : "id=normalline" %> class="main">
+    <div <%= cookies[:nicmode] ?  "id=wideline" : "id=normalline" %> class="main">
     <%= yield %>
     </div>
   </body>

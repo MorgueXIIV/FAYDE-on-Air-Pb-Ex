@@ -17,7 +17,7 @@
 	border-color: beige;
 	border-width: 2px;
 	border-style: solid;
-	padding: 5px;
+	padding: 10px;
 	left: 0px;
 	top: 0px;
 	z-index:5;
@@ -49,7 +49,7 @@
 
  .menu form {
  	top: 0px;
- 	position:inline;
+ 	display: inline;
  }
 
  #details {
