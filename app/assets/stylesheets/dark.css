@@ -12,7 +12,7 @@
  
  .menu
  {
-	/*background-color: darkslategray;*/
+	background-color: darkslategray;
 	color: gainsboro;
 	border-color: beige;
 	border-width: 2px;
@@ -32,6 +32,13 @@
  }
  .menu a {
  	color:white;
+ }
+
+ .searchresults a {
+ 	color:white;
+ }
+ .searchresults a:visited {
+ 	color:gainsboro;
  }
 
  

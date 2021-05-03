@@ -11,11 +11,13 @@
 	<%= form.label :css_darkmode, "Dark Mode" %>
 	<br />
 	<%= form.radio_button :css, "nocss" %>
-	<%= form.label :css_nocss, "Minimal CSS" %>	
+	<%= form.label :css_nocss, "Sybilius Mode (current default)" %>	
 	<br />
 	<%= form.check_box :linespace %>
 	<%= form.label :linespace, "1.5 line spacing" %>
 
     <br />
   <%= form.submit 'configure' %>
+
+  <p> Stylesheets are a work in progress: light mode will be added once I feel satisfied enough with my current darkmode to have something to work with. For people like me who have astygmatism and depression and need light mode. </p>
 <% end %>

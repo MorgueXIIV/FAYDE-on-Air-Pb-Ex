@@ -1,23 +1,23 @@
 <h2> Search </h2>
 
 <p> Search for up to 10 individual/partial words (minimum length 2) OR include a " in your search, to search one or more exact phrases (seperated by "s) </p>
-<p> (a search for '"your face"gross looking' would match 'your face is very gross looking' but not 'your florid face is gross looking', sorry this is rly confusing but I wanna get literals available faster than I wanna get them easy to use, you cannot yet search for  phrase and some loose words, but you can type 'your paper"officer"important' or something, so why should that matter) </p>
-<p> To prevent abuse (or the strain on the server if you legitimately want to search for everything containing "a") this will only return a maximum of 500 results (# subject to change). If this limit is too low for a good-faith search, contact me and I'll reconsider it! (I assume you know who I am, this is a niche)  This limit does not exist in the desktop FAYDE, because it's more efficient, and will only slow down own computer if you try too hard; so for intense research, I recommend that route. </p>
+<p> Searches are limited to the first 500 results, just for sanity's sake. If you need more than 500 results for <b> intense research </b> you really are probably better off in the desktop FAYDE. </p>
 
-<p> Enter all or part of an actor name to filter by that actor. Most proflific speakers will be prioritised in case of conflict (ie if you just type 'ki', Kim Kitsuragi will be the filter because he says more than "Coupris Kineema" or someone with "Working Class" in their name). Names MUST be those used in the game interface; instance typing 'Neha' will NOT get you Novelty Dicemaker's lines, 'Billie Mejean' will not match Working Class Woman, and 'Vicque' will not get you the Man With Sunglasses (sorry, as far as the game's concerned, they're different people) and the name fragment must be continuous: 'coup kin' won't work. </p>
+<p> Enter all or part of an actor name to filter by that actor. Most prolific speakers will be prioritised in case of conflict (ie if you just type 'ki', Kim Kitsuragi will be the filter because he says more than "Coupris Kineema"). Names MUST be those used in the game interface; typing 'Neha' will NOT get you Novelty Dicemaker's lines, 'Billie Mejean' will not match Working Class Woman, and 'Vicque' will not get you the Man With Sunglasses (sorry, as far as the game's concerned, they're different people) and the name fragment must be continuous: 'coup kin' won't work. </p>
 <p>
 <%= form_tag(search_path, method: :get) do %>
   Search 
-    <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %> <%= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>  
+    <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %> 
+    <%= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>  
   <%= submit_tag 'Search' %>
 <% end %>
  	<% @searchMessages.each do |mess| %> 
 		<p> <b> <%= mess %> </b></p>
 	<% end %>
-<p> <ol><%  @results.each do | result | %>
+<p> <ol class="searchresults"><%  @results.each do | result | %>
 <li> <%= link_to result.showShort, {:controller => 'conversation', :action => 'trace', :dialogueid => result.id } %> <br />
 <i> <ul> <% result.showDetails.each do | deet | %>
-	<li> <%= deet %> </li>
+	<li id="details"> <%= deet %> </li>
 	<% end %> 
 </ul>
 </i>
