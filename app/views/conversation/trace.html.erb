@@ -5,7 +5,7 @@
 <% end %> </ol> </p>
 
 <p> <ul><%  @builtConvo.each do | result | %>
-	<li id="<%= result.id %>"> <a href="#<%= result.id %>"> <%= result.incid %>. </a> <%= result.showShort %>
+	<li id="<%= result.id %>"> <a href="<%= result.id %>"> <%= result.incid %>.</a>  <%= result.showShort %>
 		<i>
 			<ul id="details"> 
 				<% result.showDetails.each do | deet | %>

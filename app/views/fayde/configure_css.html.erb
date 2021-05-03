@@ -1,0 +1,14 @@
+<h1> FAYDE Playback Experiment: On-Air </h1>
+
+<h2> Config </h2>
+
+<%= form_with configured, method: :get do |form| %>
+    
+    <%= form.radio_button :css, "darkmode" %>
+	<%= form.label :css_dark, "Dark Mode" %>
+	<%= form.radio_button :css, "nocss" %>
+	<%= form.label :css_none, "no CSS" %>
+
+    <br />
+  <%= form.submit 'configure' %>
+<% end %>

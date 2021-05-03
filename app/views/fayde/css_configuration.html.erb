@@ -1,0 +1,21 @@
+<h1> FAYDE Playback Experiment: On-Air </h1>
+
+<h2> Config </h2>
+<h3> <%= @formMessage %> </h3>
+
+<p> This configuration uses cookies which are trivial temporary browser files that the EU is more interested legistlating than any human rights cause. By submitting a response to this form you're agreeing to these cookies. To avoid cookies, do not use these configuration options.</p>
+
+<%= form_with method: :get do |form| %>
+    
+    <%= form.radio_button :css, "darkmode" %>
+	<%= form.label :css_darkmode, "Dark Mode" %>
+	<br />
+	<%= form.radio_button :css, "nocss" %>
+	<%= form.label :css_nocss, "Minimal CSS" %>	
+	<br />
+	<%= form.check_box :linespace %>
+	<%= form.label :linespace, "1.5 line spacing" %>
+
+    <br />
+  <%= form.submit 'configure' %>
+<% end %>

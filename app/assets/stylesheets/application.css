@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+ 
+
+#wideline {
+	line-height: 1.5;
+}
+
+#normalline {
+	line-height: 1;
+}

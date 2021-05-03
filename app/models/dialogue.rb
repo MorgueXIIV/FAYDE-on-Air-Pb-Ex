@@ -71,8 +71,6 @@ class Dialogue < ActiveRecord::Base
     if difficultypass>0 then
       lomgpossinfo.unshift("passive check (estimate; requires #{difficultypass} in #{actor.name})")
     end
-
-    # lomginfo=lomgpossinfo.join(": ")
     return lomgpossinfo
   end
 
@@ -81,6 +79,11 @@ class Dialogue < ActiveRecord::Base
     greatgrandparentslist=[]
     if isHub?
       parents=origin
+
+      # This is not done recursively, because it's breadth-first not depth first, 
+      # and I'm not ashamed to admit I only know how to do that recurseively 
+      # by using, like, postfix notation in prolog or something?
+      # I do not remember all my prolog classes from uni either tbh.
       parents.each do |parent|
         if not (parent.isHub?)
           return parent.title+"[1]"
@@ -102,7 +105,7 @@ class Dialogue < ActiveRecord::Base
           greatgrandparentslist+=parent.origin
         end
       end
-      # GIVE UP ?
+      # GIVE UP After 3
       return "(no useful parent)"
     else
       return "(this isn't a hub)"
