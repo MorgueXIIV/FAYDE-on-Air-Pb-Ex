@@ -3,7 +3,7 @@
 <h2> Config </h2>
 <h3> <%= @formMessage %> </h3>
 
-<p> This configuration uses cookies which are trivial temporary browser files that the EU is more interested legistlating than any human rights cause. By submitting a response to this form you're agreeing to these cookies. To avoid cookies, do not use these configuration options.</p>
+<p> This configuration uses cookies which are trivial temporary browser files that the EU is more interested legistlating than any human rights cause. By submitting a response to this form you're agreeing to these cookies. To avoid cookies, do not use these configuration options. </p>
 
 <%= form_with method: :get do |form| %>
     
@@ -13,11 +13,15 @@
 	<%= form.radio_button :css, "nocss" %>
 	<%= form.label :css_nocss, "Sybilius Mode (current default)" %>	
 	<br />
-	<%= form.check_box :linespace %>
-	<%= form.label :linespace, "1.5 line spacing" %>
+	<hr />
+	<%= form.radio_button :linespace, "oneandhalf" %>
+	<%= form.label :linespace_oneandhalf, "1.5x line spacing" %>
+	<br />
+	<%= form.radio_button :linespace, "one" %>
+	<%= form.label :linespace_one, "1x linespacing" %>
 
     <br />
   <%= form.submit 'configure' %>
 
-  <p> Stylesheets are a work in progress: light mode will be added once I feel satisfied enough with my current darkmode to have something to work with. For people like me who have astygmatism and depression and need light mode. </p>
+  <p> Stylesheets are a work in progress: light mode will be added once I feel satisfied enough with my current darkmode to have something to work with. </p>
 <% end %>

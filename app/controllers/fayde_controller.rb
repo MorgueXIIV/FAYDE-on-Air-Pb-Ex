@@ -1,25 +1,41 @@
 class FaydeController < ApplicationController
   def index
+  	@pageTitle="Home"
   end
 
   def css_configuration
+  	@pageTitle="Configuration"
   	@formMessage=""
+
   	if params[:css]== "darkmode"
-  		cookies[:sammode]=true
-  		cookies[:sybmode]=false
-  		@formMessage+= " Dark Mode enabled."
+  		cookies[:css]="sammode"
   	elsif params[:css]=="nocss"
-  		cookies[:sybmode]=true
-  		cookies[:sammode]=false
+  		cookies[:css]="sybmode"
+  	end
+
+  	if params[:linespace]=="oneandhalf" 
+  		cookies[:nicmode]=true
+  	elsif params[:linespace]=="one"
+  		cookies[:nicmode]=false
+  	end
+
+  	if cookies[:css]=="sammode"
+  		@formMessage+= " Dark Mode enabled."
+  	elsif cookies[:css]=="sybmode"
   		@formMessage+=" Minimal css mode enabled."
   	end
-  	if params[:linespace]=="1" 
-  		cookies[:nicmode]=true
+
+  	if cookies[:nicmode]
   		@formMessage += " Linespace set to 1.5x."
   	else
-  		cookies[:nicmode]=false
   		@formMessage += " Linespace set to 1x"
   	end
+
+  	# if params[:clear]==true
+  	# 	cookies.each_key do |key|
+  	# 		cookies.delete key
+  	# 	end
+  	# end
 
   end
 end

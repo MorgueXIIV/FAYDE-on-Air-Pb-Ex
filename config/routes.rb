@@ -10,5 +10,7 @@ Rails.application.routes.draw do
 
   get '/dialogue/:dialogueid', to: 'conversation#trace', as: 'dialogue'
   get '/dialogue/error', to: 'conversation#error', as: 'invalid_dialogue_id'
+
+  get '/orbmode', to: 'conversation#orbindex', as: 'orb_index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

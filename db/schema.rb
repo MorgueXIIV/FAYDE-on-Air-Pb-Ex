@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_01_110821) do
+ActiveRecord::Schema.define(version: 2021_05_03_124114) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2021_05_01_110821) do
   create_table "conversations", force: :cascade do |t|
     t.string "title"
     t.text "description"
+    t.integer "dialogues_count"
   end
 
   create_table "dialogue_links", force: :cascade do |t|

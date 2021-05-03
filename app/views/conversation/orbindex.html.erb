@@ -1,0 +1,20 @@
+<h2> Orb Mode </h2>
+<p> This is just a list of conversations with "Orb" in the name. It should include most orbs, and some false positives, like the doORBell conversation. Clickable links are provided if there is actual dialogue and not if not. </p>
+
+<h3> As always, some of these are removed content, there's no way for me to check any given orb can be accessed in the final game!</h3>
+
+<p> <ol class="searchresults"><%  @allorbs.each do | result | %>
+<li> 
+	<% if (result.dialogues_count > 2) then %>
+		<%= link_to result.title, {:controller => 'conversation', :action => 'trace', :dialogueid => (result.id*10000)+1 } %>
+	<% else %>
+		<%= result.title %>
+	<% end %>
+	
+	<i> 
+		<ul>
+			<li id="details">  <%= result.description %> </li>
+		</ul>
+	</i>
+</li>
+<% end %> </ol> </p>

@@ -33,5 +33,11 @@ class ConversationController < ApplicationController
 		end
 	end
 	def error
+		@pageTitle = "Error"
+	end
+
+	def orbindex
+		@pageTitle="ORB MODE"
+		@allorbs=Conversation.where("title LIKE ?", "%orb%") #.order(:dialogues_count, :desc)
 	end
 end

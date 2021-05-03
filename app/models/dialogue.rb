@@ -1,5 +1,5 @@
 class Dialogue < ActiveRecord::Base
-  belongs_to :conversation
+  belongs_to :conversation, counter_cache: true
   belongs_to :actor, counter_cache: true
   has_many :alternates
   has_many :checks
