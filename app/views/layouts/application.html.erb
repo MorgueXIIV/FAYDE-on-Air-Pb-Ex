@@ -5,10 +5,16 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= favicon_link_tag %>
+    <% if not cookies[:css]=="sybmode" then %>
+      <%= stylesheet_link_tag "basic" %>
+    <% end %>
+
     <% if cookies[:css]=="sammode" then %>
       <%= stylesheet_link_tag "dark" %>
+    <% elsif cookies[:css]=="mogmode" then %>
+      <%= stylesheet_link_tag "light" %>
     <% end %>
-      <%= stylesheet_link_tag "application" %>
+      <%= stylesheet_link_tag "util" %>
   </head>
 
   <body>
@@ -28,7 +34,7 @@
       <% end %> 
     
   </div>
-    <div <%= cookies[:nicmode] ?  "id=wideline" : "id=normalline" %> class="main">
+    <div <%=  cookies[:nicmode].blank? ? "id=one" : "id=#{cookies[:nicmode]}" %> class="main">
     <%= yield %>
     </div>
   </body>

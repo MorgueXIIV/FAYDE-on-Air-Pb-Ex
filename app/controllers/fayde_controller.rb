@@ -9,14 +9,12 @@ class FaydeController < ApplicationController
 
   	if params[:css]== "darkmode"
   		cookies[:css]="sammode"
-  	elsif params[:css]=="nocss"
+  	elsif params[:css]== "nocss"
   		cookies[:css]="sybmode"
   	end
 
-  	if params[:linespace]=="oneandhalf" 
-  		cookies[:nicmode]=true
-  	elsif params[:linespace]=="one"
-  		cookies[:nicmode]=false
+  	if not params[:linespace].blank?
+  		cookies[:nicmode] = params[:linespace]
   	end
 
   	if cookies[:css]=="sammode"
@@ -25,17 +23,19 @@ class FaydeController < ApplicationController
   		@formMessage+=" Minimal css mode enabled."
   	end
 
-  	if cookies[:nicmode]
+  	if cookies[:nicmode]=="onepointfive"
   		@formMessage += " Linespace set to 1.5x."
-  	else
+  	elsif cookies[:nicmode]=="one"
+  		@formMessage += " Linespace set to 1x"
+  	elsif cookies[:nicmode]=="two"
   		@formMessage += " Linespace set to 1x"
   	end
 
-  	# if params[:clear]==true
-  	# 	cookies.each_key do |key|
-  	# 		cookies.delete key
-  	# 	end
-  	# end
+  	if params[:submit]=="clear"
+  		cookies.each_key do |key|
+  			cookies.delete key
+  		end
+  	end
 
   end
 end

@@ -3,17 +3,25 @@
 <h2> Config </h2>
 <h3> <%= @formMessage %> </h3>
 
-<p> This configuration uses cookies which are trivial temporary browser files that the EU is more interested legistlating than any human rights cause. By submitting a response to this form you're agreeing to these cookies. To avoid cookies, do not use these configuration options. </p>
+<p> This configuration uses cookies which are trivial temporary browser files that the EU is more interested legistlating than any human rights cause. By submitting a response to this form you're agreeing to these cookies. To minimize the site's use of cookies, do not use these configuration options, or click "clear" here. </p>
 
 <%= form_with method: :get do |form| %>
+ 	<%= form.submit 'clear' %>
+ 	<hr />
     
     <%= form.radio_button :css, "darkmode" %>
 	<%= form.label :css_darkmode, "Dark Mode" %>
 	<br />
+    <%= form.radio_button :css, "lightmode" %>
+	<%= form.label :css_lightmode, "Light Mode" %>
+	<br />
 	<%= form.radio_button :css, "nocss" %>
-	<%= form.label :css_nocss, "Sybilius Mode (current default)" %>	
+	<%= form.label :css_nocss, "Sybilius Mode (minimal CSS, pretend it's the 90s)" %>	
 	<br />
 	<hr />
+	<%= form.radio_button :linespace, "two" %>
+	<%= form.label :linespace_two, "2x line spacing" %>
+	<br />
 	<%= form.radio_button :linespace, "oneandhalf" %>
 	<%= form.label :linespace_oneandhalf, "1.5x line spacing" %>
 	<br />

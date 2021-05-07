@@ -44,8 +44,8 @@ class Dialogue < ActiveRecord::Base
 
   def showShort(addParentNamesToHubs=false)
     if isHub?
-      shortName= "HUB: (#{actor.name})"
-      shortName+=showDetails.join("/")
+      shortName= "HUB: (#{actor.name}) "
+      shortName+=showDetails.join("/ ")
       if addParentNamesToHubs then
         shortName+="{Hub From: #{getLeastHubParentName}}" 
       else
@@ -60,7 +60,7 @@ class Dialogue < ActiveRecord::Base
   end
 
   def isHub?
-    return dialoguetext.length<1
+    return dialoguetext.length<3
   end
 
   def showDetails
@@ -74,6 +74,17 @@ class Dialogue < ActiveRecord::Base
       lomgpossinfo.unshift("passive check (estimate; requires #{difficultypass} in #{actor.name})")
     end
     return lomgpossinfo
+  end
+
+  def showCheck
+    if checks_count>0
+      checkArr = [ checks.first ]
+      checkArr += modifiers.all
+      checkArr = checkArr.map { |e| e.showShort }
+      return checkArr
+    else
+      return []
+    end
   end
 
   def getLeastHubParentName
