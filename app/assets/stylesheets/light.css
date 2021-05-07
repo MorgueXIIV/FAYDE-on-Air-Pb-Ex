@@ -1,0 +1,49 @@
+ .main { 
+ 	background-color: #ffffee;
+	 color: black;
+	 border-color: darkslategray;
+ }
+ 
+ .menu
+ {
+	background-color: white;
+	color: darkslategrey;
+	border-color: darkslategrey;
+ }
+
+
+ a {
+ 	color:darkred;
+ }
+ a:visited {
+ 	color:red;
+ }
+ .menu a {
+ 	color:darkslategrey;
+ }
+
+ .searchresults a {
+ 	color:darkslategrey;
+ }
+ .searchresults a:visited {
+ 	color:slategrey;
+ }
+
+ 
+ body {
+ 	background-color: grey;
+ 	color: black;
+ }
+
+ .menu form {
+ }
+
+ #details {
+ 	color: #291202;
+ }
+
+ #hubs {
+ 	color: #291202;
+ }
+ 
+ 

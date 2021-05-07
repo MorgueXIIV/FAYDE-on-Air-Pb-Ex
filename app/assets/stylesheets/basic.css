@@ -1,0 +1,48 @@
+ .main { 
+	 border-width: 3px;
+	 border-left: 7px;
+	 border-style: solid;
+	 width: 95%;
+	 padding:5px;
+	 left:0px;
+ }
+ 
+ .menu
+ {
+	border-width: 2px;
+	border-style: solid;
+	padding: 10px;
+	left: 0px;
+	top: 0px;
+	z-index:5;
+ }
+
+
+ a {
+ }
+ a:visited {
+ }
+ .menu a {
+ }
+
+ .searchresults a {
+ }
+ .searchresults a:visited {
+ }
+
+ 
+ body {
+ }
+
+ .menu form {
+ 	/*top: 0px;*/
+ 	/*display: inline;*/
+ }
+
+ #details {
+ }
+
+ #hubs {
+ }
+ 
+ 

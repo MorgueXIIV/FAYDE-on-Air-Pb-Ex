@@ -11,6 +11,13 @@
 				<% result.showDetails.each do | deet | %>
 					<li> <%= deet %> </li>
 				<% end %> 
+				<% result.showCheck.each do | deet | %>
+					<li> <%= deet %> </li>
+				<% end %> 
+					<ol> <% result.showModifiers.each do | deet | %>
+						<li> <%= deet %> </li>
+					<% end %> 
+					</ol>
 			</ul>
 		</i>
 	</li>

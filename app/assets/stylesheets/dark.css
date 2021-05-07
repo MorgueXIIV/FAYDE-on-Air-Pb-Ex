@@ -1,13 +1,7 @@
  .main { 
  	background-color: #1a1a00;
 	 color: whitesmoke;
-	 border-color: beige; 
-	 border-width: 3px;
-	 border-left: 7px;
-	 border-style: solid;
-	 width: 95%;
-	 padding:5px;
-	 left:0px;
+	 border-color: beige;
  }
  
  .menu
@@ -15,12 +9,6 @@
 	background-color: darkslategray;
 	color: gainsboro;
 	border-color: beige;
-	border-width: 2px;
-	border-style: solid;
-	padding: 10px;
-	left: 0px;
-	top: 0px;
-	z-index:5;
  }
 
 
@@ -48,8 +36,6 @@
  }
 
  .menu form {
- 	top: 0px;
- 	display: inline;
  }
 
  #details {
