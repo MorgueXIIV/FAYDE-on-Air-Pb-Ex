@@ -78,10 +78,17 @@ class Dialogue < ActiveRecord::Base
 
   def showCheck
     if checks_count>0
-      checkArr = [ checks.first ]
-      checkArr += modifiers.all
-      checkArr = checkArr.map { |e| e.showShort }
+      checkArr = [ checks.first.showShort ]
       return checkArr
+    else
+      return []
+    end
+  end
+
+  def showModifiers
+    if checks_count>0
+      checkArr = modifiers.all
+      checkArr = checkArr.map { |e| e.showShort }
     else
       return []
     end

@@ -11,6 +11,8 @@ class FaydeController < ApplicationController
   		cookies[:css]="sammode"
   	elsif params[:css]== "nocss"
   		cookies[:css]="sybmode"
+  	elsif params[:css]== "lightmode"
+  		cookies[:css]="mogmode"
   	end
 
   	if not params[:linespace].blank?
@@ -19,6 +21,8 @@ class FaydeController < ApplicationController
 
   	if cookies[:css]=="sammode"
   		@formMessage+= " Dark Mode enabled."
+  	elsif cookies[:css]=="mogmode"
+  		@formMessage+= " Light Mode enabled."
   	elsif cookies[:css]=="sybmode"
   		@formMessage+=" Minimal css mode enabled."
   	end
