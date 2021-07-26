@@ -55,4 +55,13 @@ class SearchController < ApplicationController
 			@results=searchResults
 		end
 	end
+	
+	def conversation_index
+		@pageTitle="Conversations"
+
+		query=params[:query]
+
+		actorLimit=params[:actor]
+
+	end
 end
