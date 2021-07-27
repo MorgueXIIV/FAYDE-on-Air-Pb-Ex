@@ -19,8 +19,8 @@
 
       <script type="text/javascript">
         $(document).ready(function(){
-        $("button").click(function(){ 
-        $("body").toggleClass("dark");
+        $("#darktoggle").click(function(){ 
+          $("body").toggleClass("dark");
           });
           });
       </script>
@@ -42,7 +42,7 @@
 
 
 
-  <span id="darktoggle"> Toggle Darkmode </span>
+  <div id="darktoggle" class="btn"> Toggle Darkmode </div>
     
   </div>
     <div <%=  cookies[:nicmode].blank? ? "id=one" : "id=#{cookies[:nicmode]}" %> class="main">
