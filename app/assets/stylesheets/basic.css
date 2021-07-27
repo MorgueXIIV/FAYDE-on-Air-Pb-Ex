@@ -3,6 +3,26 @@
 	src: url(font-path('sinanova.otf'));
 }
 
+html {
+	font-family: 'Sina Nova';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 14pt;
+}
+
+body {
+	margin: 0;
+	background-color: #b1a29e;
+	color: black;
+	overflow: auto;
+}
+
+h2,
+.actor {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 #wideline {
 	line-height: 1.5;
 }
@@ -11,59 +31,103 @@
 	line-height: 1;
 }
 
-html {
-	font-family: 'Sina Nova';
-	font-weight: normal;
-	font-style: normal;
-	font-size: 14pt;
-} 
- 
- 
- .main { 
-	 border-width: 3px;
-	 border-left: 7px;
-	 border-style: solid;
-	 width: 95%;
-	 padding:5px;
-	 left:0px;
+.main {
+	border-width: 0px 15px;
+	border-color: grey;
+	border-style: dashed;
+	position: relative;
+	height: 100%;
+	background-color: whitesmoke;
+	color: black;
+	overflow: auto;
+}
+
+@media (min-width: 840px) {
+	.main { 
+		width: 80%;
+		padding: 2em;
+		left: 7%;
  }
- 
- .menu
- {
-	border-width: 2px;
+}
+
+@media (max-width: 840px) {
+	.main {
+		width: 100vw;
+		padding: .5em;
+	}
+}
+
+.menu {
+	border-width: 0 0 5px 0;
 	border-style: solid;
-	padding: 10px;
-	left: 0px;
+	border-color: grey;
+	padding: 20px 20px;
+	position: inherit;
 	top: 0px;
-	z-index:5;
- }
+	left: 0px;
+	width: 100%;
+	background-color:whitesmoke;
+}
 
 
- a {
- }
- a:visited {
- }
- .menu a {
+.menu form {
+	display: inline-block;
+}
+
+li {
+	/* increase line height between list items*/
+	margin-bottom: 1.25em;
+}
+
+#details {
+	color: #791e08;
  }
 
- .searchresults a {
- }
- .searchresults a:visited {
- }
+.btn,
+input[type=submit] {
+	background-color: #a7361a;
+	display: inline-flex;
+	height: 1.8rem;
+	padding: .1rem .4rem;
+	align-items: center;
+	vertical-align: middle;
+	text-align: center;
+	border-radius: 5px;
+	color: white;
+  }
 
- 
- body {
- }
+.btn a {
+	color: white;
+	text-decoration: none;
+}
 
- .menu form {
- 	/*top: 0px;*/
- 	/*display: inline;*/
- }
+.btn a:visited {
+	color: white;
+}
 
- #details {
- }
+.btn:focus,
+.btn:hover,
+.btn:active {
+  background: #181411;
+  font-weight: bolder;
+  text-decoration: underline;
+  border-width: 1.5px;
+  border-color: #a7361a;
+  border-style: solid;
+}
 
- #hubs {
- }
- 
- 
+a {
+	color: #af2300;
+	font-weight: bold;
+}
+
+a:focus,
+a:hover,
+a:active {
+	font-weight: bold;
+	color: #ff3810;
+}
+
+a:visited {
+	color: rgb(92, 0, 0);
+}

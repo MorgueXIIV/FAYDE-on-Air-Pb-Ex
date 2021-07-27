@@ -1,49 +1,36 @@
- .main { 
- 	background-color: #1a1a00;
-	 color: whitesmoke;
-	 border-color: beige;
- }
- 
- .menu
- {
-	background-color: darkslategray;
-	color: gainsboro;
-	border-color: beige;
- }
+.main { 
+	background-color: #181411;
+	color: rgb(233, 227, 227);
+}
+
+.menu {
+   background-color: #2b2b2b;
+}
 
 
- a {
- 	color:red;
- }
- a:visited {
- 	color:darkred;
- }
- .menu a {
- 	color:white;
- }
+body {
+	background-color: #2b2b2b;
+	text-rendering: optimizeLegibility;
+}
 
- .searchresults a {
- 	color:white;
- }
- .searchresults a:visited {
- 	color:gainsboro;
- }
+#details {
+   color: #ecb5a7;
+}
 
- 
- body {
- 	background-color: black;
- 	color: gainsboro;
- }
+a {
+	color: #df4119;
+}
 
- .menu form {
- }
+a:visited {
+   color: rgb(179, 109, 97);
+}
 
- #details {
- 	color: #f9e2d2;
- }
+a:focus,
+a:hover,
+a:active {
+   color: rgb(255, 108, 71);
+}
 
- #hubs {
- 	color: #f9e2d2;
- }
- 
- 
+form {
+	color: rgb(233, 227, 227);
+}
