@@ -59,6 +59,33 @@ class Dialogue < ActiveRecord::Base
     end
   end
 
+  def showActor
+    if isHub?
+      return  "HUB: (#{actor.name}) "
+    else
+      return "#{actor.name}"
+    end
+  end
+
+
+  def showDialogue(addParentNamesToHubs=false)
+    if isHub?
+      shortName=""
+      shortName+=showDetails.join("/ ")
+      if addParentNamesToHubs then
+        shortName+="{Hub From: #{getLeastHubParentName}}" 
+      else
+        if shortName.length<12
+          shortName+=title
+        end
+      end
+      return shortName
+    else
+      return "#{dialoguetext}"
+    end
+  end
+
+
   def isHub?
     return dialoguetext.length<3
   end

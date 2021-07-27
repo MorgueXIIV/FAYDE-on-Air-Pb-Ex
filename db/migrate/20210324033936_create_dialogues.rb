@@ -1,7 +1,6 @@
 class CreateDialogues < ActiveRecord::Migration[5.2]
   def change
     create_table :dialogues do |t|
-      # t.primary_key :id
       t.references :conversation, index: true, foreign_key: true
       t.text :dialoguetext
       t.integer :incid
