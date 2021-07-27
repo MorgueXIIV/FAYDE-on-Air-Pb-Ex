@@ -152,17 +152,17 @@ body.dark {
    color: #ecb5a7;
 }
 
-a .dark  {
+.dark a {
 	color: #df4119;
 }
 
-a:visited .dark {
+.dark a:visited {
    color: rgb(179, 109, 97);
 }
 
-a:focus .dark,
-a:hover .dark,
-a:active .dark{
+.dark a:focus,
+.dark a:hover,
+.dark a:active{
    color: rgb(255, 108, 71);
 }
 
