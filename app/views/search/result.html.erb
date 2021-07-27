@@ -15,7 +15,7 @@
 		<p> <b> <%= mess %> </b></p>
 	<% end %>
 <p> <ol class="searchresults"><%  @results.each do | result | %>
-<li>  <div class='actor'><%= result.showActor %></div> : <%= result.showDialogue %>  <br /> 
+<li>  <span class='actor'><%= result.showActor %></span>: <%= result.showDialogue %>  <br /> 
 	<%= link_to "View Conversation (from this line)", {:controller => 'conversation', :action => 'trace', :dialogueid => result.id } %> ||
 	
 	<%= link_to "View Conversation (from the begining)", {:controller => 'conversation', :action => 'trace', :dialogueid => ((result.conversation_id)*10000)+1} %><br />
