@@ -15,6 +15,7 @@ body {
 	background-color: #b1a29e;
 	color: black;
 	text-rendering: optimizeLegibility;
+	word-break:break-all;
 }
 
 h2,
