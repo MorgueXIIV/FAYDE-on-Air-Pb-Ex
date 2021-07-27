@@ -15,9 +15,19 @@
       <%= stylesheet_link_tag "light" %>
     <% end %>
       <%= stylesheet_link_tag "util" %>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+        $("button").click(function(){ 
+        $("body").toggleClass("dark");
+          });
+          });
+      </script>
   </head>
 
-  <body>
+
+  <body class="dark">
 
     <div class="menu">
     
@@ -32,6 +42,10 @@
           Quick Search: <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %> <%= submit_tag 'Search' %>
         <% end %>
       <% end %> 
+
+
+
+  <span id="darktoggle"> Toggle Darkmode </span>
     
   </div>
     <div <%=  cookies[:nicmode].blank? ? "id=one" : "id=#{cookies[:nicmode]}" %> class="main">
