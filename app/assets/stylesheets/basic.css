@@ -1,3 +1,24 @@
+@font-face {
+	font-family: 'Sina Nova';
+	src: url(font-path('sinanova.otf'));
+}
+
+#wideline {
+	line-height: 1.5;
+}
+
+#normalline {
+	line-height: 1;
+}
+
+html {
+	font-family: 'Sina Nova';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 14pt;
+} 
+ 
+ 
  .main { 
 	 border-width: 3px;
 	 border-left: 7px;

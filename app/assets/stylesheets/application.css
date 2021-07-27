@@ -13,21 +13,3 @@
  *= require_tree .
  *= require_self
  */
- @font-face {
-	font-family: 'Sina Nova';
-	src: url(font-path('sinanova.otf'));
-	font-weight: normal;
-	font-style: normal;
-	}
-
-#wideline {
-	line-height: 1.5;
-}
-
-#normalline {
-	line-height: 1;
-}
-
-html {
-	font-family: 'Sina Nova';
-}
