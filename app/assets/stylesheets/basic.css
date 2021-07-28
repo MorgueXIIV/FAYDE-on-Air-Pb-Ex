@@ -15,7 +15,6 @@ body {
 	background-color: #b1a29e;
 	color: black;
 	text-rendering: optimizeLegibility;
-	word-break:break-all;
 }
 
 h2,
@@ -54,6 +53,7 @@ h2,
 	.main {
 		width: 100vw;
 		padding: .5em;
+		word-wrap: break-word;
 	}
 }
 
