@@ -15,7 +15,8 @@ body {
 	background-color: #b1a29e;
 	color: black;
 	text-rendering: optimizeLegibility;
-	word-break:break-all;
+	display: flex;
+	flex-direction: column;
 }
 
 h2,
@@ -33,6 +34,7 @@ h2,
 }
 
 .main {
+	align-items: center;
 	border-width: 0px 15px;
 	border-color: grey;
 	border-style: dashed;
@@ -46,7 +48,7 @@ h2,
 	.main { 
 		width: 80%;
 		padding: 2em;
-		left: 7%;
+		align-self: center;
  }
 }
 
@@ -54,19 +56,20 @@ h2,
 	.main {
 		width: 100vw;
 		padding: .5em;
+		word-wrap: break-word;
 	}
 }
 
 .menu {
+	display: flex;
 	border-width: 0 0 5px 0;
 	border-style: solid;
 	border-color: grey;
 	padding: 20px 20px;
-	position: inherit;
-	top: 0px;
-	left: 0px;
+	justify-content:space-evenly;
 	width: 100%;
 	background-color:whitesmoke;
+
 }
 
 
@@ -152,17 +155,22 @@ body.dark {
    color: #ecb5a7;
 }
 
-a .dark  {
+.dark a {
 	color: #df4119;
 }
 
-a:visited .dark {
+.dark .btn a,
+.dark .btn a:visited {
+	color: white;
+}
+
+.dark a:visited {
    color: rgb(179, 109, 97);
 }
 
-a:focus .dark,
-a:hover .dark,
-a:active .dark{
+.dark a:focus,
+.dark a:hover,
+.dark a:active{
    color: rgb(255, 108, 71);
 }
 
