@@ -159,6 +159,7 @@ body.dark {
 	color: #df4119;
 }
 
+.dark .btn a,
 .dark .btn a:visited {
 	color: white;
 }
