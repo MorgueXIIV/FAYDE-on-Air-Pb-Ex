@@ -2,9 +2,6 @@
 	line-height: 1.5;
 }
 
-#true {
-	line-height: 1.5;
-}
 
 #one {
 	line-height: 1;
@@ -13,8 +10,4 @@
 
 #two {
 	line-height: 2;
-}
-
-#false {
-	line-height: 1;
 }

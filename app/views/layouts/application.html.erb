@@ -8,26 +8,12 @@
     <% if not cookies[:css]=="sybmode" then %>
       <%= stylesheet_link_tag "basic" %>
     <% end %>
-
-    <% if cookies[:css]=="sammode" then %>
-      <%= stylesheet_link_tag "dark" %>
-    <% elsif cookies[:css]=="mogmode" then %>
-      <%= stylesheet_link_tag "light" %>
-    <% end %>
+    <%= javascript_include_tag "application" %>
       <%= stylesheet_link_tag "util" %>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-      <script type="text/javascript">
-        $(document).ready(function(){
-        $("#darktoggle").click(function(){ 
-          $("body").toggleClass("dark");
-          });
-          });
-      </script>
   </head>
 
 
-  <body class="dark">
+  <body class="<%= (cookies[:css]=="sammode" ? "dark " : "") + (cookies[:nicmode].blank? ? "one" : "#{cookies[:nicmode]}") %>">
 
     <div class="menu">
         <div class="btn"><%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> </div>
@@ -42,10 +28,9 @@
 
 
 
-  <div id="darktoggle" class="btn"> Toggle Darkmode </div>
+  <div id="darkmode" class="btn"> Darkmode </div> <div id="lightmode" class="btn"> Lightmode </div>
     
   </div>
-    <div <%=  cookies[:nicmode].blank? ? "id=one" : "id=#{cookies[:nicmode]}" %> class="main">
     <%= yield %>
     </div>
   </body>
