@@ -15,7 +15,9 @@
 		<p> <b> <%= mess %> </b></p>
 	<% end %>
 <p> <ol class="searchresults"><%  @results.each do | result | %>
-<li> <%= link_to result.showShort, {:controller => 'conversation', :action => 'trace', :dialogueid => result.id } %> <br />
+<li>  <span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>  <br />
+	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result.conversation_id)*10000)+1} , :title => 'View Conversation' %><br /> </div>
+	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result.id }, :title => 'Start Here' %> </div>
 <i> <ul> <% result.showDetails.each do | deet | %>
 	<li id="details"> <%= deet %> </li>
 	<% end %> 

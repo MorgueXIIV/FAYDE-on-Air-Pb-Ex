@@ -6,35 +6,33 @@
     <%= csp_meta_tag %>
     <%= favicon_link_tag %>
     <% if not cookies[:css]=="sybmode" then %>
-      <%= stylesheet_link_tag "basic" %>
+      <%= stylesheet_link_tag "http://fayde.seadragonlair.co.uk/css/basic.css" %>
     <% end %>
-
-    <% if cookies[:css]=="sammode" then %>
-      <%= stylesheet_link_tag "dark" %>
-    <% elsif cookies[:css]=="mogmode" then %>
-      <%= stylesheet_link_tag "light" %>
-    <% end %>
-      <%= stylesheet_link_tag "util" %>
+    <%= javascript_include_tag"https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" %>
+    <%= javascript_include_tag "http://fayde.seadragonlair.co.uk/javascripts/cssmodeswitch.js" %>
+    <%= stylesheet_link_tag "http://fayde.seadragonlair.co.uk/css/util.css" %>
   </head>
 
-  <body>
+
+  <body class="<%= (cookies[:css]=="sammode" ? "dark " : "") + (cookies[:nicmode].blank? ? "one" : "#{cookies[:nicmode]}") %>">
 
     <div class="menu">
-    
-      External: <a href="https://asterfialla.com/tropeaday" target="_blank"> Remember to check out Aster's Trope-a-Day project against anti-Asian racism </a> <br />
-      <b>
-        <%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> 
-        | <%= link_to "Home", {:controller => 'fayde', :action => 'index' } %> 
-        | <%= link_to "Config/Style", {:controller => 'fayde', :action => 'css_configuration' } %>
-        | <%= link_to "ORB MODE", {:controller => 'conversation', :action => 'orbindex' } %></b>
+        <div class="btn"><%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> </div>
+        <div class="btn"><%= link_to "Home", {:controller => 'fayde', :action => 'index' } %></div>
+        <div class="btn"><%= link_to "Config/Style", {:controller => 'fayde', :action => 'css_configuration' } %></div>
+        <div class="btn"><%= link_to "ORB MODE", {:controller => 'conversation', :action => 'orbindex' } %></div>
       <% if @pageTitle != "Search" then %>
         <%= form_tag(search_path, method: :get) do %>
-          Quick Search: <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %> <%= submit_tag 'Search' %>
+          Quick Search: <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %><%= submit_tag 'Search' %>
         <% end %>
       <% end %> 
+
+
+
+  <div id="darkmode" class="btn"> Darkmode </div> <div id="lightmode" class="btn"> Lightmode </div>
     
   </div>
-    <div <%=  cookies[:nicmode].blank? ? "id=one" : "id=#{cookies[:nicmode]}" %> class="main">
+  <div class="main">
     <%= yield %>
     </div>
   </body>

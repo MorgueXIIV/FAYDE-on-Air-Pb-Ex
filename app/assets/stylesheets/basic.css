@@ -1,48 +1,179 @@
- .main { 
-	 border-width: 3px;
-	 border-left: 7px;
-	 border-style: solid;
-	 width: 95%;
-	 padding:5px;
-	 left:0px;
+@font-face {
+	font-family: 'Sina Nova';
+	src: url(font-path('sinanova.otf'));
+}
+
+html {
+	font-family: 'Sina Nova';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 14pt;
+}
+
+body {
+	margin: 0;
+	background-color: #b1a29e;
+	color: black;
+	text-rendering: optimizeLegibility;
+	display: flex;
+	flex-direction: column;
+}
+
+h2,
+.actor {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#wideline {
+	line-height: 1.5;
+}
+
+#normalline {
+	line-height: 1;
+}
+
+.main {
+	align-items: center;
+	border-width: 0px 15px;
+	border-color: grey;
+	border-style: dashed;
+	position: relative;
+	height: 100%;
+	background-color: whitesmoke;
+	color: black;
+}
+
+@media (min-width: 840px) {
+	.main { 
+		width: 80%;
+		padding: 2em;
+		align-self: center;
  }
- 
- .menu
- {
-	border-width: 2px;
+}
+
+@media (max-width: 840px) {
+	.main {
+		width: 100vw;
+		padding: .5em;
+		word-wrap: break-word;
+	}
+}
+
+.menu {
+	display: flex;
+	border-width: 0 0 5px 0;
 	border-style: solid;
-	padding: 10px;
-	left: 0px;
-	top: 0px;
-	z-index:5;
- }
+	border-color: grey;
+	padding: 20px 20px;
+	justify-content:space-evenly;
+	width: 100%;
+	background-color:whitesmoke;
+
+}
 
 
- a {
- }
- a:visited {
- }
- .menu a {
+.menu form {
+	display: inline-block;
+}
+
+li {
+	/* increase line height between list items*/
+	margin-bottom: 1.25em;
+}
+
+#details {
+	color: #791e08;
  }
 
- .searchresults a {
- }
- .searchresults a:visited {
- }
+.btn,
+input[type=submit] {
+	background-color: #a7361a;
+	display: inline-flex;
+	height: 1.8rem;
+	padding: .1rem .4rem;
+	align-items: center;
+	vertical-align: middle;
+	text-align: center;
+	border-radius: 5px;
+	color: white;
+  }
 
- 
- body {
- }
+.btn a {
+	color: white;
+	text-decoration: none;
+}
 
- .menu form {
- 	/*top: 0px;*/
- 	/*display: inline;*/
- }
+.btn a:visited {
+	color: white;
+}
 
- #details {
- }
+.btn:focus,
+.btn:hover,
+.btn:active {
+  background: #181411;
+  font-weight: bolder;
+  text-decoration: underline;
+  border-width: 1.5px;
+  border-color: #a7361a;
+  border-style: solid;
+}
 
- #hubs {
- }
- 
- 
+a {
+	color: #af2300;
+	font-weight: bold;
+}
+
+a:focus,
+a:hover,
+a:active {
+	font-weight: bold;
+	color: #ff3810;
+}
+
+a:visited {
+	color: rgb(92, 0, 0);
+}
+
+/* ------------------------------- DARK MODE -------------------------------- */
+
+.dark .main { 
+	background-color: #181411;
+	color: rgb(233, 227, 227);
+}
+
+.dark .menu {
+   background-color: #2b2b2b;
+}
+
+
+body.dark {
+	background-color: #2b2b2b;
+}
+
+.dark #details {
+   color: #ecb5a7;
+}
+
+.dark a {
+	color: #df4119;
+}
+
+.dark .btn a,
+.dark .btn a:visited {
+	color: white;
+}
+
+.dark a:visited {
+   color: rgb(179, 109, 97);
+}
+
+.dark a:focus,
+.dark a:hover,
+.dark a:active{
+   color: rgb(255, 108, 71);
+}
+
+.dark form {
+	color: rgb(233, 227, 227);
+}
