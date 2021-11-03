@@ -16,7 +16,7 @@
     <%#= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %>
     <%#= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>
     <br />
-    <%= form.radio_button :queryType, "Dialogue Only" %>
+    <%= form.radio_button :queryType, "Dialogue Only", checked: true%>
     <%= form.label :type_Dialogue, "Search only Dialogue" %>
     </br>
     <%= form.radio_button :queryType, "Variables" %>
