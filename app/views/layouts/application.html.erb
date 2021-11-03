@@ -8,7 +8,6 @@
     <% if not cookies[:css]=="sybmode" then %>
       <%= stylesheet_link_tag "basic.css" %>
     <% end %>
-    <%# <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" %> %>
     <%= javascript_include_tag "cssmodeswitch.js" %>
     <%= stylesheet_link_tag "util.css" %>
   </head>
@@ -18,7 +17,7 @@
 
     <div class="menu">
         <div class="btn"><%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> </div>
-        <div class="btn"><%= link_to "Home", {:controller => 'fayde', :action => 'index' } %></div>
+        <div class="btn"><%= link_to "Home/About", {:controller => 'fayde', :action => 'index' } %></div>
         <div class="btn"><%= link_to "Config/Style", {:controller => 'fayde', :action => 'css_configuration' } %></div>
         <div class="btn"><%= link_to "ORB MODE", {:controller => 'conversation', :action => 'orbindex' } %></div>
       <% if @pageTitle != "Search" then %>
@@ -29,7 +28,7 @@
 
 
 
-  <div id="darkmode" class="btn"> Darkmode </div> <div id="lightmode" class="btn"> Lightmode </div>
+  <div id="darkmode" class="btn dark"> Darkmode </div> <div id="lightmode" class="btn"> Lightmode </div>
 
   </div>
   <div class="main">

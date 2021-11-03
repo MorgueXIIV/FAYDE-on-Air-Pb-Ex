@@ -7,24 +7,29 @@
 <% end %> </ol> </p>
 
 <p> <ul><%  @builtConvo.each do | result | %>
-	<li id="<%= result.id %>"> <a href="<%= result.id %>"> <%= result.incid %>.</a> <span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>  
-		<i>
-			<ul id="details"> 
-				<% result.showDetails.each do | deet | %>
-					<li> <%= deet %> </li>
-				<% end %> 
-				<% result.showCheck.each do | deet | %>
-					<li> <%= deet %> </li>
-				<% end %> 
-					<ol> <% result.showModifiers.each do | deet | %>
+	<span class=<%=result.isHub? ? "hub" : "notHub" %>>
+		<li id="<%= result.id %>"> <span class="incid"> <a href="<%= result.id %>"><%= result.incid %>.</span></a>
+			<span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>
+			<i>
+				<ul id="details">
+					<% result.showDetails.each do | deet | %>
 						<li> <%= deet %> </li>
-					<% end %> 
-					</ol>
-			</ul>
-		</i>
-	</li>
+					<% end %>
+					<% result.showCheck.each do | deet | %>
+						<li> <%= deet %> </li>
+					<% end %>
+						<ol> <% result.showModifiers.each do | deet | %>
+							<li> <%= deet %> </li>
+						<% end %>
+						</ol>
+				</ul>
+			</i>
+		</li>
+	</span>
 <% end %> </ul> </p>
 
 <p id="options forward"> <ol><%  @forwOptions.each do | result | %>
 <li><%= link_to result.showShort, {:controller => 'conversation', :action => 'trace', :dialogueid => "#{@idsList}-#{result.id}", :anchor => "#{result.id}"} %></li>
 <% end %> </ol> </p>
+
+<div id="hidehubs" class="btn"> hide those hubs </div>
