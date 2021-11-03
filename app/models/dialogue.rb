@@ -22,24 +22,31 @@ class Dialogue < ActiveRecord::Base
   # scope :saidByNamePart
 
   #single word/phrase search text
-  scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
+  # scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
 
   scope :searchTexts, ->(query) do
-    if query.length==1
-      searchText(query.first)
+    quer1= query.pop
+    # sqlquer=("dialoguetext LIKE ?", "%" + quer1 + "%")
+    if query.empty?
+      where("dialoguetext LIKE ?", "%" + quer1 + "%")
     else
-      quer1= query.pop
       searchTexts(query).where("dialoguetext LIKE ?", "%" + quer1 + "%")
     end
   end
 
-  scope :searchTextsAct, ->(query, actor) do
-    if query.length==1
-      searchText(query.first).saidBy(actor)
+  scope :searchVars, ->(query) do
+    quer1= query.pop
+    querwild = "%#{quer1}%"
+    # sqlquer=("conditionstring LIKE ? OR userscript LIKE ?", querwild, querwild)
+    if query.empty?
+      where("conditionstring LIKE ? OR userscript LIKE ?", querwild, querwild)
     else
-      quer1= query.pop
-      searchTextsAct(query, actor).where("dialoguetext LIKE ?", "%" + quer1 + "%")
+      searchVars(query).where("conditionstring LIKE ? OR userscript LIKE ?", querwild, querwild)
     end
+  end
+
+  scope :searchTextsAct, ->(query, actor) do
+      searchTexts(query).saidBy(actor)
   end
 
   def showShort(addParentNamesToHubs=false)
@@ -47,7 +54,7 @@ class Dialogue < ActiveRecord::Base
       shortName= "HUB: (#{actor.name}) "
       shortName+=showDetails.join("/ ")
       if addParentNamesToHubs then
-        shortName+="{Hub From: #{getLeastHubParentName}}" 
+        shortName+="{Hub From: #{getLeastHubParentName}}"
       else
         if shortName.length<12
           shortName+=title
@@ -60,10 +67,14 @@ class Dialogue < ActiveRecord::Base
   end
 
   def showActor
-    if isHub?
-      return  "HUB: (#{actor.name}) "
+    if not actor.blank? then
+      if isHub?
+        return  "HUB: (#{actor.name}) "
+      else
+        return "#{actor.name}"
+      end
     else
-      return "#{actor.name}"
+      return "HUB: "
     end
   end
 
@@ -73,7 +84,7 @@ class Dialogue < ActiveRecord::Base
       shortName=""
       shortName+=showDetails.join("/ ")
       if addParentNamesToHubs then
-        shortName+="{Hub From: #{getLeastHubParentName}}" 
+        shortName+="{Hub From: #{getLeastHubParentName}}"
       else
         if shortName.length<12
           shortName+=title
@@ -93,14 +104,19 @@ class Dialogue < ActiveRecord::Base
   def showDetails
     lomgpossinfo=[conditionstring,userscript,sequence]
     if alternates_count > 0
-      alternates.all.each{ |alt| lomgpossinfo.push(alt.showShort)} 
+      alternates.all.each{ |alt| lomgpossinfo.push(alt.showShort)}
     end
     lomgpossinfo=lomgpossinfo.reject{|info| info.nil? or info.length<2 }
 
-    if difficultypass>0 then
-      lomgpossinfo.unshift("passive check (estimate; requires #{difficultypass} in #{actor.name})")
+    if ((difficultypass.blank? == false) and (difficultypass >0)) then
+      realDifficulty=getDifficulty(difficultypass)
+      lomgpossinfo.unshift("passive check (requires aprox. #{realDifficulty} in #{actor.name})")
     end
     return lomgpossinfo
+  end
+
+  def getDifficulty(difficultypassed)
+    return difficultypassed>7 ? ((difficultypassed-7)*2)-1 : difficultypassed*2
   end
 
   def showCheck
@@ -127,8 +143,8 @@ class Dialogue < ActiveRecord::Base
     if isHub?
       parents=origin
 
-      # This is not done recursively, because it's breadth-first not depth first, 
-      # and I'm not ashamed to admit I only know how to do that recurseively 
+      # This is not done recursively, because it's breadth-first not depth first,
+      # and I'm not ashamed to admit I only know how to do that recurseively
       # by using, like, postfix notation in prolog or something?
       # I do not remember all my prolog classes from uni either tbh.
       parents.each do |parent|

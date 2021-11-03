@@ -3,15 +3,22 @@
 <p> Search for up to 10 individual/partial words (minimum length 2) OR include a " in your search, to search one or more exact phrases (seperated by "s) </p>
 <p> Searches are limited to the first 500 results, just for sanity's sake. If you need more than 500 results for <b> intense research </b> you really are probably better off in the desktop FAYDE. </p>
 
-<p> Enter all or part of an actor name to filter by that actor. Most prolific speakers will be prioritised in case of conflict (ie if you just type 'ki', Kim Kitsuragi will be the filter because he says more than "Coupris Kineema"). Names MUST be those used in the game interface; typing 'Neha' will NOT get you Novelty Dicemaker's lines, 'Billie Mejean' will not match Working Class Woman, and 'Vicque' will not get you the Man With Sunglasses (sorry, as far as the game's concerned, they're different people) and the name fragment must be continuous: 'coup kin' won't work. </p>
+<p> Enter all or part of an actor name to filter by that actor. Most prolific speakers will be prioritised in case of conflict (ie if you just type 'ki', Kim Kitsuragi will be the filter because he says more than "Coupris Kineema"). </p>
+<p> Use characters canonical names "novelty dicemaker" not "Neha", and "Man with Sunglasses" lines won't come up if you search by Jean (I will try and fix this one day) </p>
 <p>
 <%= form_tag(search_path, method: :get) do %>
-  Search 
-    <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %> 
-    <%= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>  
+  Search
+    <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %>
+    <%= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>
+    <br />
+    <%# <%= radio_button :queryfield, "dialogue", class: "form-control %>
+<%# <%= label :queryfield_dialogue, "Search Dialogues text", class: "form-control %> %>
+<%# <%= radio_button :age, "variables" %> %>
+<%# <%= label :queryfield_variables, "Search Variable check/affected (ignores 'said by')" %> %> %>
+
   <%= submit_tag 'Search' %>
 <% end %>
- 	<% @searchMessages.each do |mess| %> 
+ 	<% @searchMessages.each do |mess| %>
 		<p> <b> <%= mess %> </b></p>
 	<% end %>
 <p> <ol class="searchresults"><%  @results.each do | result | %>
@@ -20,10 +27,10 @@
 	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result.id }, :title => 'Start Here' %> </div>
 <i> <ul> <% result.showDetails.each do | deet | %>
 	<li id="details"> <%= deet %> </li>
-	<% end %> 
+	<% end %>
 	<% result.showCheck.each do | deet | %>
 	<li id="details"> <%= deet %> </li>
-	<% end %> 
+	<% end %>
 </ul>
 </i>
 </li>
