@@ -6,17 +6,24 @@
 <p> Enter all or part of an actor name to filter by that actor. Most prolific speakers will be prioritised in case of conflict (ie if you just type 'ki', Kim Kitsuragi will be the filter because he says more than "Coupris Kineema"). </p>
 <p> Use characters canonical names "novelty dicemaker" not "Neha", and "Man with Sunglasses" lines won't come up if you search by Jean (I will try and fix this one day) </p>
 <p>
-<%= form_tag(search_path, method: :get) do %>
-  Search
-    <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %>
-    <%= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>
-    <br />
-    <%# <%= radio_button :queryfield, "dialogue", class: "form-control %>
-<%# <%= label :queryfield_dialogue, "Search Dialogues text", class: "form-control %> %>
-<%# <%= radio_button :age, "variables" %> %>
-<%# <%= label :queryfield_variables, "Search Variable check/affected (ignores 'said by')" %> %> %>
+<%= form_with url:search_path, method: :get do |form| %>
 
-  <%= submit_tag 'Search' %>
+    <%= form.label :query, "Search for:" %>
+    <%= form.text_field :query %>
+    Said by:
+    <%= form.text_field :actor %>
+
+    <%#= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %>
+    <%#= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>
+    <br />
+    <%= form.radio_button :queryType, "Dialogue Only" %>
+    <%= form.label :type_Dialogue, "Search only Dialogue" %>
+    </br>
+    <%= form.radio_button :queryType, "Variables" %>
+    <%= form.label :type_Variables, "Search Dialogue affected by Variables/Checks (ignores 'said by')" %>
+
+  </br>
+  <%= form.submit "Search" %>
 <% end %>
  	<% @searchMessages.each do |mess| %>
 		<p> <b> <%= mess %> </b></p>
