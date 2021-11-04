@@ -3,7 +3,16 @@ class SearchController < ApplicationController
 		@pageTitle = "Search"
 		query=params[:query]
 		actorLimit=params[:actor]
-		queryType=params[:queryType]
+		queryType=params[:VariableSearch]
+
+		#Ed: This next block sets the default states of forms when results.html.erb updates
+		@isSearchVariable = true
+		if queryType=="1"
+			@isSearchVariable = true
+		else
+			@isSearchVariable = false
+		end
+		@queryText = query
 
 		if (not actorLimit.blank?) then actor=Actor.find_by_name_part(actorLimit) end
 
@@ -36,7 +45,7 @@ class SearchController < ApplicationController
 
 				querystringdisplay = query.join(", ")
 				# query=query.map{|e| e.strip }
-				if queryType=="Variables"
+				if queryType=="1"
 					searchResults = Dialogue.includes(:actor).searchVars(query).first(maxSearchResults)
 				else
 					if actor.blank? then
@@ -56,7 +65,7 @@ class SearchController < ApplicationController
 				else
 					@searchMessages.push "Your search for  '#{ querystringdisplay }' returned #{searchResults.length} dialogue options."
 				end
-				if queryType=="Variables" then
+				if queryType=="1" then
 					@searchMessages.push "Searching the variables Checked or Updated for '#{querystringdisplay}'"
 				end
 			end

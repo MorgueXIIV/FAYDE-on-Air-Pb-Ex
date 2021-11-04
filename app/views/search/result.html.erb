@@ -9,18 +9,16 @@
 <%= form_with url:search_path, method: :get do |form| %>
 
     <%= form.label :query, "Search for:" %>
-    <%= form.text_field :query %>
-    Said by:
-    <%= form.text_field :actor %>
-
-    <%#= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %>
-    <%#= search_field_tag :actor, params[:actor], placeholder: "Said by:", class: "form-control" %>
-    <br />
-    <%= form.radio_button :queryType, "Dialogue Only", checked: true%>
-    <%= form.label :type_Dialogue, "Search only Dialogue" %>
+    <%= form.text_field :query, :value => @queryText %>
     </br>
-    <%= form.radio_button :queryType, "Variables" %>
-    <%= form.label :type_Variables, "Search Dialogue affected by Variables/Checks (ignores 'said by')" %>
+    <%= form.label :actor, "Said by:" %>
+    <%= form.text_field :actor %>
+    <%#= form.collection_select :actor,
+    Actor.order(:name), :name, :name %>
+    <br />
+    <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
+    <%= form.label :VariableSearch, "Search for Variables, not dialogue (ignores 'said by' field)"%>
+    </br>
 
   </br>
   <%= form.submit "Search" %>
