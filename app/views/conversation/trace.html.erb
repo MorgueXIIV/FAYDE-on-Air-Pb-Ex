@@ -7,11 +7,11 @@
 <% end %> </ol> </p>
 
 <p> <ul><%  @builtConvo.each do | result | %>
-	<span class=<%=result.isHub? ? "hub" : "notHub" %>>
-		<li id="<%= result.id %>"> <span class="incid"> <a href="<%= result.id %>"><%= result.incid %>.</span></a>
+	<div class=<%=result.isHub? ? "hub" : "notHub" %>>
+		<li id="<%= result.id %>"> <span class="incid"> <a href="<%= result.id %>"><%= result.incid %>.</a></span>
 			<span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>
 			<i>
-				<ul id="details">
+				<ul class="details">
 					<% result.showDetails.each do | deet | %>
 						<li> <%= deet %> </li>
 					<% end %>
@@ -25,11 +25,11 @@
 				</ul>
 			</i>
 		</li>
-	</span>
+	</div>
 <% end %> </ul> </p>
 
 <p id="options forward"> <ol><%  @forwOptions.each do | result | %>
 <li><%= link_to result.showShort, {:controller => 'conversation', :action => 'trace', :dialogueid => "#{@idsList}-#{result.id}", :anchor => "#{result.id}"} %></li>
 <% end %> </ol> </p>
 
-<div id="hidehubs" class="btn"> hide those hubs </div>
+<div id="hidehubs" class="btn"> ignore button, does not work </div>

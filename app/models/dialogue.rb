@@ -51,7 +51,10 @@ class Dialogue < ActiveRecord::Base
 
   def showShort(addParentNamesToHubs=false)
     if isHub?
-      shortName= "HUB: (#{actor.name}) "
+      shortName= "HUB: "
+        if not actor.blank?
+          shortName+="(#{actor.name}) "
+        end
       shortName+=showDetails.join("/ ")
       if addParentNamesToHubs then
         shortName+="{Hub From: #{getLeastHubParentName}}"

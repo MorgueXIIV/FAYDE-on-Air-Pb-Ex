@@ -1,10 +1,12 @@
 <h2> Search </h2>
 
-<p> Search for up to 10 individual/partial words (minimum length 2) OR include a " in your search, to search one or more exact phrases (seperated by "s) </p>
-<p> Searches are limited to the first 500 results, just for sanity's sake. If you need more than 500 results for <b> intense research </b> you really are probably better off in the desktop FAYDE. </p>
+<p> Search for up to 10 words/part words, OR include a " in your search, to search one or more exact phrases (seperated by "s) </p>
 
-<p> Enter all or part of an actor name to filter by that actor. Most prolific speakers will be prioritised in case of conflict (ie if you just type 'ki', Kim Kitsuragi will be the filter because he says more than "Coupris Kineema"). </p>
-<p> Use characters canonical names "novelty dicemaker" not "Neha", and "Man with Sunglasses" lines won't come up if you search by Jean (I will try and fix this one day) </p>
+<p> Enter all or part of an actor name to filter by that actor. Most vocal character will be chosen in case of ambiguity (ie "ki" matches Kim, not Coupris Kinema). </p>
+<p> Use characters canonical names "Novelty Dicemaker" not "Neha", and "Man with Sunglasses" lines won't come up if you search by Jean (I will try and fix this one day) </p>
+<p> Hit the <span class='btn'> &#9664;&#9664;</span>  button to view conversations from the begining, and <span class='btn'> &#9654;</span> button to carry the conversation on from that point.
+	</p>
+	<p> If you check the Variables Seach button, it will  instead search the variables a line checks or updates. If you want good cop points/Kim Kitsuragi likes you points, you need "reputation kim". "reputation lowers kim" for stuff that makes him angry, or "reputation grows kim" for stuff that makes him like you, "reputation.kim" for stuff that checks IF he likes you. You can use it to search for things other than your reputation with Kim, but I know you people, I know what you like. </p>
 <p>
 <%= form_with url:search_path, method: :get do |form| %>
 
@@ -12,12 +14,11 @@
     <%= form.text_field :query, :value => @queryText %>
     </br>
     <%= form.label :actor, "Said by:" %>
-    <%= form.text_field :actor %>
-    <%#= form.collection_select :actor,
-    Actor.order(:name), :name, :name %>
+    <%= form.text_field :actor, :value => @actorText %>
+    <%#= form.collection_select :actors, Actor.where("dialogues_count > 0").order(:dialogues_count :desc), :name, :name %>
     <br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
-    <%= form.label :VariableSearch, "Search for Variables, not dialogue (ignores 'said by' field)"%>
+    <%= form.label :VariableSearch, "Search for variables instead of dialogue (ignores 'said by' filter)"%>
     </br>
 
   </br>
