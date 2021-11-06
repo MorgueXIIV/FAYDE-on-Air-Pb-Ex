@@ -15,7 +15,7 @@
     </br>
     <%= form.label :actor, "Said by:" %>
     <%= form.text_field :actor, :value => @actorText %>
-    <%#= form.collection_select :actors, Actor.where("dialogues_count > 0").order(:dialogues_count :desc), :name, :name %>
+    <%= form.collection_select :actors, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:include_blank => true} %>
     <br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
     <%= form.label :VariableSearch, "Search for variables instead of dialogue (ignores 'said by' filter)"%>

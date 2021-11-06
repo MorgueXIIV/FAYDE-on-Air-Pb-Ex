@@ -9,7 +9,7 @@
 <p> <ul><%  @builtConvo.each do | result | %>
 	<div class=<%=result.isHub? ? "hub" : "notHub" %>>
 		<li id="<%= result.id %>"> <span class="incid"> <a href="<%= result.id %>"><%= result.incid %>.</a></span>
-			<span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>
+			<span class='actor'><%= result.showActor %> - </span> <%=  result.showDialogue %>
 			<i>
 				<ul class="details">
 					<% result.showDetails.each do | deet | %>
