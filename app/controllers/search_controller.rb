@@ -2,18 +2,20 @@ class SearchController < ApplicationController
 	def result
 		@pageTitle = "Search"
 		query=params[:query]
-		actorLimit=params[:actor]
+		actorLimit=params[:actor1]
 		queryType=params[:VariableSearch]
 
 		#Ed: This next block sets the default states of forms when results.html.erb updates
 		# Morgue: It made me sad to see a 5 line if then else end, so I made it a trinary op.
 		@isSearchVariable = queryType=="1" ? true : false
 
-		@queryText = query
-		@actorText = actorLimit
+		@queryText = query #enables persistent search query
 
+		# Ed - if textbox is left blank, fallback on the content of Listbox, then identify the actor to use
+		if (actorLimit.blank?) then actorLimit = params[:actor2] end
 		if (not actorLimit.blank?) then actor=Actor.find_by_name_part(actorLimit) end
 
+		@actorText = actorLimit #enables persistent actor name
 		@searchMessages=[]
 
 		if query.blank? then

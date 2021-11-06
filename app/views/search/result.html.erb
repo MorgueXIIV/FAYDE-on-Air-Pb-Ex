@@ -14,9 +14,9 @@
     <%= form.text_field :query, :value => @queryText %>
     </br>
     <%= form.label :actor, "Said by:" %>
-    <%#= form.text_field :actor, :value => @actorText %>
-    <%= form.collection_select :actor,
-    Actor.order(:name), :name, :name, {:include_blank => true }, :value => @actorText %>
+    <%= form.text_field :actor1, :value => @actorText %>
+    <%= form.collection_select :actor2,
+    Actor.order(:name), :name, :name, {:include_blank => true }%>
     <br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
     <%= form.label :VariableSearch, "Search for variables instead of dialogue (ignores 'said by' filter)"%>
