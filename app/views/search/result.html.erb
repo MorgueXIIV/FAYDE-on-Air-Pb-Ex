@@ -4,7 +4,7 @@
 <p> Searches are limited to the first 500 results, just for sanity's sake. If you need more than 500 results for <b> intense research </b> you really are probably better off in the desktop FAYDE. </p>
 
 <p> Enter all or part of an actor name to filter by that actor. Most prolific speakers will be prioritised in case of conflict (ie if you just type 'ki', Kim Kitsuragi will be the filter because he says more than "Coupris Kineema"). </p>
-<p> Use characters canonical names "novelty dicemaker" not "Neha", and "Man with Sunglasses" lines won't come up if you search by Jean (I will try and fix this one day) </p>
+<p> Use characters' canonical names "novelty dicemaker" not "Neha", and "Man with Sunglasses" lines won't come up if you search by Jean (I will try and fix this one day) </p>
 <p>
 <%= form_with url:search_path, method: :get do |form| %>
 
@@ -12,9 +12,9 @@
     <%= form.text_field :query, :value => @queryText %>
     </br>
     <%= form.label :actor, "Said by:" %>
-    <%= form.text_field :actor %>
-    <%#= form.collection_select :actor,
-    Actor.order(:name), :name, :name %>
+    <%#= form.text_field :actor %>
+    <%= form.collection_select :actor,
+    Actor.order(:name), :name, :name, {:include_blank => true } %>
     <br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
     <%= form.label :VariableSearch, "Search for Variables, not dialogue (ignores 'said by' field)"%>
