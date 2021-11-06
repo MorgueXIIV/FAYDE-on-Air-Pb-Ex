@@ -11,9 +11,14 @@ class SearchController < ApplicationController
 
 		@queryText = query #enables persistent search query
 
-		# Ed - if textbox is left blank, fallback on the content of Listbox, then identify the actor to use
-		if (actorLimit.blank?) then actorLimit = params[:actor2] end
-		if (not actorLimit.blank?) then actor=Actor.find_by_name_part(actorLimit) end
+		#try to match the textBox entry with an Actor object
+		if actorLimit.length > 1 then actor=Actor.find_by_name_part(actorLimit) end
+
+	  # Ed - if textbox is left blank or doesn't match a character, fallback on the content of Listbox, then identify the actor to use
+		if actor.blank? && !(params[:actor2]).blank? then
+				actor=Actor.find_by_name_part(params[:actor2])
+				actorLimit=params[:actor2]
+		end
 
 		@actorText = actorLimit #enables persistent actor name
 		@searchMessages=[]
@@ -50,7 +55,11 @@ class SearchController < ApplicationController
 				else
 					if actor.blank? then
 						searchResults = Dialogue.includes(:actor).searchTexts(query).first(maxSearchResults)
-						@searchMessages.push actorLimit.blank? ? "" : "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
+						if actorLimit.length > 1 then
+							@searchMessages.push actorLimit.blank? ? "" : "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
+						else
+							@searchMessages.push actorLimit.blank? ? "" : "Sorry, your search for Actor: '#{actorLimit}' was too short to find a match. \n"
+						end
 					else
 						searchResults = Dialogue.includes(:actor).searchTextsAct(query, actor).first(maxSearchResults)
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
