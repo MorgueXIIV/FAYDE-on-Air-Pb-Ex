@@ -6,13 +6,11 @@ class SearchController < ApplicationController
 		queryType=params[:VariableSearch]
 
 		#Ed: This next block sets the default states of forms when results.html.erb updates
-		@isSearchVariable = true
-		if queryType=="1"
-			@isSearchVariable = true
-		else
-			@isSearchVariable = false
-		end
+		# Morgue: It made me sad to see a 5 line if then else end, so I made it a trinary op.
+		@isSearchVariable = queryType=="1" ? true : false
+
 		@queryText = query
+		@actorText = actorLimit
 
 		if (not actorLimit.blank?) then actor=Actor.find_by_name_part(actorLimit) end
 

@@ -11,3 +11,7 @@
 #two {
 	line-height: 2;
 }
+
+#invisible{
+	display: none;
+}

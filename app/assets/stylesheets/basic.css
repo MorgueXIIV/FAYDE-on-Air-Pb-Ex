@@ -45,7 +45,7 @@ h2,
 }
 
 @media (min-width: 840px) {
-	.main { 
+	.main {
 		width: 80%;
 		padding: 2em;
 		align-self: center;
@@ -137,7 +137,7 @@ a:visited {
 
 /* ------------------------------- DARK MODE -------------------------------- */
 
-.dark .main { 
+.dark .main {
 	background-color: #181411;
 	color: rgb(233, 227, 227);
 }
@@ -151,7 +151,7 @@ body.dark {
 	background-color: #2b2b2b;
 }
 
-.dark #details {
+.dark .details {
    color: #ecb5a7;
 }
 
