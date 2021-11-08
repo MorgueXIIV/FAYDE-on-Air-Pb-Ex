@@ -10,55 +10,76 @@ begin
 	dbname="searchLogDBrb.db"
 	db=SQLite3::Database.open dbname
 	starttime=Time.now()
+	verbose=true
 	db.execute """CREATE TABLE IF NOT EXISTS searches
 	(address TEXT, time TEXT, query TEXT, actor TEXT, variables TEXT)""";
-
 
 	#inistialise counter
 	numberOfdbEntriesMade=0;
 	logname="production.log"
-
-	file= File.read(logname)
-	logfile= file.split("\n")
-	#using transactions means the database is written to all at once making all these entries
-	#which is MUCH much faster in SQLite than making a committed transation for each of the 10,000 + entries
-	# db.transaction
-	#I, [2021-10-20T15:16:03.982155 #39680]  INFO -- : [df61e1c4-0d26-4f5e-9d56-12f4e61df9ba] Started GET "/search?utf8=%E2%9C%93&query=body+harden&actor=&commit=Search" for 2600:387:a:9a2::22 at 2021-10-20 15:16:03 +0000
-
-# I, [2021-11-06T14:40:07.515014 #81518]  INFO -- : [87146c08-045e-427e-8ee7-d407f2fff6f1] Started GET "/search?query=empathy&actor=&VariableSearch=0&commit=Search" for 46.59.176.96 at 2021-11-06 14:40:07 +0000
-	logfile.each do | line |
-		matchy = line.match(/query=([^\s&]*)(?:&actor=)?([^\s&]*).*(?:&VariableSearch=)?(\d)?.*for (\S*) at ([\d\- :]*)/i)
-		# matchy.shift
-		if not matchy.nil? then
-			matchy=matchy.captures
-			resultexists = db.query "SELECT * FROM searches where time=? and query=?", [ matchy[4], matchy[0] ]
-			if resultexists.length == 0 then
-				db.execute "INSERT INTO searches (query,actor,variables,address,time) values (?,?,?,?,?)", matchy.captures
-				numberOfdbEntriesMade+=1;
-				print "o"
+	backuplognames=["prodlogsearches.txt", "../log/development.log", "../log/production.log"]
+	if not File.exist? (logname) then
+		backuplognames.each do | backuplogname |
+			if File.exist?(backuplogname) then
+				logname=backuplogname
 			else
-				print "x"
+				puts "No log file to read, move file to same folder, change file to parse to #{logname} or #{backuplogname} and run again."
 			end
-		else
-			print "_"
 		end
 	end
-		puts " complete with #{numberOfdbEntriesMade} records so far"
+	if File.exist? (logname) then
+		puts "Parsing #{logname} for database #{dbname}"
+
+		logfile= File.read(logname)
+		logfile= logfile.split("\n")
+		if verbose then
+			puts "printing _ for line that wasn't readable as a search, O for a search that was added to the database, and x for a search that was rejected due to being a duplicate."
+		end
+
+		logfile.each do | line |
+			matchy = line.match(/query=([^\s&]*)(?:&actor=)?([^\s&]*)(?:&VariableSearch=([^\s&])){0,2}.*?for (\S*) at ([\d\- :]*)/i)
+			# matchy.shift
+			if not matchy.nil? then
+				matchy=matchy.captures
+				# puts matchy.join(", ")
+				resultexists = db.get_first_value "SELECT * FROM searches where time=? and query=?", [ matchy[4], matchy[0] ]
+				if resultexists.nil? or resultexists.next.nil? then
+					db.execute "INSERT INTO searches (query,actor,variables,address,time) values (?,?,?,?,?)", matchy
+					numberOfdbEntriesMade+=1;
+					if verbose then
+						print "O"
+					end
+				else
+					if verbose then
+						print "x"
+					end
+				end
+			else
+				if verbose then
+					print "_"
+				end
+			end
+		end
+		puts "Parsing complete with #{numberOfdbEntriesMade} records added to DB"
 
 		# db.commit
 		dateformat= /\d{4}-\d{2}-\d{2}/
-		first=logfile.shift
-			firstDate=first.scan(dateformat)
-			last=logfile.pop
-			lastdate=last.scan(dateformat)
-			filename="log-#{firstdate[0]}-#{lastdate[0]}.txt"
-			puts filename
+		firstline=logfile.shift
+		firstDate=firstline.scan(dateformat)
+		lastline=logfile.pop
+		lastDate=lastline.scan(dateformat)
+		filename="log-#{firstDate[0]}-#{lastDate[0]}.txt"
+		if File.exist?(filename) then
+			put "Cannot move log file to #{filename} as that file already exists."
+		else
+			puts "Renaming #{logname} to #{filename}."
 			File.rename( logname, filename )
-	endtime=Time.now()
-	timetaken=endtime - starttime
-	puts "Database creation/updates took #{timetaken} seconds"
-
-
+		end
+		endtime=Time.now()
+		timetaken=endtime - starttime
+		puts "Database creation/updates took #{timetaken} seconds"
+		puts "using 'grep /search production.log > prodlogsearches.txt' may hasten parsing."
+	end
 rescue SQLite3::Exception => e
     puts "there was a Database Creation error: " + e.to_s;
     #Rollback prevents partially complete data sets being inserted
