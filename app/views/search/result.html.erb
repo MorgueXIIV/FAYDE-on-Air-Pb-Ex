@@ -2,31 +2,28 @@
 
 <p> Search for up to 10 words/part words, OR include a " in your search, to search one or more exact phrases (seperated by "s) </p>
 
-<p> Enter all or part of an actor name to filter by that actor. Most vocal character will be chosen in case of ambiguity (ie "ki" matches Kim, not Coupris Kinema). </p>
-<p> Use characters canonical names "Novelty Dicemaker" not "Neha", and "Man with Sunglasses" lines won't come up if you search by Jean (I will try and fix this one day) </p>
-<p> Hit the <span class='btn'> &#9664;&#9664;</span>  button to view conversations from the begining, and <span class='btn'> &#9654;</span> button to carry the conversation on from that point.
-	</p>
+<p> Enter all or part of an actor name to filter by that actor. Most vocal character will be chosen in case of ambiguity (ie "ki" matches Kim, not Coupris Kinema). Use characters canonical names ie. "Novelty Dicemaker" not "Neha". I've made it so searching for Jean and Judit will return their lines as the Horse-Faced woman and Man with Sunglases. Searching for "Harry" should now show the main character's lines, too! There's a dropdown box you can use instead (thanks Sphinx111!) but I left the text box cos sometimes it's easier to just type stuff. If you experience any issues with these new features, my apologies; lmk if you can. </p>
+
 	<p> If you check the Variables Seach button, it will  instead search the variables a line checks or updates. If you want good cop points/Kim Kitsuragi likes you points, you need "reputation kim". "reputation lowers kim" for stuff that makes him angry, or "reputation grows kim" for stuff that makes him like you, "reputation.kim" for stuff that checks IF he likes you. You can use it to search for things other than your reputation with Kim, but I know you people, I know what you like. </p>
 <p>
 <%= form_with url:search_path, method: :get do |form| %>
-
     <%= form.label :query, "Search for:" %>
     <%= form.text_field :query, :value => @queryText %>
     </br>
     <%= form.label :actor, "Said by:" %>
-    <%= form.text_field :actor1, :value => @actorText %>
+    <%= form.text_field :actor1, :value => @actorText %> <b> OR: </b>
     <%= form.collection_select :actor2, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:prompt => 'select actor' }%>
     <br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
     <%= form.label :VariableSearch, "Search for variables instead of dialogue (ignores 'said by' filter)"%>
     </br>
-
-  </br>
   <%= form.submit "Search" %>
-<% end %>
+<% end %><p>
  	<% @searchMessages.each do |mess| %>
-		<p> <b> <%= mess %> </b></p>
-	<% end %>
+		<b> <%= mess %> </b><br />
+	<% end %></p><p> Hit the <span class='btn'> &#9664;&#9664;</span> button to view conversations from the begining, and <span class='btn'> &#9654;</span> button to carry the conversation on from that point.
+	</p>
+
 <p> <ol class="searchresults"><%  @results.each do | result | %>
 <li>  <span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>  <br />
 	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result.conversation_id)*10000)+1} , :title => 'View Conversation' %><br /> </div>

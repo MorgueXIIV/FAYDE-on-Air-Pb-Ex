@@ -20,16 +20,14 @@ class Dialogue < ActiveRecord::Base
 
   scope :saidBy, ->(actorID) { where("actor_id = ?", actorID)}
 
-	scope :saidByJean, -> {where("actor_id in (?,?)", 105,8)}
-	scope :saidByJudit, -> {where("actor_id in (?,?)", 106, 9)}
+	scope :saidByBranch, -> (actorID, altActorID){where("actor_id in (?,?)", actorID, altActorID) }
 
 	scope :smartSaidBy, ->(actorID) do
-		case actorID
-			when 8
-				saidByJean
-			when 9
-				saidByJudit
-			else
+		if actorID.id==8
+				saidByBranch(105, 8)
+		elsif actorID.id==9
+				saidByBranch(106, 9)
+		else
 				saidBy(actorID)
 		end
 	end

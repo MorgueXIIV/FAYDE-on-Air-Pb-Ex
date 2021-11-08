@@ -12,13 +12,18 @@ class SearchController < ApplicationController
 		@queryText = query #enables persistent search query
 
 		#try to match the textBox entry with an Actor object
-		if actorLimit.length > 1 then actor=Actor.find_by_name_part(actorLimit) end
+		if not actorLimit.blank? then
+			actor=Actor.find_by_name_part(actorLimit)
+		end
 
 	  # Ed - if textbox is left blank or doesn't match a character, fallback on the content of Listbox, then identify the actor to use
 		if actor.blank? && !(params[:actor2]).blank? then
 				actor=Actor.find_by_name_part(params[:actor2])
 				actorLimit=params[:actor2]
 		end
+
+
+
 
 		@actorText = actorLimit #enables persistent actor name
 		@searchMessages=[]
@@ -53,13 +58,17 @@ class SearchController < ApplicationController
 				if queryType=="1"
 					searchResults = Dialogue.includes(:actor).searchVars(query).first(maxSearchResults)
 				else
+					if actor.blank? and not actorLimit.blank? then
+						# check if they maybe mean Harry:
+						if actorLimit.upcase.include?("HAR") or actorLimit.upcase.include?("BOIS") then
+							actor=Actor.find_by_name_part("you")
+							@searchMessages.push "Search for '#{actorLimit}' interpreted to mean 'You' (ie the main character)"
+						else
+							@searchMessages.push "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
+						end
+					end
 					if actor.blank? then
 						searchResults = Dialogue.includes(:actor).searchTexts(query).first(maxSearchResults)
-						if actorLimit.length > 1 then
-							@searchMessages.push actorLimit.blank? ? "" : "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
-						else
-							@searchMessages.push actorLimit.blank? ? "" : "Sorry, your search for Actor: '#{actorLimit}' was too short to find a match. \n"
-						end
 					else
 						searchResults = Dialogue.includes(:actor).searchTextsAct(query, actor).first(maxSearchResults)
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
@@ -80,6 +89,7 @@ class SearchController < ApplicationController
 			end
 
 			@results=searchResults
+			# @searchMessages.push "#{actor}"
 		end
 	end
 
