@@ -18,8 +18,22 @@ class Dialogue < ActiveRecord::Base
   scope :isHub, -> {where("length(dialoguetext) = ?", 0)}
   scope :notHub, -> {where("length(dialoguetext) > ?", 1)}
 
-  scope :saidBy, ->(actorID) { where("actor_id = ?", actorID) }
-  # scope :saidByNamePart
+  scope :saidBy, ->(actorID) { where("actor_id = ?", actorID)}
+
+	scope :saidByJean, -> {where("actor_id in (?,?)", 105,8)}
+	scope :saidByJudit, -> {where("actor_id in (?,?)", 106, 9)}
+
+	scope :smartSaidBy, ->(actorID) do
+		case actorID
+			when 8
+				saidByJean
+			when 9
+				saidByJudit
+			else
+				saidBy(actorID)
+		end
+	end
+
 
   #single word/phrase search text
   # scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
@@ -46,8 +60,10 @@ class Dialogue < ActiveRecord::Base
   end
 
   scope :searchTextsAct, ->(query, actor) do
-      searchTexts(query).saidBy(actor)
+      searchTexts(query).smartSaidBy(actor)
   end
+
+
 
   def showShort(addParentNamesToHubs=false)
     if isHub?
@@ -82,10 +98,10 @@ class Dialogue < ActiveRecord::Base
   end
 
 
-  def showDialogue(addParentNamesToHubs=false)
+  def showDialogue(addParentNamesToHubs=false, addDetailsToHubs=true)
     if isHub?
       shortName=""
-      shortName+=showDetails.join("/ ")
+      if addDetailsToHubs then shortName+=showDetails.join("/ ") end
       if addParentNamesToHubs then
         shortName+="{Hub From: #{getLeastHubParentName}}"
       else

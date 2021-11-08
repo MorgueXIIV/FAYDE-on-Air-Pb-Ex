@@ -9,19 +9,19 @@
 <p> <ul><%  @builtConvo.each do | result | %>
 	<div class=<%=result.isHub? ? "hub" : "notHub" %>>
 		<li id="<%= result.id %>"> <span class="incid"> <a href="<%= result.id %>"><%= result.incid %>.</a></span>
-			<span class='actor'><%= result.showActor %> - </span> <%=  result.showDialogue %>
+			<span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue(false,false) %>
 			<i>
 				<ul class="details">
 					<% result.showDetails.each do | deet | %>
 						<li> <%= deet %> </li>
 					<% end %>
 					<% result.showCheck.each do | deet | %>
-						<li> <%= deet %> </li>
-					<% end %>
+						<li> <%= deet %>
 						<ol> <% result.showModifiers.each do | deet | %>
 							<li> <%= deet %> </li>
 						<% end %>
-						</ol>
+						</ol></li>
+					<% end %>
 				</ul>
 			</i>
 		</li>
