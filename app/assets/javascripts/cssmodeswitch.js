@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 		if (hubsHidden=="true") {
 			document.cookie = "hidehubs=false"
-			$("#hidehubs").append("Hide Hubs")
+			$("#hidehubs").append("hideHubButtonText")
 		} else {
 			document.cookie = "hidehubs=true"
 			$("#hidehubs").append(showHubButtonText)
@@ -60,4 +60,22 @@ $(document).ready(function(){
 		$(".details").toggle()
 
 	});
+
+$("#actor2").change(function(){
+	  	var selecteditem = $( "#actor2" ).val();
+	    $("#actor1").val(selecteditem);
+});
+
+
+$("#actor1").keyup(function() {
+    var valbox = $( this ).val();
+		$("#actor2 > option").each(function() {
+			var valopt = $( this ).text();
+			var idx= valopt.toLowerCase().search(valbox.toLowerCase());
+			if (idx>=0){
+				$(this).prop('selected', true);
+				return false;
+			};
+		});
+});
 });
