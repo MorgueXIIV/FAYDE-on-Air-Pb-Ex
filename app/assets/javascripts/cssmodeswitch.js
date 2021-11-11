@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 		if (hubsHidden=="true") {
 			document.cookie = "hidehubs=false"
-			$("#hidehubs").append("hideHubButtonText")
+			$("#hidehubs").append(hideHubButtonText)
 		} else {
 			document.cookie = "hidehubs=true"
 			$("#hidehubs").append(showHubButtonText)
