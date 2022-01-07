@@ -10,8 +10,8 @@
     <%= form.label :query, "Search for:" %>
     <%= form.text_field :query, :value => @queryText %>
     </br>
-    <%= form.label :actor, "Said by:" %>
-    <%= form.text_field :actor1, :value => @actorText %> <b> OR: </b>
+    <%= form.label :actor, "Said by: (optional)" %>
+    <%= form.text_field :actor1, :value => @actorText %>
     <%= form.collection_select :actor2, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:prompt => 'select actor' }%>
     <br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
