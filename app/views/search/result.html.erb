@@ -1,10 +1,10 @@
 <h2> Search </h2>
 
-<p> Search for up to 10 words/part words, OR include a " in your search, to search one or more exact phrases (seperated by "s) </p>
+<p> Search for up to 10 words/part words, OR include a " in your search, to search one or more exact phrases (separated by "s) </p>
 
-<p> Enter all or part of an actor name to filter by that actor. Most vocal character will be chosen in case of ambiguity (ie "ki" matches Kim, not Coupris Kinema). Use characters canonical names ie. "Novelty Dicemaker" not "Neha". I've made it so searching for Jean and Judit will return their lines as the Horse-Faced woman and Man with Sunglases. Searching for "Harry" should now show the main character's lines, too! There's a dropdown box you can use instead (thanks Sphinx111!) but I left the text box cos sometimes it's easier to just type stuff. If you experience any issues with these new features, my apologies; lmk if you can. </p>
+<p> Jean, Judit, Liz, Korty and Perception will return lines from their "disguised"/(specific) versions, but "horse faced woman" or "Perception (smell)" will not. </p>
 
-	<p> If you check the Variables Seach button, it will  instead search the variables a line checks or updates. If you want good cop points/Kim Kitsuragi likes you points, you need "reputation kim". "reputation lowers kim" for stuff that makes him angry, or "reputation grows kim" for stuff that makes him like you, "reputation.kim" for stuff that checks IF he likes you. You can use it to search for things other than your reputation with Kim, but I know you people, I know what you like. </p>
+	<p>Check the "variables search" box to look for things like "reputation grows kim" and don't check it to search for actual dialogue people say.</p>
 <p>
 <%= form_with url:search_path, method: :get do |form| %>
     <%= form.label :query, "Search for:" %>

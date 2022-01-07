@@ -23,10 +23,17 @@ class Dialogue < ActiveRecord::Base
 	scope :saidByBranch, -> (actorID, altActorID){where("actor_id in (?,?)", actorID, altActorID) }
 
 	scope :smartSaidBy, ->(actorID) do
-		if actorID.id==8
-				saidByBranch(105, 8)
-		elsif actorID.id==9
-				saidByBranch(106, 9)
+		case actorID.id
+			when 379 #jean
+				saidByBranch(379, 92)
+			when 381 #judit
+				saidByBranch(381, 93)
+			when 90 # korty
+				saidByBranch(90,36)
+			when 110 #Liz
+				saidByBranch(110,69)
+			when 420 #perceptions
+				where("actor_id in (?,?,?,?,?)", 420, 421, 422, 423, 424)
 		else
 				saidBy(actorID)
 		end
@@ -117,6 +124,11 @@ class Dialogue < ActiveRecord::Base
   def isHub?
     return dialoguetext.length<3
   end
+	
+	def showLineage
+		lins=["Org","Fin","Jam"]
+		return lins[lineage]
+	end
 
   def showDetails
     lomgpossinfo=[conditionstring,userscript,sequence]

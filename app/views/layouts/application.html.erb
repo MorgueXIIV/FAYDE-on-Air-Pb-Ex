@@ -15,10 +15,10 @@
   <body class="<%= (cookies[:css]=="sammode" ? "dark " : "") + (cookies[:nicmode].blank? ? "one" : "#{cookies[:nicmode]}") %>">
 
     <div class="menu">
-        <div class="btn"><%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> </div>
-        <div class="btn"><%= link_to "Home/About", {:controller => 'fayde', :action => 'index' } %></div>
-        <div class="btn"><%= link_to "Config/Style", {:controller => 'fayde', :action => 'css_configuration' } %></div>
-        <div class="btn"><%= link_to "ORB MODE", {:controller => 'conversation', :action => 'orbindex' } %></div>
+        <div class="btn"><%= link_to "Search", {:controller => 'search', :action => 'result' } %> </div>
+        <div class="btn"><%= link_to "About", {:controller => 'fayde', :action => 'index' } %></div>
+        <div class="btn"><%= link_to "Options", {:controller => 'fayde', :action => 'css_configuration' } %></div>
+        <div class="btn"><%= link_to "ORBS", {:controller => 'conversation', :action => 'orbindex' } %></div>
       <% if @pageTitle != "Search" then %>
         <%= form_tag(search_path, method: :get) do %>
           Quick Search: <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %><%= submit_tag 'Search' %>
