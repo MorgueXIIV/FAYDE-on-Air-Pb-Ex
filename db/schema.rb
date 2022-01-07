@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_06_170431) do
+ActiveRecord::Schema.define(version: 2022_01_07_183236) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2022_01_06_170431) do
     t.integer "alternates_count"
     t.integer "checks_count"
     t.integer "lineage"
+    t.integer "tfc_id"
   end
 
   create_table "modifiers", force: :cascade do |t|
