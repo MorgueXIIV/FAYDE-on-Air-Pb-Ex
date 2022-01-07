@@ -48,12 +48,7 @@ class ConversationController < ApplicationController
 				sidsList=idsList.map { |e| (e.id)}
 				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => sidsList.join("-")
 			else
-				sidsList=idsList.map { |e| (Dialogue.find_by_id(e)) }
-				if not sidsList.index(nil).nil? then
-					redirect_to :controller => 'conversation', :action => "trace", :dialogueid => idsList.join("-")
-				else
-					render :controller => 'conversation', :action => "error"
-				end
+				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => params[:dialogueid]
 			end
 		end
 	end
