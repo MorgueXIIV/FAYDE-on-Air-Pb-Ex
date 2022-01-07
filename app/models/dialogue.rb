@@ -124,9 +124,9 @@ class Dialogue < ActiveRecord::Base
   def isHub?
     return dialoguetext.length<3
   end
-	
+
 	def showLineage
-		lins=["Org","Fin","Jam"]
+		lins=["Og","Fc","Jv"]
 		return lins[lineage]
 	end
 

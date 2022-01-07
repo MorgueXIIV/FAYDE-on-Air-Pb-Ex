@@ -10,7 +10,7 @@
 
 <p> <ul><%  @builtConvo.each do | result | %>
 	<div class=<%=result.isHub? ? "hub" : "notHub" %>>
-		<li id="<%= result.id %>"> <span class="incid"> <a href="<%= result.id %>"> <%= result.incid %> <% if not result.isHub? %>.(<%= result.showLineage %>) <% end %></a></span>
+		<li id="<%= result.id %>"> <span class="incid">  <% if not result.isHub? %>[<%= result.showLineage %>] <% end %><a href="<%= result.id %>"> <%= result.incid %></a>.</span>
 			<span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue(false,false) %>
 			<i>
 				<ul class="details">
