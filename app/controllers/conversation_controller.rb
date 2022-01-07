@@ -43,10 +43,10 @@ class ConversationController < ApplicationController
 
 			idsList=params[:dialogueid].split("-")
 
-			sidsList=idsList.map { |e| (Dialogue.find_by_tfc_id(e))}
-			if sidsList.index(nil).nil? then
-				sidsList=idsList.map { |e| (e.id)}
-				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => sidsList.join("-")
+			idsList.map! { |e| (Dialogue.find_by_tfc_id(e))}
+			if idsList.index(nil).nil? then
+				idsList.map! { |e| (e.id)}
+				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => idsList.join("-")
 			else
 				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => params[:dialogueid]
 			end
