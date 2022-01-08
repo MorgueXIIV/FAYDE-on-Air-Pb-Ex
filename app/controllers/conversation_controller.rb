@@ -44,7 +44,8 @@ class ConversationController < ApplicationController
 			idsList=params[:dialogueid].split("-")
 
 			idsList.map! { |e| (Dialogue.find_by_tfc_id(e))}
-			if idsList.index(nil).nil? then
+			idsList.reject! { |e| e.nil? }
+			if idsList.length>0 then
 				idsList.map! { |e| (e.id)}
 				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => idsList.join("-")
 			else
