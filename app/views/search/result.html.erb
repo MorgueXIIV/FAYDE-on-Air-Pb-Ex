@@ -6,14 +6,15 @@
 
 	<p>Check the "variables search" box to look for things like "reputation grows kim" and don't check it to search for actual dialogue people say.</p>
 <p>
+
 <%= form_with url:search_path, method: :get do |form| %>
     <%= form.label :query, "Search for:" %>
     <%= form.text_field :query, :value => @queryText %>
     </br>
     <%= form.label :actor, "Said by: (optional)" %>
     <%= form.text_field :actor1, :value => @actorText %>
-    <%= form.collection_select :actor2, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:prompt => 'select actor' }%>
-    <br />
+    <%= form.collection_select :actor2, (Rails.cache.fetch("#123ActorsCacheKeyv0", expires_in: 48.hours) do Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order end), :name, :name, {:prompt => 'select actor'} %>
+		<br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
     <%= form.label :VariableSearch, "Search for variables instead of dialogue (ignores 'said by' filter)"%>
     </br>
