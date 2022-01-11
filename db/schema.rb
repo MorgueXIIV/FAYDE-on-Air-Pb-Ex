@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.string "alternateline"
     t.string "conditionstring"
     t.integer "dialogue_id"
+    t.index ["dialogue_id"], name: "index_alternates_on_dialogue_id"
   end
 
   create_table "checks", force: :cascade do |t|
@@ -29,6 +30,7 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.string "flagname"
     t.string "skilltype"
     t.integer "dialogue_id"
+    t.index ["dialogue_id"], name: "index_checks_on_dialogue_id"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -65,6 +67,7 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.string "modification"
     t.string "tooltip"
     t.integer "dialogue_id"
+    t.index ["dialogue_id"], name: "index_modifiers_on_dialogue_id"
   end
 
   create_table "tfc_transforms", force: :cascade do |t|
