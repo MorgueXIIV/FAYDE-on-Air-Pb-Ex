@@ -8,6 +8,7 @@
 <li> <%= link_to result.showShort(true), {:controller => 'conversation', :action => 'trace', :dialogueid => "#{result.id}-#{@idsList}", :anchor => "title" } %></li>
 <% end %> </ol> </p>
 
+<%=  %>
 <p> <ul><%  @builtConvo.each do | result | %>
 	<div class=<%=result.isHub? ? "hub" : "notHub" %>>
 		<li id="<%= result.id %>"> <span class="incid">  <% if not result.isHub? %>[<%= result.showLineage %>] <% end %><a href="<%= result.id %>"> <%= result.incid %></a>.</span>

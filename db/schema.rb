@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_07_183236) do
+ActiveRecord::Schema.define(version: 2022_01_10_160117) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2022_01_07_183236) do
     t.integer "alternates_count"
     t.integer "checks_count"
     t.integer "lineage"
-    t.integer "tfc_id"
   end
 
   create_table "modifiers", force: :cascade do |t|
@@ -68,7 +67,13 @@ ActiveRecord::Schema.define(version: 2022_01_07_183236) do
     t.integer "dialogue_id"
   end
 
+  create_table "tfc_transforms", force: :cascade do |t|
+    t.integer "dialogue_id", null: false
+    t.index ["dialogue_id"], name: "index_tfc_transforms_on_dialogue_id"
+  end
+
   add_foreign_key "alternates", "dialogues"
   add_foreign_key "checks", "dialogues"
   add_foreign_key "modifiers", "dialogues"
+  add_foreign_key "tfc_transforms", "dialogues"
 end

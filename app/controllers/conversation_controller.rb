@@ -7,13 +7,16 @@ class ConversationController < ApplicationController
 			idsList=params[:dialogueid].split("-")
 
 			begin
-				@builtConvo = idsList.map { |e| Dialogue.includes(:actor).find_by_id(e) }
+				# @conversationDescribe = Conversations.find_by_id(((idsList.first.to_i) / 10000).to_i)
+				@conversationDescribe = Conversation.find_by_id(((idsList.first).to_i) / 10000)
+
+				convodias=@conversationDescribe.dialogues.includes(:actor).all
+				@builtConvo = idsList.map { |e| convodias.find_by_id(e) }
 				if not @builtConvo.index(nil).nil? then
 					render :controller => 'conversation', :action => "error"
 				end
-
-				firstc = @builtConvo.first
-				@conversationDescribe = firstc.conversation
+				firstc=@builtConvo.first
+				# @conversationDescribe=firstc.conversation
 
 				@backOptions = firstc.origin.includes(:actor).all
 				while @backOptions.length == 1 do
@@ -43,10 +46,10 @@ class ConversationController < ApplicationController
 
 			idsList=params[:dialogueid].split("-")
 
-			idsList.map! { |e| (Dialogue.find_by_tfc_id(e))}
+			idsList.map! { |e| (TfcTransform.find_by_id(e))}
 			idsList.reject! { |e| e.nil? }
 			if idsList.length>0 then
-				idsList.map! { |e| (e.id)}
+				idsList.map! { |e| (e.dialogue_id)}
 				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => idsList.join("-")
 			else
 				redirect_to :controller => 'conversation', :action => "trace", :dialogueid => params[:dialogueid]

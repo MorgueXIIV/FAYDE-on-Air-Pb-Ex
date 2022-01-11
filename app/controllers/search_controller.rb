@@ -22,7 +22,8 @@ class SearchController < ApplicationController
 				actorLimit=params[:actor2]
 		end
 
-
+# change to work like::
+# Order.joins(:customer, :books).pluck("orders.created_at, customers.email, books.title")
 
 
 		@actorText = actorLimit #enables persistent actor name
