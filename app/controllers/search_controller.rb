@@ -5,13 +5,12 @@ class SearchController < ApplicationController
 		actorLimit=params[:actor1]
 		queryType=params[:VariableSearch]
 
-		#Ed: This next block sets the default states of forms when results.html.erb updates
+		#Ed: This next block sets the default state for "variable search" when results.html.erb updates
 		# Morgue: It made me sad to see a 5 line if then else end, so I made it a trinary op.
 		@isSearchVariable = queryType=="1" ? true : false
-
 		@queryText = query #enables persistent search query
 
-		#try to match the textBox entry with an Actor object
+		#Ed - try to match the textBox entry with an Actor object
 		if not actorLimit.blank? then
 			actor=Actor.find_by_name_part(actorLimit)
 			# check if they maybe mean Harry:
@@ -20,7 +19,6 @@ class SearchController < ApplicationController
 				@searchMessages.push "Search for '#{actorLimit}' interpreted to mean 'You' (ie the main character)"
 			end
 		end
-
 	  # Ed - if textbox is left blank or doesn't match a character, fallback on the content of Listbox, then identify the actor to use
 		if actor.blank? && !(params[:actor2]).blank? then
 				actor=Actor.find_by_name_part(params[:actor2])
@@ -63,7 +61,7 @@ class SearchController < ApplicationController
 				querystringdisplay = query.join(", ")
 				# query=query.map{|e| e.strip }
 				if queryType=="1"
-					searchResults = Dialogue.includes(:actor).searchVars(query).first(maxSearchResults)
+					searchResults = Dialogue.includes(:actor, :alternates).searchVars(query).first(maxSearchResults)
 						@searchMessages.push "Searching the variables Checked / Updated for '#{querystringdisplay}'"
 
 				else
