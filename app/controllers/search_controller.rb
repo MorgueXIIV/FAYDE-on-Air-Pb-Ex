@@ -60,28 +60,26 @@ class SearchController < ApplicationController
 
 				querystringdisplay = query.join(", ")
 				# query=query.map{|e| e.strip }
+				searchResults=Dialogue.includes(:actor, :alternates)
 				if queryType=="1"
-					searchResults = Dialogue.includes(:actor, :alternates).searchVars(query).first(maxSearchResults)
-						@searchMessages.push "Searching the variables Checked / Updated for '#{querystringdisplay}'"
-
+					searchResults = searchResults.searchVars(query)
+					@searchMessages.push "Searching the variables Checked / Updated for '#{querystringdisplay}'"
 				else
 					if actor.blank? and not actorLimit.blank? then
 						@searchMessages.push "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
 					end
-					spareQuery = query.reverse()
-					searchResults = Dialogue.includes(:actor).searchTextsAct(query, actor).offset( @pageNum*maxSearchResults).first(maxSearchResults)
-					# @resultCount= Dialogue.includes(:actor).searchTexts(spareQuery).count
-
+					searchResults = searchResults.searchTextsAct(query, actor)
 					if actor.blank? then
 					else
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
 					end
 				end
+				searchResults = searchResults.offset( @pageNum*maxSearchResults).first(maxSearchResults)
 				# NOTE: by this point "query" is destroyed, because the scope of Ruby passes by reference!
 
 				countResults = searchResults.length
 				@showPageNext = countResults >= maxSearchResults
-				if @pageNum > 0 or countResults == maxSearchResults then
+				if @pageNum > 0 or @showPageNext then
 					@searchMessages.push "Page #{@pageNum + 1} of ??"
 					if countResults == 0
 						@searchMessages.push "This page left intentionally blank."
@@ -91,7 +89,6 @@ class SearchController < ApplicationController
 
 				if @showPageNext then
 					@searchMessages.push "Your search for '#{ querystringdisplay }' gave many results and will be shown as pages of #{maxSearchResults}. \n Perhaps a more specific search is in order?"
-
 				else
 					@searchMessages.push "Your search for  '#{ querystringdisplay }' returned #{countResults} dialogue options."
 				end
