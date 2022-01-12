@@ -133,7 +133,7 @@ class Dialogue < ActiveRecord::Base
   def showDetails
     lomgpossinfo=[conditionstring,userscript,sequence]
     if alternates_count > 0
-      alternates.all.each{ |alt| lomgpossinfo.push(alt.showShort)}
+      alternates.each{ |alt| lomgpossinfo.push(alt.showShort)}
     end
     lomgpossinfo=lomgpossinfo.reject{|info| info.nil? or info.length<2 }
 
