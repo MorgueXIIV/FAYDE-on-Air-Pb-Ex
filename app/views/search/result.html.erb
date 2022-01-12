@@ -14,11 +14,11 @@
     <%= form.label :actor, "Said by: (optional)" %>
     <%= form.text_field :actor1, :value => @actorText %>
 		<%# Bug workaround - Don't attempt to use caching if running in Dev environment %>
-		<% if Rails.env == "Development"
-				form.collection_select :actor2, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:prompt => 'select actor'}
-		else
-    		form.collection_select :actor2, (Rails.cache.fetch("#123ActorsCacheKeyv0", expires_in: 48.hours) do Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order end), :name, :name, {:prompt => 'select actor'}
-		end %>
+		<% if Rails.env == "development" %>
+			<%= form.collection_select :actor2, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:prompt => 'select actor'} %>
+		<% else %>
+    	<%= form.collection_select :actor2, (Rails.cache.fetch("#123ActorsCacheKeyv0", expires_in: 48.hours) do Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order end), :name, :name, {:prompt => 'select actor'} %>
+		<% end %>
 		<br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
     <%= form.label :VariableSearch, "Search for variables instead of dialogue (ignores 'said by' filter)"%>
