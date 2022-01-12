@@ -25,7 +25,7 @@
 	<% end %></p><p> Hit the <span class='btn'> &#9664;&#9664;</span> button to view conversations from the begining, and <span class='btn'> &#9654;</span> button to carry the conversation on from that point.
 	</p>
 
-<p> <ol class="searchresults"><%  @results.each do | result | %>
+<p> <ol class="searchresults" start="<%= @thisPageResultStart %>"><%  @results.each do | result | %>
 <li>  <span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>  <br />
 	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result.conversation_id)*10000)+1} , :title => 'View Conversation' %><br /> </div>
 	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result.id }, :title => 'Start Here' %> </div>
@@ -39,3 +39,16 @@
 </i>
 </li>
 <% end %> </ol> </p>
+<p>
+	<% if @pageNum > 0 then %>
+		<%= link_to "First Page", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch] } %>
+		&mdash;
+		 <%= link_to "PAGE #{@pageNum}", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch], :page => (@pageNum - 1) }, :title => 'Previous Page' %> &mdash;
+	 <% end # if @pageNum > 0 %>
+
+	 <% if @showPageNext then %>
+			 	Results Page  <%= @pageNum + 1 %>
+				&mdash;
+				<%= link_to "PAGE #{@pageNum + 2}", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch], :page => (@pageNum + 1) }, :title => 'Next Page' %>
+		<% end #if @showPageNext %>
+	</p>

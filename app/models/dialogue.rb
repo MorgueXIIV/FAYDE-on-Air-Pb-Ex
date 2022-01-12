@@ -44,28 +44,33 @@ class Dialogue < ActiveRecord::Base
   # scope :searchText, ->(query) { where("dialoguetext LIKE ?", "%" + query + "%") }
 
   scope :searchTexts, ->(query) do
-    quer1= query.pop
-    # sqlquer=("dialoguetext LIKE ?", "%" + quer1 + "%")
-    if query.empty?
-      where("dialoguetext LIKE ?", "%" + quer1 + "%")
+		queryc=query # make copy because of the damn pass by reference breaking the variable otherwise which is unexpected behaviour
+    quer1= queryc.pop
+    sqlquer="dialoguetext LIKE ?", "%#{quer1}%"
+    if queryc.empty?
+      where(sqlquer)
     else
-      searchTexts(query).where("dialoguetext LIKE ?", "%" + quer1 + "%")
+      searchTexts(queryc).where(sqlquer)
     end
   end
 
   scope :searchVars, ->(query) do
     quer1= query.pop
-    querwild = "%#{quer1}%"
+    quer1 = "%#{quer1}%"
     # sqlquer=("conditionstring LIKE ? OR userscript LIKE ?", querwild, querwild)
     if query.empty?
-      where("conditionstring LIKE ? OR userscript LIKE ?", querwild, querwild)
+      where("conditionstring LIKE ? OR userscript LIKE ?", quer1, quer1)
     else
-      searchVars(query).where("conditionstring LIKE ? OR userscript LIKE ?", querwild, querwild)
+      searchVars(query).where("conditionstring LIKE ? OR userscript LIKE ?", quer1, quer1)
     end
   end
 
-  scope :searchTextsAct, ->(query, actor) do
-      searchTexts(query).smartSaidBy(actor)
+  scope :searchTextsAct, ->(query, actor=nil) do
+		if actor.blank? then
+			searchTexts(query)
+		else
+			searchTexts(query).smartSaidBy(actor)
+		end
   end
 
 

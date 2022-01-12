@@ -7,31 +7,30 @@ class ConversationController < ApplicationController
 			idsList=params[:dialogueid].split("-")
 
 			begin
-				# @conversationDescribe = Conversations.find_by_id(((idsList.first.to_i) / 10000).to_i)
 				@conversationDescribe = Conversation.find_by_id(((idsList.first).to_i) / 10000)
-
-				convodias=@conversationDescribe.dialogues.includes(:actor).all
-				@builtConvo = idsList.map { |e| convodias.find_by_id(e) }
+				# convodias=@conversationDescribe.dialogues.includes(:actor).all
+				@builtConvo = Dialogue.includes(:actor, :alternates).find(idsList)
 				if not @builtConvo.index(nil).nil? then
 					render :controller => 'conversation', :action => "error"
 				end
-				firstc=@builtConvo.first
-				# @conversationDescribe=firstc.conversation
 
-				@backOptions = firstc.origin.includes(:actor).all
+				@backOptions = @builtConvo.first.origin.includes(:actor, :origin, :destination).all
 				while @backOptions.length == 1 do
 					@builtConvo.unshift @backOptions.first
-					@backOptions=@builtConvo.first.origin.includes(:actor).all
+					@backOptions=@builtConvo.first.origin.includes(:actor, :origin, :destination).all
 				end
 
-				@forwOptions = @builtConvo.last.destination.all
+				@forwOptions = @builtConvo.last.destination.includes(:actor, :origin, :destination).all
 				while @forwOptions.length == 1 do
 					@builtConvo.push @forwOptions.first
-					@forwOptions=@builtConvo.last.destination.includes(:actor).all
+					@forwOptions=@builtConvo.last.destination.includes(:actor, :origin, :destination).all
 				end
+				# @backOptions=[] if @backOptions.nil?
 
 				@idsList= @builtConvo.map { |e| e.id }.join("-")
+
 			rescue
+				render :controller => 'conversation', :action => "error"
 			end
 		end
 	end
