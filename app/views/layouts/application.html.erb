@@ -4,33 +4,31 @@
     <title> <%= @pageTitle.nil? ? "FAYDE" : @pageTitle %> - FAYDE On-Air Playback Experiment</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= favicon_link_tag %>
     <% if not cookies[:css]=="sybmode" then %>
-      <%= stylesheet_link_tag "http://fayde.seadragonlair.co.uk/css/basic.css" %>
+      <%= stylesheet_link_tag "basic.css" %>
     <% end %>
-    <%= javascript_include_tag"https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" %>
-    <%= javascript_include_tag "http://fayde.seadragonlair.co.uk/javascripts/cssmodeswitch.js" %>
-    <%= stylesheet_link_tag "http://fayde.seadragonlair.co.uk/css/util.css" %>
+    <%= javascript_include_tag "cssmodeswitch.js" %>
+    <%= stylesheet_link_tag "util.css" %>
   </head>
 
 
   <body class="<%= (cookies[:css]=="sammode" ? "dark " : "") + (cookies[:nicmode].blank? ? "one" : "#{cookies[:nicmode]}") %>">
 
     <div class="menu">
-        <div class="btn"><%= link_to "Search Dialogues", {:controller => 'search', :action => 'result' } %> </div>
-        <div class="btn"><%= link_to "Home", {:controller => 'fayde', :action => 'index' } %></div>
-        <div class="btn"><%= link_to "Config/Style", {:controller => 'fayde', :action => 'css_configuration' } %></div>
-        <div class="btn"><%= link_to "ORB MODE", {:controller => 'conversation', :action => 'orbindex' } %></div>
+        <div class="btn"><%= link_to "Search", {:controller => 'search', :action => 'result' } %> </div>
+        <div class="btn"><%= link_to "About", {:controller => 'fayde', :action => 'index' } %></div>
+        <div class="btn"><%= link_to "Options", {:controller => 'fayde', :action => 'css_configuration' } %></div>
+        <div class="btn"><%= link_to "ORBS", {:controller => 'conversation', :action => 'orbindex' } %></div>
       <% if @pageTitle != "Search" then %>
         <%= form_tag(search_path, method: :get) do %>
           Quick Search: <%= search_field_tag :query, params[:query], placeholder: "Search", class: "form-control" %><%= submit_tag 'Search' %>
         <% end %>
-      <% end %> 
+      <% end %>
 
 
 
-  <div id="darkmode" class="btn"> Darkmode </div> <div id="lightmode" class="btn"> Lightmode </div>
-    
+  <div id="darkmode" class="btn dark"> Darkmode </div> <div id="lightmode" class="btn"> Lightmode </div>
+
   </div>
   <div class="main">
     <%= yield %>
