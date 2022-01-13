@@ -57,11 +57,11 @@ class Dialogue < ActiveRecord::Base
   scope :searchVars, ->(query) do
     quer1= query.pop
     quer1 = "%#{quer1}%"
-    # sqlquer=("conditionstring LIKE ? OR userscript LIKE ?", querwild, querwild)
+    sqlquer="dialogues.conditionstring LIKE ? OR userscript LIKE ?", quer1, quer1
     if query.empty?
-      where("conditionstring LIKE ? OR userscript LIKE ?", quer1, quer1)
+      where sqlquer
     else
-      searchVars(query).where("conditionstring LIKE ? OR userscript LIKE ?", quer1, quer1)
+      searchVars(query).where sqlquer
     end
   end
 

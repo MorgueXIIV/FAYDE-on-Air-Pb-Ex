@@ -37,7 +37,7 @@ class SearchController < ApplicationController
 			@results=[]
 			@searchMessages=[]
 		else
-			maxSearchResults=50
+			maxSearchResults=100
 			if query.index('"').nil? then
 				query=query.split(" ")
 			else
@@ -60,21 +60,24 @@ class SearchController < ApplicationController
 
 				querystringdisplay = query.join(", ")
 				# query=query.map{|e| e.strip }
-				searchResults=Dialogue.includes(:actor, :alternates)
+				searchResults=Dialogue.includes(:actor)
+				searchResults = searchResults.offset(@pageNum * maxSearchResults).limit(maxSearchResults)
+				#variable search gets different attributes
 				if queryType=="1"
 					searchResults = searchResults.searchVars(query)
 					@searchMessages.push "Searching the variables Checked / Updated for '#{querystringdisplay}'"
-				else
+					searchResults = searchResults.pluck(:name, :dialoguetext,:conversation_id,:id, :title, :conditionstring, :variable)
+				else # dialoguetext search
 					if actor.blank? and not actorLimit.blank? then
 						@searchMessages.push "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
 					end
-					searchResults = searchResults.searchTextsAct(query, actor)
+					searchResults = searchResults.includes(:alternates).searchTextsAct(query, actor)
+					searchResults = searchResults.pluck(:name, :dialoguetext,:conversation_id,:id,:alternateline)
 					if actor.blank? then
 					else
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
 					end
 				end
-				searchResults = searchResults.offset( @pageNum*maxSearchResults).first(maxSearchResults)
 				# NOTE: by this point "query" is destroyed, because the scope of Ruby passes by reference!
 
 				countResults = searchResults.length

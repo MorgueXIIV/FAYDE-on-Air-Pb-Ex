@@ -31,17 +31,16 @@
 	</p>
 
 <p> <ol class="searchresults" start="<%= @thisPageResultStart %>"><%  @results.each do | result | %>
-<li>  <span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>  <br />
-	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result.conversation_id)*10000)+1} , :title => 'View Conversation' %><br /> </div>
-	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result.id }, :title => 'Start Here' %> </div>
-<i> <ul> <% result.showDetails.each do | deet | %>
-	<li id="details"> <%= deet %> </li>
-	<% end %>
-	<% result.showCheck.each do | deet | %>
-	<li id="details"> <%= deet %> </li>
-	<% end %>
-</ul>
-</i>
+<li> <% if not result[1].blank? %> <span class='actor'> <%= result[0] %> - </span> <%= result[1] %> <% else %>  <%= result[5]+ " " + result[6] %> <% end %> <br />
+
+		<% if not result[4].blank? %><i> <ul id="details">
+			<li> <%= result[4] %> </li>
+			</ul></i>
+		<% end %>
+	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result[2])*10000)+1} , :title => 'View Conversation' %><br /> </div>
+	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result[3] }, :title => 'Start Here' %> </div>
+
+
 </li>
 <% end %> </ol> </p>
 <p>
