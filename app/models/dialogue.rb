@@ -15,6 +15,8 @@ class Dialogue < ActiveRecord::Base
                        :dependent => :destroy
   has_many :destination, :through => :children
 
+	default_scope { includes(:actor) }
+
   scope :isHub, -> {where("length(dialoguetext) = ?", 0)}
   scope :notHub, -> {where("length(dialoguetext) > ?", 1)}
 

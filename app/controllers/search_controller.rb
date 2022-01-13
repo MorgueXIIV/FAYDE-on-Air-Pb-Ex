@@ -71,8 +71,9 @@ class SearchController < ApplicationController
 					if actor.blank? and not actorLimit.blank? then
 						@searchMessages.push "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
 					end
+					querySpare=query.reverse
 					searchResults = searchResults.includes(:alternates).searchTextsAct(query, actor)
-					searchResults = searchResults.pluck(:name, :dialoguetext,:conversation_id,:id,:alternateline)
+					searchResults = searchResults.pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline)
 					if actor.blank? then
 					else
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
@@ -88,6 +89,11 @@ class SearchController < ApplicationController
 						@searchMessages.push "This page left intentionally blank."
 						@searchMessages.push "(Sorry, if your search has exact multiples of 50 records in it, it's not a good performance trade off to see how many results there are in advance, this blank page just gets generated to find out when there will be another 50.)"
 					end
+				else
+					altResults = Alternate.searchAlts(querySpare)
+					altResults= altResults.saidBy(actor) if not actor.blank?
+					altResults= altResults.pluck(:name, :alternateline, :conversation_id, :dialogue_id, :dialoguetext)
+					searchResults = altResults + searchResults
 				end
 
 				if @showPageNext then
