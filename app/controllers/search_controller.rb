@@ -88,12 +88,13 @@ class SearchController < ApplicationController
 					# @resultsCount = searchResults.unscope(:includes,:limit,:offset).count if @showPageNext
 
 					if not @showPageNext
-						altResults = actor.blank? ? Alternate : Alternate.saidBy(actor)
-						altResults= altResults.unscope(:includes).searchAlts(query.reverse).pluck(:dialogue_id)
+						altResults = Alternate.unscope(:includes)
+						altResults= altResults.searchAlts(query.reverse).pluck(:dialogue_id)
 						searchResultIDs = altResults + searchResultIDs
 					end
 
-					searchResults = Dialogue.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline)
+					searchResults = actor.blank? ? Dialogue : Dialogue.smartSaidBy(actor)
+					searchResults= searchResults.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline)
 					if not actor.blank? then
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
 					end
