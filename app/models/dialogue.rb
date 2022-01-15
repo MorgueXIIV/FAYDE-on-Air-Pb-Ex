@@ -146,7 +146,7 @@ class Dialogue < ActiveRecord::Base
 
     if ((difficultypass.blank? == false) and (difficultypass >0)) then
       realDifficulty=getDifficulty(difficultypass)
-      lomgpossinfo.unshift("passive check (requires aprox. #{realDifficulty} in #{actor.name})")
+      lomgpossinfo.unshift("passive check (requires approx. #{realDifficulty} in #{actor.name})")
     end
     return lomgpossinfo
   end

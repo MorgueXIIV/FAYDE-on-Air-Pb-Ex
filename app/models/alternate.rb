@@ -1,7 +1,7 @@
 class Alternate < ApplicationRecord
   belongs_to :dialogue, counter_cache: true
 	has_one :actor, :through =>  :dialogue
-	default_scope { includes(:dialogue, :actor) }
+	# default_scope { includes(:dialogue, :actor) }
 
   def showShort
   	return "Replaced with \"#{alternateline}\" if #{conditionstring}"

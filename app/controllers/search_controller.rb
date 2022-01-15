@@ -3,11 +3,11 @@ class SearchController < ApplicationController
 		@pageTitle = "Search"
 		query=params[:query]
 		actorLimit=params[:actor1]
-		queryType=params[:VariableSearch]
+
 
 		#Ed: This next block sets the default state for "variable search" when results.html.erb updates
 		# Morgue: It made me sad to see a 5 line if then else end, so I made it a trinary op.
-		@isSearchVariable = queryType=="1" ? true : false
+		@isSearchVariable = params[:VariableSearch]=="1" ? true : false
 		@queryText = query #enables persistent search query
 
 		#Ed - try to match the textBox entry with an Actor object
@@ -44,9 +44,14 @@ class SearchController < ApplicationController
 				query=query.split('"')
 			end
 			# we stopped filtering out things for doing BIG searches cos of pagination.
-			# commonWords = ["the", "you", "to", "a", "i", "of", "it", "and", "in", "is",
-			# 	"he", "this", "that", "your", "for", "on", "not", "what", "his", "it's"]
-			# query=query.reject{ |e| (e.length<2 or (commonWords.index(e.strip) != nil)) }
+			# but serachign several keywords is still hard work so if people look like
+			# they're on a whole sentence, get rid of boring words.
+			if query.length > 5 then
+				commonWords = ["the", "you", "to", "of", "it", "and", "in", "is",
+					"he", "this", "that", "your", "for", "on", "not", "what", "his", "it's"]
+				query=query-commonWords
+				query=query.reject{ |e| (e.length<2) }
+			end
 
 			if query.empty? then
 				searchResults = []
@@ -60,44 +65,51 @@ class SearchController < ApplicationController
 
 				querystringdisplay = query.join(", ")
 				# query=query.map{|e| e.strip }
-				searchResults=Dialogue.includes(:actor)
-				searchResults = searchResults.offset(@pageNum * maxSearchResults).limit(maxSearchResults)
-				#variable search gets different attributes
-				if queryType=="1"
-					searchResults = searchResults.searchVars(query)
+
+				# search for dialogue and specify how many results to get from which "page"
+				searchResults = Dialogue.offset(@pageNum * maxSearchResults).limit(maxSearchResults)
+
+				if @isSearchVariable then
+					#variable search is a different method and gets different attributes
+					searchResultIDs = searchResults.searchVars(query).ids
 					@searchMessages.push "Searching the variables Checked / Updated for '#{querystringdisplay}'"
-					searchResults = searchResults.pluck(:name, :dialoguetext,:conversation_id,:id, :title, :conditionstring, :variable)
+					searchResults = Dialogues.find(searchResultIDs).pluck(:name, :dialoguetext, :conversation_id, :id, :title, :conditionstring, :variable)
+					countResults = searchResults.length
+					@showPageNext = countResults >= maxSearchResults
 				else # dialoguetext search
 					if actor.blank? and not actorLimit.blank? then
 						@searchMessages.push "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
 					end
-					querySpare=query.reverse
-					searchResults = searchResults.includes(:alternates).searchTextsAct(query, actor)
-					searchResults = searchResults.pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline)
-					if actor.blank? then
-					else
+					searchResults= searchResults.unscope(:includes).searchTextsAct(query.reverse, actor)
+					searchResultIDs = searchResults.ids
+					countResults = searchResultIDs.length
+					@showPageNext = countResults >= maxSearchResults
+					# query not run cos it's crazy expensive
+					# @resultsCount = searchResults.unscope(:includes,:limit,:offset).count if @showPageNext
+
+					if not @showPageNext
+						altResults = actor.blank? ? Alternate : Alternate.saidBy(actor)
+						altResults= altResults.unscope(:includes).searchAlts(query.reverse).pluck(:dialogue_id)
+						searchResultIDs = altResults + searchResultIDs
+					end
+
+					searchResults = Dialogue.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline)
+					if not actor.blank? then
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
 					end
 				end
-				# NOTE: by this point "query" is destroyed, because the scope of Ruby passes by reference!
+				# NOTE: by this point "query" is destroyed? unless I only handed over the reversed version? because the scope was by reference!
 
-				countResults = searchResults.length
-				@showPageNext = countResults >= maxSearchResults
 				if @pageNum > 0 or @showPageNext then
 					@searchMessages.push "Page #{@pageNum + 1} of ??"
 					if countResults == 0
 						@searchMessages.push "This page left intentionally blank."
-						@searchMessages.push "(Sorry, if your search has exact multiples of 50 records in it, it's not a good performance trade off to see how many results there are in advance, this blank page just gets generated to find out when there will be another 50.)"
+						@searchMessages.push "(Sorry, if your search has exact multiples of #{maxSearchResults} records in it, it's not a good performance trade off to see how many results there are in advance, this blank page just gets generated to find out when there will be another set.)"
 					end
-				else
-					altResults = Alternate.searchAlts(querySpare)
-					altResults= altResults.saidBy(actor) if not actor.blank?
-					altResults= altResults.pluck(:name, :alternateline, :conversation_id, :dialogue_id, :dialoguetext)
-					searchResults = altResults + searchResults
 				end
 
 				if @showPageNext then
-					@searchMessages.push "Your search for '#{ querystringdisplay }' gave many results and will be shown as pages of #{maxSearchResults}. \n Perhaps a more specific search is in order?"
+					@searchMessages.push "Your search for '#{ querystringdisplay }' gave many results and will be shown as several pages of #{maxSearchResults}. \n Perhaps a more specific search is in order?"
 				else
 					@searchMessages.push "Your search for  '#{ querystringdisplay }' returned #{countResults} dialogue options."
 				end
@@ -105,7 +117,6 @@ class SearchController < ApplicationController
 
 			@results=searchResults
 			@thisPageResultStart = (@pageNum*maxSearchResults) + 1
-			# @searchMessages.push "#{actor}"
 		end
 	end
 

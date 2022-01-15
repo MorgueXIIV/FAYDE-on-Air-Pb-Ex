@@ -31,7 +31,7 @@
 	</p>
 
 <p> <ol class="searchresults" start="<%= @thisPageResultStart %>"><%  @results.each do | result | %>
-<li> <% if not result[1].blank? %> <span class='actor'> <%= result[0] %> - </span> <%= result[1] %> <% else %>  <%= result[5]+ " " + result[6] %> <% end %> <br />
+<li> <% if result[1].blank? and result.length>6 %>  <%= result[5]+ " " + result[6] %><% else %> <span class='actor'> <%= result[0] %> - </span> <%= result[1] %>  <% end %> <br />
 
 		<% if not result[4].blank? %><i> <ul id="details">
 			<li> <%= result[4] %> </li>
