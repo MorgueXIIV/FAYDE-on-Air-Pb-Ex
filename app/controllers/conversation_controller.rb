@@ -47,8 +47,9 @@ class ConversationController < ApplicationController
 				# 	@forwOptions=@builtConvo.last.destination.includes(:actor, :origin, :destination).all
 				# end
 
-				idsRetrieving = (idsList+forwOptions+backOptions)
-				dialoguesUsing = Dialogue.includes(:actor, :alternates, :origin).where(id: idsRetrieving)
+				idsRetrieving = (idsList+forwOptions)
+				dialoguesUsing = Dialogue.includes(:actor, :alternates).where(id: idsRetrieving)
+				dialoguesUsing = dialoguesUsing + Dialogue.includes(:actor, :alternates, :origin).where(id: backOptions)
 
 				@builtConvo = idsList.map { |e| dialoguesUsing.find{|f| f.id==e.to_i}}
 
