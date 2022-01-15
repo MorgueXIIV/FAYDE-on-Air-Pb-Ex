@@ -174,38 +174,18 @@ class Dialogue < ActiveRecord::Base
   end
 
   def getLeastHubParentName
-    grandparentslist=[]
-    greatgrandparentslist=[]
     if isHub?
-      parents=origin
+      parents=origin.pluck(:title,:dialoguetext)
 
-      # This is not done recursively, because it's breadth-first not depth first,
-      # and I'm not ashamed to admit I only know how to do that recurseively
-      # by using, like, postfix notation in prolog or something?
-      # I do not remember all my prolog classes from uni either tbh.
+      # This is a vastly stripped down one that only checks up 1 level...
+			# but the previous version was running so many queries,
+			# at least 1 level can be eager loaded.
       parents.each do |parent|
-        if not (parent.isHub?)
-          return parent.title+"[1]"
-        else
-          grandparentslist+=parent.origin
+        if (parent[1].length>2)
+          return parent[0]
         end
       end
-      grandparentslist.each do |parent|
-        if not parent.isHub?
-          return parent.title+"[2]"
-        else
-          greatgrandparentslist+=parent.origin
-        end
-      end
-      greatgrandparentslist.each do |parent|
-        if not parent.isHub?
-          return parent.title+"[3]"
-        else
-          greatgrandparentslist+=parent.origin
-        end
-      end
-      # GIVE UP After 3
-      return "(no useful parent)"
+      return "(hub from a hub)"
     else
       return "(this isn't a hub)"
     end

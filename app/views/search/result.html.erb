@@ -30,13 +30,15 @@
 	<% end %></p><p> Hit the <span class='btn'> &#9664;&#9664;</span> button to view conversations from the begining, and <span class='btn'> &#9654;</span> button to carry the conversation on from that point.
 	</p>
 
-<p> <ol class="searchresults" start="<%= @thisPageResultStart %>"><%  @results.each do | result | %>
-<li> <% if result[1].blank? and result.length>6 %>  <%= result[5]+ " " + result[6] %><% else %> <span class='actor'> <%= result[0] %> - </span> <%= result[1] %>  <% end %> <br />
-
-		<% if not result[4].blank? %><i> <ul id="details">
+<p> <ol class="searchresults" start=<%= "\"@thisPageResultStart\"" %>><%  @results.each do | result | %>
+<li> <% if result[1].blank? and result.length>6 %>  <%= result[4] %> <% else %> <span class='actor'> <%= result[0] %> - </span> <%= result[1] %>  <% end %> <br />
+<i> <ul id="details">
+		<% if not result[4].blank? and result.length<7 %>
 			<li> <%= result[4] %> </li>
-			</ul></i>
+			<% elsif result.length>6 %>
+			<li> <%= "#{result[5]} / #{result[6]}" %> </li>
 		<% end %>
+			</ul></i>
 	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result[2])*10000)+1} , :title => 'View Conversation' %><br /> </div>
 	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result[3] }, :title => 'Start Here' %> </div>
 
