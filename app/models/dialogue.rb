@@ -80,12 +80,12 @@ class Dialogue < ActiveRecord::Base
   def showShort(addParentNamesToHubs=false)
     if isHub?
       shortName= "HUB: "
-        if not actor.blank?
+        if not (actor.blank? or actor.name=="HUB") then
           shortName+="(#{actor.name}) "
         end
       shortName+=showDetails.join("/ ")
       if addParentNamesToHubs then
-        shortName+="{Hub From: #{getLeastHubParentName}}"
+        shortName+=" {Hub From: #{getLeastHubParentName}}"
       else
         if shortName.length<12
           shortName+=title
@@ -98,7 +98,7 @@ class Dialogue < ActiveRecord::Base
   end
 
   def showActor
-    if not actor.blank? then
+    if not (actor.blank? or actor.name=="HUB") then
       if isHub?
         return  "HUB: (#{actor.name}) "
       else
@@ -143,6 +143,7 @@ class Dialogue < ActiveRecord::Base
       alternates.each{ |alt| lomgpossinfo.push(alt.showShort)}
     end
     lomgpossinfo=lomgpossinfo.reject{|info| info.nil? or info.length<2 }
+		lomgpossinfo=lomgpossinfo-["Continue()"]
 
     if ((difficultypass.blank? == false) and (difficultypass >0)) then
       realDifficulty=getDifficulty(difficultypass)
@@ -176,18 +177,25 @@ class Dialogue < ActiveRecord::Base
   def getLeastHubParentName
     if isHub?
       parents=origin.pluck(:title,:dialoguetext)
-
       # This is a vastly stripped down one that only checks up 1 level...
 			# but the previous version was running so many queries,
 			# at least 1 level can be eager loaded.
+
+			# prefer parents with dialogue:
       parents.each do |parent|
         if (parent[1].length>2)
           return parent[0]
         end
       end
-      return "(hub from a hub)"
+			# resort to parents with titles
+			parents.each do |parent|
+				if (parent[0].length>2)
+					return parent[0]
+				end
+			end
+      return "a hub"
     else
-      return "(this isn't a hub)"
+      return "(not a hub)"
     end
   end
 

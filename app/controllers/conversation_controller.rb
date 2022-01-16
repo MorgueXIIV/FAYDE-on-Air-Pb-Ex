@@ -3,25 +3,39 @@ class ConversationController < ApplicationController
 	def trace
 		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
+			render :controller => 'conversation', :action => "error"
 		else
 			idsList=params[:dialogueid].split("-")
 
-				convoID= ((idsList.first).to_i) / 10000
+				convoID= (((idsList.first).to_i) / 10000)
 				@conversationDescribe = Conversation.find_by_id(convoID)
-				# convodias=@conversationDescribe.dialogues.includes(:actor).all
-
-				# @builtConvo = Dialogue.includes(:actor, :alternates).find(idsList)
-				# if not @builtConvo.index(nil).nil? then
-				# 	render :controller => 'conversation', :action => "error"
-				# end
 				min=convoID*10000
-				max=convoID*11000
+				max=(convoID+1)*10000
 
-				convosLinks = DialogueLink.where(origin_id: min..max).or(DialogueLink.where(destination_id: min..max))
-				convosLinks = convosLinks.pluck(:origin_id, :destination_id)
-				 #.where("origin_id between or destination_id like ?", "#{convoID}%"))
+				convosLinksReq = DialogueLink.where(origin_id: min..max).or(DialogueLink.where(destination_id: min..max))
+				convosLinks = convosLinksReq.pluck(:origin_id, :destination_id)
+				# =begin
+					# this breaks where two conversations link together so I gotta do this nasty thing to get those other links
+					# make a list of convos we've retrieved
+				convosWhoseLinksWeHave = Array.new.push(convoID)
+					# flatten array of arrays so it's a list of endpoints and startpoints alike, then divide each by ten thougsand to make it a conversation id, then get only the unique ones, then select the ones that are not already in the links-we-have list.
+				extraConvosNeeded = ((convosLinks.flatten.map{ |e| (e / 10000) }.uniq) - convosWhoseLinksWeHave)
 
-				backOptions = convosLinks.select { |l| (l[1] == idsList[0].to_i) }.map { |e| e[0] }
+				# while not extraConvosNeeded.blank? do
+					extraConvosLinks = []
+					extraConvosNeeded.each do | xlink |
+						min=xlink*10000
+						max=(xlink+1)*10000
+						extraConvosLinks = extraConvosLinks + DialogueLink.where(origin_id: min..max).or(DialogueLink.where(destination_id: min..max)).pluck(:origin_id, :destination_id)
+					end
+					convosLinks = convosLinks+extraConvosLinks
+					convosWhoseLinksWeHave = convosWhoseLinksWeHave + extraConvosNeeded
+					# re-run this horrible method chain to check if there are more now
+					extraConvosNeeded = ((extraConvosLinks.flatten.map{ |e| (e / 10000) }.uniq) - convosWhoseLinksWeHave)
+				# end
+				# =end
+
+				backOptions = convosLinks.select { |l| (l[1] == idsList[0].to_i) }.map{ |e| e[0] }
 				@debugmsg = "#{ idsList[0] } wibble #{backOptions}"
 				while backOptions.length == 1 do
 					idsList.unshift backOptions[0]
@@ -34,22 +48,9 @@ class ConversationController < ApplicationController
 					forwOptions = convosLinks.select { |l| (l[0]==idsList[-1]) }.map { |e| e[1] }
 				end
 
-
-				# @backOptions = @builtConvo.first.origin.includes(:actor, :origin, :destination).all
-				# while @backOptions.length == 1 do
-				# 	@builtConvo.unshift @backOptions.first
-				# 	@backOptions=@builtConvo.first.origin.includes(:actor, :origin, :destination).all
-				# end
-
-				# @forwOptions = @builtConvo.last.destination.includes(:actor, :origin, :destination).all
-				# while @forwOptions.length == 1 do
-				# 	@builtConvo.push @forwOptions.first
-				# 	@forwOptions=@builtConvo.last.destination.includes(:actor, :origin, :destination).all
-				# end
-
 				idsRetrieving = (idsList+forwOptions)
-				dialoguesUsing = Dialogue.includes(:actor, :alternates).where(id: idsRetrieving)
-				dialoguesUsing = dialoguesUsing + Dialogue.includes(:actor, :alternates, :origin).where(id: backOptions)
+				dialoguesUsing = Dialogue.includes(:actor, :alternates, :checks).where(id: idsRetrieving)
+				dialoguesUsing = dialoguesUsing + Dialogue.includes(:actor, :alternates, :checks, :origin).where(id: backOptions)
 
 				@builtConvo = idsList.map { |e| dialoguesUsing.find{|f| f.id==e.to_i}}
 
@@ -59,7 +60,6 @@ class ConversationController < ApplicationController
 				# @backOptions=[] if @backOptions.nil?
 
 				@idsList= idsList.join("-") # @builtConvo.map { |e| e.id }.join("-")
-
 			begin
 			rescue
 				render :controller => 'conversation', :action => "error"
