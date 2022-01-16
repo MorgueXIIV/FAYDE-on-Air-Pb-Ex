@@ -20,22 +20,20 @@ class Dialogue < ActiveRecord::Base
   scope :isHub, -> {where("length(dialoguetext) = ?", 0)}
   scope :notHub, -> {where("length(dialoguetext) > ?", 1)}
 
-  scope :saidBy, ->(actorID) { where("actor_id = ?", actorID)}
-
-	scope :saidByBranch, -> (actorID, altActorID){where("actor_id in (?,?)", actorID, altActorID) }
+  scope :saidBy, ->(actorID) { where(actor_id: actorID)}
 
 	scope :smartSaidBy, ->(actorID) do
 		case actorID.id
 			when 379 #jean
-				saidByBranch(379, 92)
+				saidBy([379, 92])
 			when 381 #judit
-				saidByBranch(381, 93)
+				saidBy([381, 93])
 			when 90 # korty
-				saidByBranch(90,36)
+				saidBy([90,36])
 			when 110 #Liz
-				saidByBranch(110,69)
+				saidBy([110,69])
 			when 420 #perceptions
-				where("actor_id in (?,?,?,?,?)", 420, 421, 422, 423, 424)
+				saidBy([420, 421, 422, 423, 424])
 		else
 				saidBy(actorID)
 		end
@@ -74,8 +72,6 @@ class Dialogue < ActiveRecord::Base
 			searchTexts(query).smartSaidBy(actor)
 		end
   end
-
-
 
   def showShort(addParentNamesToHubs=false)
     if isHub?
@@ -137,20 +133,26 @@ class Dialogue < ActiveRecord::Base
 		return lins[lineage]
 	end
 
-  def showDetails
+  def showDetails(brief=false)
     lomgpossinfo=[conditionstring,userscript,sequence]
-    if alternates_count > 0
+    if alternates_count > 0 and not brief then
       alternates.each{ |alt| lomgpossinfo.push(alt.showShort)}
     end
-    lomgpossinfo=lomgpossinfo.reject{|info| info.nil? or info.length<2 }
+    lomgpossinfo=lomgpossinfo.reject{|info| info.blank? or info.length<2 }
 		lomgpossinfo=lomgpossinfo-["Continue()"]
 
-    if ((difficultypass.blank? == false) and (difficultypass >0)) then
-      realDifficulty=getDifficulty(difficultypass)
-      lomgpossinfo.unshift("passive check (requires approx. #{realDifficulty} in #{actor.name})")
-    end
+		if brief then
+			lomgpossinfo= [ lomgpossinfo[0] ]
+		end
+		if ((not difficultypass.blank?) and (difficultypass >0)) then
+			lomgpossinfo.unshift brief ? "Passive check. " : "passive check (requires approx. #{getDifficulty(difficultypass)} in #{actor.name})"
+		elsif checks_count > 0 and brief
+				lomgpossinfo.unshift "Active Check. "
+		end
     return lomgpossinfo
   end
+
+
 
   def getDifficulty(difficultypassed)
     return difficultypassed>7 ? ((difficultypassed-7)*2)-1 : difficultypassed*2
