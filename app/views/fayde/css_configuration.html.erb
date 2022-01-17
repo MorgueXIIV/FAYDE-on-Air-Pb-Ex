@@ -3,12 +3,12 @@
 <h2> Config </h2>
 <h3> <%= @formMessage %> </h3>
 
-<p> This configuration uses cookies which are trivial temporary browser files that the EU is more interested legislating than any human rights cause. By submitting a response to this form you're agreeing to these cookies. To minimize the site's use of cookies, do not use these configuration options, or click "clear" here. </p>
+<p> This configuration uses cookies which are trivial temporary browser files that the EU is more interested legislating than any human rights cause. By submitting a response to this form you're agreeing to these cookies. To minimize the site's use of cookies, do not use these configuration options, or click "clear" here. No tracker or advertiser cookies are used by this site, since I have neither advertising nor desire to tell any companies wether you searched for "Kim" or "anal beads" a lot so they can sell you more... Kims. </p>
 
 <%= form_with method: :get do |form| %>
  	<%= form.submit 'clear' %>
  	<hr />
-    
+
     <%= form.radio_button :css, "darkmode" %>
 	<%= form.label :css_darkmode, "Dark Mode" %>
 	<br />
@@ -16,7 +16,7 @@
 	<%= form.label :css_lightmode, "Light Mode" %>
 	<br />
 	<%= form.radio_button :css, "nocss" %>
-	<%= form.label :css_nocss, "Sybilius Mode (minimal CSS, pretend it's the 90s)" %>	
+	<%= form.label :css_nocss, "Sybilius Mode (minimal CSS, pretend it's the 90s)" %>
 	<br />
 	<hr />
 	<%= form.radio_button :linespace, "two" %>
@@ -31,5 +31,5 @@
     <br />
   <%= form.submit 'configure' %>
 
-  <p> Stylesheets are a work in progress: light mode will be added once I feel satisfied enough with my current darkmode to have something to work with. </p>
+  <p> You can now change from light to dark mode on any page if you have javascript enabled, but this page remains for anyone who has cookies turned on but not javascript, or who wants these other options that people requested back in the day. </p>
 <% end %>
