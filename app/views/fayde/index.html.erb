@@ -3,20 +3,23 @@
 <h3> Purpose </h3>
   <p>Welcome to the FAYDE On-Air. This is a project to enable Disco Elysium Fans to locate remembered conversations, share them with other fans, and explore dialogue options they might not have been able to meet the criteria for. It's naturally full of spoilers, so explore at your own risk! </p>
 
-  <p> This me re-making my original <a href="http://fayde.seadragonlair.co.uk"> FAYDE Playback Experiment</a> in a web-based format. This is useful so I can look stuff up while on my smartphone, perhaps in the middle of the road enabling my destiny to one day get hit by a car because I wanted to know if Kim ever says "mom" instead of "mum". The FAYDE Desktop hasn't received any updates in a while, since I think most people prefer the web version, but I'm happy to work on improvements for it if demand resurfaces, and it has many advantages for "intense" research if you're using a computer you're willing/able to install Ruby on. </p>
-  <p> This is kinda a low-priority one man operation and I've been away from web-dev for a long time. At present features are limited, and the implementation clunky and inefficient in places.  </p>
+  <p> This me re-making my original <a href="http://fayde.seadragonlair.co.uk"> FAYDE Playback Experiment</a> in a web-based format. This is useful so I can look stuff up while on my smartphone, perhaps in the middle of the road enabling my destiny to one day get hit by a car because I wanted to know if Kim ever says "mom" instead of "mum". The FAYDE Desktop hasn't received any updates in a while, since I think most people prefer the web version, but I'm happy to work on improving it if demand ever resurfaces, and it has many advantages for "intense" research if you're using a computer you're willing/able to install Ruby on. </p>
+  <p> This is kinda a low-priority one man operation and I've been away from web-dev for a long time. I welcome feedback, but it's a work in progress and I am eschewing a lot of typical web-development conventions because they piss me off or I've totally forgotten they exist.  </p>
 
 	<h4> Currently working on: </h4>
 	<ol>
-	  <li> Technical Debts, optimisation and performance (boooooring) </li>
+		<li> Improvements to layouts, usability etc. </li>
+		<li> Conversation browser </li>
+	  <li> Technical Debts, optimisation and performance (boooooring) [SIGNIFICANT progress &#10004;] </li>
+
+	  <li> <strike> pagination to allow BIG searches, and blank searches/actor full line dumps  </strike> &#10004;</li>
 		<li> <strike>Fucking sneak attack Jamais Vu update, right when I went away for family christmas stuff, AND they changed the character numbers? Fuck me that's just CRUEL. Kim's a 3 not a 395. </strike> &#10004; </li>
 	  <li> <strike>Searching for Variables not just dialogue</strike> &#10004; </li>
 	  <li> <strike>Hub hiding/ other JS quality of life improvements for easy copy-pasting </strike> &#10004;</li>
-	  <li> pagination to allow BIG searches, and blank searches/actor full line dumps </li>
 	  <li> <strike>Jean, Judit, Kortanaer, Liz and Perception searches respect alter-egos.</strike> &#10004; </li>
 	  <li> <strike> Some day soon, I'm gonna make the search page into the home page and then you'll almost never come here again &#10004;</strike></li>
 	</ol>
-	
+
 <h3> Lore </h3>
 
   <p> The title FAYDE Playback Experiment is a play, of course, on FELD Playback Experiment (FAYDE part is hard to explain, it just stuck). The FELD playback Experiment, as explained by Trant in-game or a blog post or two on the ZA/UM devblogue, is how you view the narrative in game; all the text in dialogue and events. It has this really cool film-roll aesthetic that you'd think as an analogue photography nerd I'd try harder to mimic. Maybe one day. </p>
@@ -46,6 +49,5 @@
 
 <p> Anyone else with comments/suggestions/improvements, feel free to contact me... somehow. I have been flattered to find out there are FAYDE users beyond my friends circle, so I guess my Tumblr ask box, noticing me in the the official Disco(rd) and DMing me, or tweeting at me at the above hinted at usernames are the best methods. I guess there's Github but I barely know how to Github. </p>
 
+<p> Created with Ruby-on-Rails (a nice fast way to get a web-app started that only drives me crazy half the time) Hosted through <a href="http://nearlyfreespeech.net" > Nearly Free Speech </a> which is a very flexible, principled and reasonably priced webhost, so long as you know what you're doing or are willing to learn. It's affordable in a way almost no Rails-compatible host it. For reference I think at the moment it's (usually) costing less $5 a month to host this, which is less than 1/3rd what Heroku would charge me for an always-up dyno with 200,000 rows in a database, while also stopping me from using SQLite despite it being ideal and performant for static datasets like this. Some services would offer to host my "app" for free but have extremely vague terms on when it would start costing money or how much and while being drastically untrustworthy. NFSN just charges me based on how much the site is actually being used in a transparent and linear way. NFSN don't make me include this endorsement; I just do it because I love them. </p>
 
-
-<p> Created with Ruby-on-Rails (a nice fast way to get a web-app written that only drives me crazy half the time) Hosted through <a href="http://nearlyfreespeech.net" > Nearly Free Speech </a> which is a very flexible, principled and reasonably priced webhost, so long as you know what you're doing or are willing to learn. (For reference I think at the moment it's costing about $5 a month to host this, which is less than 1/3rd what Heroku would charge me for an always-up dyno with 200,000 rows in a database, and I can keep using SQLite, which is both performant and saves me so much work for a static data set. NFS don't make me include this endorsement; I just do it because I love them. </p>
