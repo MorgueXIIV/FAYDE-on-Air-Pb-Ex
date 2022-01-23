@@ -8,6 +8,7 @@ class SearchController < ApplicationController
 		#Ed: This next block sets the default state for "variable search" when results.html.erb updates
 		# Morgue: It made me sad to see a 5 line if then else end, so I made it a trinary op.
 		@isSearchVariable = params[:VariableSearch]=="1" ? true : false
+
 		@queryText = query #enables persistent search query
 
 		#Ed - try to match the textBox entry with an Actor object
@@ -53,6 +54,7 @@ class SearchController < ApplicationController
 				query=query.reject{ |e| (e.length<2) }
 			end
 
+
 			if query.empty? then
 				searchResults = []
 				@searchMessages.push """Sorry, all the words from your query were filtered out.
@@ -96,6 +98,7 @@ class SearchController < ApplicationController
 					searchResults = actor.blank? ? Dialogue : Dialogue.smartSaidBy(actor)
 					searchResults= searchResults.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline)
 					if not actor.blank? then
+
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
 					end
 				end
@@ -114,10 +117,14 @@ class SearchController < ApplicationController
 				else
 					@searchMessages.push "Your search for  '#{ querystringdisplay }' returned #{countResults} dialogue options."
 				end
+				if queryType=="1" then
+					@searchMessages.push "Searching the variables Checked or Updated for '#{querystringdisplay}'"
+				end
 			end
 
 			@results=searchResults
 			@thisPageResultStart = (@pageNum*maxSearchResults) + 1
+
 		end
 	end
 

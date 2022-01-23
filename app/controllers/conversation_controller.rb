@@ -76,7 +76,6 @@ class ConversationController < ApplicationController
 
 				@idsList= idsList.join("-")
 			rescue ActiveRecord::RecordNotFound
-				render :controller => 'conversation', :action => "error"
 			end
 		end
 	end

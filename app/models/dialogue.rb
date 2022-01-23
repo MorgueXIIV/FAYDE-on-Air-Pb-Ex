@@ -22,6 +22,7 @@ class Dialogue < ActiveRecord::Base
 
   scope :saidBy, ->(actorID) { where(actor_id: actorID)}
 
+
 	scope :smartSaidBy, ->(actorID) do
 		case actorID.id
 			when 379 #jean
@@ -77,11 +78,13 @@ class Dialogue < ActiveRecord::Base
     if isHub?
       shortName= "HUB: "
         if not (actor.blank? or actor.name=="HUB") then
+
           shortName+="(#{actor.name}) "
         end
       shortName+=showDetails.join("/ ")
       if addParentNamesToHubs then
         shortName+=" {Hub From: #{getLeastHubParentName}}"
+
       else
         if shortName.length<12
           shortName+=title
@@ -152,8 +155,7 @@ class Dialogue < ActiveRecord::Base
     return lomgpossinfo
   end
 
-
-
+      
   def getDifficulty(difficultypassed)
     return difficultypassed>7 ? ((difficultypassed-7)*2)-1 : difficultypassed*2
   end
@@ -182,7 +184,7 @@ class Dialogue < ActiveRecord::Base
       # This is a vastly stripped down one that only checks up 1 level...
 			# but the previous version was running so many queries,
 			# at least 1 level can be eager loaded.
-
+      
 			# prefer parents with dialogue:
       parents.each do |parent|
         if (parent[1].length>2)

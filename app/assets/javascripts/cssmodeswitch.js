@@ -16,6 +16,7 @@ $(document).ready(function(){
 	if (csscookie=="mogmode") {
 		$("#lightmode").hide()
 		$("#darkmode").show()
+
 	}
 		$("#hidehubs").empty()
 	if (hubsHidden =="true"){
@@ -67,6 +68,7 @@ $("#actor2").change(function(){
 	  	var selecteditem = $( "#actor2" ).val();
 	    $("#actor1").val(selecteditem);
 });
+
 
 $("#actor1").keyup(function() {
     var valbox = $( this ).val();

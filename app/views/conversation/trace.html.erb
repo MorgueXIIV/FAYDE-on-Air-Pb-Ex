@@ -1,5 +1,6 @@
 <h2 id="title"> Browsing Conversation </h2>
 
+
 <%  @conversationDescribe.each do | conversation | %>
 <h3><%= conversation.id  %>: <%= conversation.title  %>
 </h3> <p> <%= conversation.description %> </p>
@@ -18,6 +19,7 @@
 <p> <ul><%  @builtConvo.each do | result | %>
 	<div class=<%=result.isHub? ? "hub" : "notHub" %>>
 		<li id="<%= result.id %>"> <span class="incid">  <% if not result.isHub? %>[<%= result.showLineage %>] <% end %><a href="<%= result.id %>" rel="nofollow"> <%= result.incid %></a>.</span>
+
 			<span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue(false,false) %>
 			<i>
 				<ul class="details">
@@ -29,6 +31,7 @@
 						<ol> <% result.showModifiers.each do | deet | %>
 							<li> <%= deet %> </li>
 								<% end %>
+
 						</ol></li>
 					<% end %>
 				</ul>
