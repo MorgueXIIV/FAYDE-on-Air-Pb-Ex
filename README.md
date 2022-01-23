@@ -55,4 +55,10 @@ If there are any questions or comments, please feel free to contact "Boring Cop 
 
 No copyright is claimed or implied over Disco Elysium or any of its characters and content, which is all wholly owned by ZA/UM. If you work at / represent ZA/UM and consider this use of their intellectual property to be unacceptable, that's fine and I will respect that. Please contact "Boring Cop / Sorry Cop Morgue" on the official Discord for a boring apology and to discuss removal / any alternative terms under which it might be acceptable. No malice is intended, and it is being hosted in the knowledge that the ZA/UM team have acknowledged and welcomed similar projects such as [Xyrilyn's Disco Reader](https://disco-reader.gitlab.io/disco-reader/#/) in official ZA/UM announcements.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Excluding any portions of the code that due to their relationship to the structure of the aforementioned material cannot be considered original work, the code is hereby distributed with uh, let's say the MIT licence, like Rails itself. 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
