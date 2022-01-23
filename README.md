@@ -25,29 +25,23 @@ Once a user has selected the conversation they want to follow, Fayde displays a 
 
 FAYDE-on-air was built primarily for Linux systems, but is likely to work on Windows systems with minimal changes. Fayde-on-air has the following dependencies:
 
-* Rails v6.1.4.1 (but likely to work on any v6+ build of Rails)
+* Rails v6.1.4.1 (but likely to work on any v6+ build of Rails, possibly even earlier?)
 
-* Ruby v2.7.0
+* Ruby v2.7.0 (At least any 2.7.? version, and most likely 2.? version of Ruby should work with minimal adjustment if your local machine is picky about Ruby version)
 
 * Sqlite3 v1.4
 
-You will also require a copy of the Disco Elysium dialogue in a sqlite3 database. (Database instructions???)
+To create a local development copy for testing, first you will also require a copy of the relevant Disco Elysium game data in a sqlite3 database. While we have our own script to extract the data from the JSON format it can be exported in, it requires a lot of hand holding, and HTMLBanjo's [Disco Courier](https://github.com/htmlbanjo/disco-courier) may be of use to build an appropriate database [TODO: describe what's an "appropriate structure" here]
 
 Clone this repo using your preferred method. Once in the cloned directory, open your terminal and start your rails server with: ''' rails s '''
-
-If hosting for public / external access, start your rails server with ''' rails s -b 0.0.0.0 -p 80 '''. ""-b 0.0.0.0" instructs rails to bind to any valid ip address, -p tells rails which port to listen on. For websites this will usually be port 80.
-
-Ensure your firewall policies allow access to your machine at this port.
-
-Your rails server will now be accepting external connections. If you want the server to persist after you close your console window, consider using additional commands like [nohup or disown](https://unix.stackexchange.com/questions/3886/difference-between-nohup-disown-and)
 
 <h2>Next Steps</h2>
 
 Work is continuing to improve upon:
 
-* 1: Improvements to layouts, usability etc
+* 1: Support for additional languages 
 
-* 2: Formatting of Conversation Browser
+* 2: Improvements to layouts, usability etc
 
 * 3: Technical Debts, optimisation and performance [Significant Progress made!]
 
@@ -57,12 +51,8 @@ This project is primarily developed by MorgueXIIV, with contributions from piear
 
 If there are any questions or comments, please feel free to contact "Boring Cop / Sorry Cop Morgue" on the official Disco Elysium discord.
 
-<h2>Licensing and Copyright</h2>
+<h2>Disclaimers</h2>
 
-No copyright is claimed or implied over Disco Elysium or any of its characters and content, which is all wholly owned by ZA/UM. If you work at / represent Za/um and consider this use of their intellectual property to be unacceptable, that's fine and I will respect that. Please contact "Boring Cop / Sorry Cop Morgue" on the official Discord for a boring apology and to discuss removal / any alternative terms under which it might be acceptable. No malice is intended, and it is being hosted in the knowledge that the Za/um team have acknowledged and welcomed similar projects such as Xyrilyn's Disco Reader in official Za/um announcements.
+No copyright is claimed or implied over Disco Elysium or any of its characters and content, which is all wholly owned by ZA/UM. If you work at / represent ZA/UM and consider this use of their intellectual property to be unacceptable, that's fine and I will respect that. Please contact "Boring Cop / Sorry Cop Morgue" on the official Discord for a boring apology and to discuss removal / any alternative terms under which it might be acceptable. No malice is intended, and it is being hosted in the knowledge that the ZA/UM team have acknowledged and welcomed similar projects such as [Xyrilyn's Disco Reader](https://disco-reader.gitlab.io/disco-reader/#/) in official ZA/UM announcements.
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You can view a copy of the GNU General Public License at <https://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
