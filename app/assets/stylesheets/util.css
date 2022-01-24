@@ -2,6 +2,9 @@
 	line-height: 1.5;
 }
 
+#lightmode, #darkmode{
+	display: none;
+}
 
 #one {
 	line-height: 1;

@@ -1,19 +1,27 @@
 <h2> Search </h2>
 
-<p> Search for up to 10 words/part words, OR include a " in your search, to search one or more exact phrases (seperated by "s) </p>
+<p> Search for up to 10 words/part words, OR include a " in your search, to search one or more exact phrases (separated by "s).</p>
+	<p>Check the "variables search" box to look for things like "reputation grows kim" and don't check it to search for actual dialogue people say.</p>
 
-<p> Enter all or part of an actor name to filter by that actor. Most vocal character will be chosen in case of ambiguity (ie "ki" matches Kim, not Coupris Kinema). Use characters canonical names ie. "Novelty Dicemaker" not "Neha". I've made it so searching for Jean and Judit will return their lines as the Horse-Faced woman and Man with Sunglases. Searching for "Harry" should now show the main character's lines, too! There's a dropdown box you can use instead (thanks Sphinx111!) but I left the text box cos sometimes it's easier to just type stuff. If you experience any issues with these new features, my apologies; lmk if you can. </p>
+<p> Alternate lines now searched (unless you get over 100 results), this may cause some duplicates. Jean, Judit, Liz, Korty and Perception will return lines from their "disguised"/(specific) versions, but "horse faced woman" or "Perception (smell)" will not.   </p>
 
-	<p> If you check the Variables Seach button, it will  instead search the variables a line checks or updates. If you want good cop points/Kim Kitsuragi likes you points, you need "reputation kim". "reputation lowers kim" for stuff that makes him angry, or "reputation grows kim" for stuff that makes him like you, "reputation.kim" for stuff that checks IF he likes you. You can use it to search for things other than your reputation with Kim, but I know you people, I know what you like. </p>
 <p>
+
 <%= form_with url:search_path, method: :get do |form| %>
     <%= form.label :query, "Search for:" %>
     <%= form.text_field :query, :value => @queryText %>
     </br>
     <%= form.label :actor, "Said by: (optional)" %>
     <%= form.text_field :actor1, :value => @actorText %>
-    <%= form.collection_select :actor2, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:prompt => 'select actor' }%>
-    <br />
+
+		<%# Bug workaround - Don't attempt to use caching if running in Dev environment %>
+		<% if Rails.env == "development" %>
+			<%= form.collection_select :actor2, Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order, :name, :name, {:prompt => 'select actor'} %>
+		<% else %>
+    	<%= form.collection_select :actor2, (Rails.cache.fetch("#123ActorsCacheKeyv0", expires_in: 48.hours) do Actor.where("dialogues_count > 0").order(:dialogues_count).reverse_order end), :name, :name, {:prompt => 'select actor'} %>
+		<% end %>
+
+		<br />
     <%= form.check_box :VariableSearch, :checked => @isSearchVariable %>
     <%= form.label :VariableSearch, "Search for variables instead of dialogue (ignores 'said by' filter)"%>
     </br>
@@ -24,17 +32,32 @@
 	<% end %></p><p> Hit the <span class='btn'> &#9664;&#9664;</span> button to view conversations from the begining, and <span class='btn'> &#9654;</span> button to carry the conversation on from that point.
 	</p>
 
-<p> <ol class="searchresults"><%  @results.each do | result | %>
-<li>  <span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue %>  <br />
-	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result.conversation_id)*10000)+1} , :title => 'View Conversation' %><br /> </div>
-	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result.id }, :title => 'Start Here' %> </div>
-<i> <ul> <% result.showDetails.each do | deet | %>
-	<li id="details"> <%= deet %> </li>
-	<% end %>
-	<% result.showCheck.each do | deet | %>
-	<li id="details"> <%= deet %> </li>
-	<% end %>
-</ul>
-</i>
+<p> <ol class="searchresults" start=<%= "\"@thisPageResultStart\"" %>><%  @results.each do | result | %>
+<li> <% if result[1].blank? and result.length>6 %>  <%= result[4] %> <% else %> <span class='actor'> <%= result[0] %> - </span> <%= result[1] %>  <% end %> <br />
+<i> <ul id="details">
+		<% if not result[4].blank? and result.length<7 %>
+			<li> <%= result[4] %> </li>
+			<% elsif result.length>6 %>
+			<li> <%= "#{result[5]} / #{result[6]}" %> </li>
+		<% end %>
+			</ul></i>
+	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((result[2])*10000)+1}, :rel => 'nofollow' , :title => 'View Conversation' %><br /> </div>
+	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => result[3] }, :rel => 'nofollow', :title => 'Start Here' %> </div>
+
+
 </li>
 <% end %> </ol> </p>
+<p>
+	<% if @pageNum > 0 then %>
+		<%= link_to "First Page", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch] }, :rel => 'nofollow' %>
+		&mdash;
+		 <%= link_to "PAGE #{@pageNum}", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch], :page => (@pageNum - 1) }, :rel => 'nofollow', :title => 'Previous Page' %> &mdash;
+	 <% end # if @pageNum > 0 %>
+
+	 <% if @showPageNext then %>
+			 	Results Page  <%= @pageNum + 1 %>
+				&mdash;
+				<%= link_to "PAGE #{@pageNum + 2}", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch], :page => (@pageNum + 1) }, :rel => 'nofollow', :title => 'Next Page' %>
+		<% end #if @showPageNext %>
+	</p>
+

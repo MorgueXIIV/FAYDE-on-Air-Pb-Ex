@@ -10,10 +10,13 @@ $(document).ready(function(){
 	hideHubButtonText="Show Dialogue Only"
 
 	if (csscookie=="sammode") {
+		$("#lightmode").show()
 		$("#darkmode").hide()
 	}
 	if (csscookie=="mogmode") {
 		$("#lightmode").hide()
+		$("#darkmode").show()
+
 	}
 		$("#hidehubs").empty()
 	if (hubsHidden =="true"){
