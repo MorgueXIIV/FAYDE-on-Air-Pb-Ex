@@ -60,6 +60,8 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.integer "alternates_count"
     t.integer "checks_count"
     t.integer "lineage"
+    t.index ["actor_id"], name: "index_dialogues_on_actor_id"
+    t.index ["conversation_id"], name: "index_dialogues_on_conversation_id"
   end
 
   create_table "modifiers", force: :cascade do |t|
@@ -77,6 +79,7 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
 
   add_foreign_key "alternates", "dialogues"
   add_foreign_key "checks", "dialogues"
+  add_foreign_key "dialogues", "conversations"
   add_foreign_key "modifiers", "dialogues"
   add_foreign_key "tfc_transforms", "dialogues"
 end

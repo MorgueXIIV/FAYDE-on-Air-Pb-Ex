@@ -75,7 +75,7 @@ class SearchController < ApplicationController
 					#variable search is a different method and gets different attributes
 					searchResultIDs = searchResults.unscope(:includes).searchVars(query).ids
 					@searchMessages.push "Searching the variables Checked / Updated for '#{querystringdisplay}'"
-					searchResults = Dialogue.where(id: searchResultIDs).pluck(:name, :dialoguetext, :conversation_id, :id, :title, :conditionstring, :variable)
+					searchResults = Dialogue.where(id: searchResultIDs).pluck(:name, :dialoguetext, :conversation_id, :id, :title, :conditionstring, :userscript)
 					countResults = searchResults.length
 					@showPageNext = countResults >= maxSearchResults
 				else # dialoguetext search
@@ -116,9 +116,6 @@ class SearchController < ApplicationController
 					@searchMessages.push "Your search for '#{ querystringdisplay }' gave many results and will be shown as several pages of #{maxSearchResults}. \n Perhaps a more specific search is in order?"
 				else
 					@searchMessages.push "Your search for  '#{ querystringdisplay }' returned #{countResults} dialogue options."
-				end
-				if queryType=="1" then
-					@searchMessages.push "Searching the variables Checked or Updated for '#{querystringdisplay}'"
 				end
 			end
 
