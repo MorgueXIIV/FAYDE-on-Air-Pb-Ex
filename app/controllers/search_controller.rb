@@ -96,7 +96,7 @@ class SearchController < ApplicationController
 					end
 
 					searchResults = actor.blank? ? Dialogue : Dialogue.smartSaidBy(actor)
-					searchResults= searchResults.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline)
+					searchResults= searchResults.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline, "alternates.conditionstring")
 					if not actor.blank? then
 
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"

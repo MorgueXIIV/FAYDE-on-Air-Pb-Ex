@@ -1,0 +1,16 @@
+<li> <% if thisResult[1].blank? and thisResult.length >6 %>  <%= thisResult[4] %> <% else %> <span class='actor'> <%= thisResult[0] %> - </span> <%= thisResult[1] %>  <% end %> <br />
+<i> <ul id="details">
+		<% if not thisResult[4].blank? and thisResult.length <7 %>
+      <li> <strong>Replaced with</strong>: <%= thisResult[4] %> <br> <strong>if</strong> <%= thisResult[5] %></li>
+		<% elsif thisResult.length > 6 %>
+      <% if not thisResult[5].blank? %>
+        <li><strong>Check Variable:</strong> <%= "#{thisResult[5]}" %> </li>
+      <% end %>
+      <% if not thisResult[6].blank? %>
+        <li><strong>Run game Logic:</strong> <%= "#{thisResult[6]}" %> </li>
+      <% end %>
+		<% end %>
+		</ul></i>
+	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((thisResult[2])*10000)+1}, :rel => 'nofollow' , :title => 'View Conversation' %><br /> </div>
+	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => thisResult[3] }, :rel => 'nofollow', :title => 'Start Here' %> </div>
+</li>
