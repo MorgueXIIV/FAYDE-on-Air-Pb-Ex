@@ -25,6 +25,10 @@ h2,
   font-weight: bold;
 }
 
+.hub .actor {
+  font-weight: normal;
+}
+
 #wideline {
 	line-height: 1.5;
 }
@@ -42,6 +46,7 @@ h2,
 	height: 100%;
 	background-color: whitesmoke;
 	color: black;
+	max-width: 900px;
 }
 
 @media (min-width: 840px) {
@@ -69,6 +74,7 @@ h2,
 	justify-content:space-evenly;
 	width: 100%;
 	background-color:whitesmoke;
+	height : 2rem;
 
 }
 
@@ -82,9 +88,27 @@ li {
 	margin-bottom: 1.25em;
 }
 
-#details {
+td li, td ul{
+	margin-bottom: auto;
+	margin-top: auto;
+	// Override the above when it's a list inside a table, ie hte details list in the tracer
+}
+
+.details, #details {
 	color: #791e08;
  }
+
+div.hub {
+	 // margin-left: 2em;
+	 opacity: .8;
+	 font-weight:100;
+  }
+
+ul.trace {
+	list-style-type: none;
+	margin-left: 0em;
+	padding-left: 0em;
+}
 
 .btn,
 input[type=submit] {
@@ -133,6 +157,40 @@ a:active {
 
 a:visited {
 	color: rgb(92, 0, 0);
+}
+
+td.hidden, ul.hidden {
+	display: none;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+tr.hidden {
+	border-bottom: 1px solid black;
+	height: 2px;
+}
+
+#hidehubs {
+	position: fixed;
+	top: 2em;
+	left: 1em;
+}
+
+.spacer {
+	visibility: collapse;
+}
+
+.lineage
+{
+	// margin-left: -1em;
+	// margin-right: 1em;
+}
+
+td {
+vertical-align: top;
+padding-bottom: 1.75em;
 }
 
 /* ------------------------------- DARK MODE -------------------------------- */

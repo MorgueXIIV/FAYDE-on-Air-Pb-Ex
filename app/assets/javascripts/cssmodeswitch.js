@@ -2,12 +2,12 @@
 //= require_tree .
 //= require cookies.min
 
-$(document).ready(function(){
+$(document).on('ready turbolinks:load', function(){
 	csscookie=docCookies.getItem("css")
 	hubsHidden = docCookies.getItem("hidehubs")
 
-	showHubButtonText="Show Hubs and Details"
-	hideHubButtonText="Show Dialogue Only"
+	showHubButtonText="Show <br /> Details"
+	hideHubButtonText="Hide <br /> Details"
 
 	if (csscookie=="sammode") {
 		$("#lightmode").show()
@@ -21,9 +21,7 @@ $(document).ready(function(){
 		$("#hidehubs").empty()
 	if (hubsHidden =="true"){
 		$("#hidehubs").append(showHubButtonText)
-		$(".hub").hide()
-		$(".incid").hide()
-		$(".details").hide()
+		$(".hub, .incid, .details, .hub td").addClass("hidden");
 	} else {
 		$("#hidehubs").append(hideHubButtonText)
 	}
@@ -58,9 +56,7 @@ $(document).ready(function(){
 			document.cookie = "hidehubs=true"
 			$("#hidehubs").append(showHubButtonText)
 		}
-		$(".hub").toggle()
-		$(".incid").toggle()
-		$(".details").toggle()
+		$(".hub, .incid, .details, .hub td").toggleClass("hidden");
 
 	});
 
