@@ -31,7 +31,7 @@ class ConversationController < ApplicationController
 				# while not extraConvosNeeded.blank? do
 				# 	extraConvosLinks = []
 				# 	extraConvosNeeded.each do | xlink |
-				# 		min=xlink*10000
+				# 		min=xlink*10000description
 				# 		max=(xlink+1)*10000
 				# 		extraConvosLinks = extraConvosLinks + DialogueLink.where(origin_id: min..max).or(DialogueLink.where(destination_id: min..max)).pluck(:origin_id, :destination_id)
 				# 	end
@@ -104,6 +104,6 @@ class ConversationController < ApplicationController
 
 	def orbindex
 		@pageTitle="ORB MODE"
-		@allorbs=Conversation.where("title LIKE ?", "%orb%") #.order(:dialogues_count, :desc)
+		@allorbs=Conversation.where("title LIKE ?", "%orb%").pluck(:dialogues_count,:title,:id,:description) #.order(:dialogues_count, :desc)
 	end
 end

@@ -4,16 +4,16 @@
 <h3> As always, some of these are removed content, there's no way for me to check any given orb can be accessed in the final game!</h3>
 
 <p> <ol class="searchresults"><%  @allorbs.each do | result | %>
-<li> 
-	<% if (result.dialogues_count > 2) then %>
-		<%= link_to result.title, {:controller => 'conversation', :action => 'trace', :dialogueid => (result.id*10000)+1 } %>
+<li>
+	<% if (result[0] > 2) then %>
+		<%= link_to result[1], {:controller => 'conversation', :action => 'trace', :dialogueid => (result[2]*10000)+1 } %>
 	<% else %>
-		<%= result.title %>
+		<%= result[1] %>
 	<% end %>
-	
-	<i> 
+
+	<i>
 		<ul>
-			<li id="details">  <%= result.description %> </li>
+			<li id="details">  <%= result[3] %> </li>
 		</ul>
 	</i>
 </li>
