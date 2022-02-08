@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_10_160117) do
+ActiveRecord::Schema.define(version: 2022_02_08_020127) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.string "alternateline"
     t.string "conditionstring"
     t.integer "dialogue_id"
-    t.index ["dialogue_id"], name: "index_alternates_on_dialogue_id"
   end
 
   create_table "checks", force: :cascade do |t|
@@ -30,7 +29,6 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.string "flagname"
     t.string "skilltype"
     t.integer "dialogue_id"
-    t.index ["dialogue_id"], name: "index_checks_on_dialogue_id"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -60,8 +58,6 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.integer "alternates_count"
     t.integer "checks_count"
     t.integer "lineage"
-    t.index ["actor_id"], name: "index_dialogues_on_actor_id"
-    t.index ["conversation_id"], name: "index_dialogues_on_conversation_id"
   end
 
   create_table "modifiers", force: :cascade do |t|
@@ -69,7 +65,6 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
     t.string "modification"
     t.string "tooltip"
     t.integer "dialogue_id"
-    t.index ["dialogue_id"], name: "index_modifiers_on_dialogue_id"
   end
 
   create_table "tfc_transforms", force: :cascade do |t|
@@ -79,7 +74,6 @@ ActiveRecord::Schema.define(version: 2022_01_10_160117) do
 
   add_foreign_key "alternates", "dialogues"
   add_foreign_key "checks", "dialogues"
-  add_foreign_key "dialogues", "conversations"
   add_foreign_key "modifiers", "dialogues"
   add_foreign_key "tfc_transforms", "dialogues"
 end

@@ -49,19 +49,42 @@ h2,
 	max-width: 900px;
 }
 
-@media (min-width: 840px) {
+@media only (min-width: 840px) {
 	.main {
 		width: 80%;
 		padding: 2em;
 		align-self: center;
  }
+ #hidehubs {
+ 	position: sticky;
+ 	top: 3em;
+ 	right: 0px;
+ 	height: auto;
+ }
+ .menu form {
+ 	display: inline-block;
+ }
 }
 
 @media (max-width: 840px) {
 	.main {
-		width: 100vw;
-		padding: .5em;
+		width: 90vw;
+		border-width: 0vw 2vw;
+		padding: 2vw;
 		word-wrap: break-word;
+    overflow-wrap: break-word;
+		align-self: flex-end;
+	}
+	#hidehubs  {
+	  position: sticky;
+	  top: 5vh;
+		margin-left: -8vw;
+		padding-left: 4vw;
+		text-align: right;
+	}
+	.spaceOpulent {
+		display: none;
+		visibility: hidden;
 	}
 }
 
@@ -70,18 +93,17 @@ h2,
 	border-width: 0 0 5px 0;
 	border-style: solid;
 	border-color: grey;
-	padding: 20px 20px;
+	padding: 2vw 2vw;
 	justify-content:space-evenly;
 	width: 100%;
 	background-color:whitesmoke;
+
+	// adding hight to reduce likelihood of the menu bar juddering horribly
+	// when the buttons are moused over
 	height : 2rem;
-
 }
 
 
-.menu form {
-	display: inline-block;
-}
 
 li {
 	/* increase line height between list items*/
@@ -97,18 +119,6 @@ td li, td ul{
 .details, #details {
 	color: #791e08;
  }
-
-div.hub {
-	 // margin-left: 2em;
-	 opacity: .8;
-	 font-weight:100;
-  }
-
-ul.trace {
-	list-style-type: none;
-	margin-left: 0em;
-	padding-left: 0em;
-}
 
 .btn,
 input[type=submit] {
@@ -164,33 +174,24 @@ td.hidden, ul.hidden {
 }
 
 table {
+	// without this the bottom border won't show on the TR
 	border-collapse: collapse;
 }
 
 tr.hidden {
-	border-bottom: 1px solid black;
-	height: 2px;
-}
-
-#hidehubs {
-	position: fixed;
-	top: 2em;
-	left: 1em;
+	border-bottom: dashed .1em;
+	height: .3em;
 }
 
 .spacer {
 	visibility: collapse;
 }
 
-.lineage
-{
-	// margin-left: -1em;
-	// margin-right: 1em;
-}
-
 td {
 vertical-align: top;
 padding-bottom: 1.75em;
+
+overflow-wrap: break-word;
 }
 
 /* ------------------------------- DARK MODE -------------------------------- */

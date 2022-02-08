@@ -1,5 +1,5 @@
 <li> <% if thisResult[1].blank? and thisResult.length >6 %>  <%= thisResult[4] %> <% else %> <span class='actor'> <%= thisResult[0] %> - </span> <%= thisResult[1] %>  <% end %> <br />
-<i> <ul id="details">
+<i> <ul class="details">
 		<% if not thisResult[4].blank? and thisResult.length <7 %>
       <li> <strong>Replaced with</strong>: <%= thisResult[4] %> <br> <strong>if</strong> <%= thisResult[5] %></li>
 		<% elsif thisResult.length > 6 %>

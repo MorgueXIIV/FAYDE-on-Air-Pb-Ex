@@ -3,11 +3,22 @@
 //= require cookies.min
 
 $(document).on('ready turbolinks:load', function(){
+
+//when someone clicks a btn, check to see if it contains a link
+// if it does, go to that URL. Otherwise do nothing. 
+// this is so that buttons are all-over clickable not the link text only.
+	$(".btn").click(function(){
+		url=$(this).find("a").first().attr("href");
+		if(url != undefined){
+		window.location = url;}
+		return false;
+	})
+
 	csscookie=docCookies.getItem("css")
 	hubsHidden = docCookies.getItem("hidehubs")
 
-	showHubButtonText="Show <br /> Details"
-	hideHubButtonText="Hide <br /> Details"
+	showHubButtonText="Show Details"
+	hideHubButtonText="Hide Details"
 
 	if (csscookie=="sammode") {
 		$("#lightmode").show()

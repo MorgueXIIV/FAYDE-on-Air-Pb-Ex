@@ -18,3 +18,30 @@
 #invisible{
 	display: none;
 }
+
+.btn {
+	display: inline-flex;
+  }
+
+.menu form {
+		display: inline-block;
+	}
+
+	td {
+	vertical-align: top;
+	padding-bottom: 1em;
+	}
+
+	td.hidden, ul.hidden {
+		display: none;
+	}
+
+	table {
+		// without this the bottom border won't show on the TR
+		border-collapse: collapse;
+	}
+
+	tr.hidden {
+		border-bottom: dashed .1em;
+		height: .3em;
+	}
