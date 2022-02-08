@@ -45,3 +45,9 @@
 		border-bottom: dashed .1em;
 		height: .3em;
 	}
+
+
+	.actor {
+	  text-transform: uppercase;
+	  font-weight: bold;
+	}
