@@ -15,6 +15,8 @@
 </i></li>
 <% end end %> </ol> </p>
 
+<div id="hidehubs" class="btn">  </div>
+
 <% if not @builtConvo.blank?  %>
 <p> <table class="trace"><%  @builtConvo.each do | result | %>
 	<tr class=<%=result.isHub? ? "hub" : "notHub" %> id="<%= result.id %>"><td class="lineage incid"> <% if not result.isHub? %> [<%= result.showLineage %>] <% end %></td><td class="incid"><a href="<%= result.id %>" rel="nofollow"> <%= result.incid %></a>.</td>
@@ -44,5 +46,3 @@
 					<%= result.showDetails(true).join(" | ") %>
 			</i></li>
 <% end end %> </ol> </p>
-
-<div id="hidehubs" class="btn">  </div>
