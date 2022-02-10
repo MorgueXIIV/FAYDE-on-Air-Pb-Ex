@@ -33,10 +33,10 @@
 
 						</ol></li>
 					<% end %>
+					</i>
 				</td>
-			</i>
 		</tr>
-<% end end %> </ul> </p>
+<% end end %> </table> </p>
 
 <p id="options forward"> <ol><% if not @forwOptions.blank? then @forwOptions.each do | result | %>
 <li><%= link_to result.showShort, { :controller => 'conversation', :action => 'trace', :dialogueid => "#{@idsList}-#{result.id}", :anchor => "#{result.id}" }, :rel => 'nofollow' %>
