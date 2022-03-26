@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'pages/home'
   root  'search#result'
 	get '/info', to: 'fayde#index'
 

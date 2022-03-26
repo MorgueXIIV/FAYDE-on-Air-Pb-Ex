@@ -1,0 +1,15 @@
+<style>
+  .tabGap {
+    display: inline-block;
+    margin-left: 80px;
+  }
+</style>
+
+<% for i in 1..48 do %>
+  <% j = i %>
+  <% if (i % 4 == 0) %>
+    <span class="tabGap">FAYDE</span>
+  <% else %>
+    <span class="tabGap"><%=i.to_s%>/24</span>
+  <% end %>
+<% end %>

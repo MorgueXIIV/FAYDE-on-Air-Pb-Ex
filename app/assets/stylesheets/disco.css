@@ -1,0 +1,94 @@
+
+.discoButton,
+input[type=submit] {
+	background-color: rgba(0,0,0,0);
+	display: inline-flex;
+	height: 1.8rem;
+	padding: .1rem .8rem;
+	align-items: center;
+	vertical-align: middle;
+	text-align: left;
+	border-radius: 1px;
+}
+.discoButton a {
+	color: #d1d1cf;
+	text-decoration: none;
+}
+.discoButton a:focus,
+.discoButton a:hover,
+.discoButton a:active {
+  color: #000!important;
+}
+
+.discoButton:focus,
+.discoButton:hover,
+.discoButton:active {
+  background: #d1d1cf;
+  color: #000!important;
+  text-decoration: underline;
+}
+
+.tickerTapeBody {
+  background-color: #050d12;
+  position: relative;
+	right 5%;
+  padding-left: 20px;
+  padding-right: 25px;
+  height: 100%;
+  width: 100%;
+  align-self: center;
+	box-sizing: border-box;
+}
+.tickerTapeBorder {
+  background-color: #646b6c;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-left: 6px;
+	margin-right: 12px;
+  height: 100%;
+	align-self: center;
+	align-items: center;
+	border-width: 0px 15px;
+	border-color: #100d0a;
+	border-style: dashed;
+}
+.tickerTapeOuterBorder {
+	background-color: #646b6c;
+	margin-left: 5%;
+	width: 80%;
+	width: 80%;
+  height: 100%;
+	align-self: center;
+	align-items: center;
+	position: relative;
+}
+.discoBackground {
+	background-color: #100d0a;
+	width: 100%;
+  height: 100%;
+	position: relative;
+}
+.tickerSideText {
+	width: 8000px;
+	position: absolute;
+	bottom: 0; right: 0;
+  transform: rotate(-90deg) translateX(100%);
+  transform-origin: 100% 100%;
+	font-size: 12px;
+	color: #d1d1cf;
+}
+.discoMenu {
+	display: flex;
+  z-index: 50;
+	border-width: 0 0 5px 0;
+	border-style: solid;
+	border-color: #838587;
+	padding: 20px 20px;
+	justify-content:space-evenly;
+	width: 100%;
+  background: rgb(193,87,9);
+  background: linear-gradient(90deg, rgba(193,87,9,1) 0%, rgba(193,87,9,1) 21%, rgba(64,35,10,1) 63%, rgba(29,17,10,1) 100%);
+}
+#fw-footer {
+  overflow: hidden;
+}
