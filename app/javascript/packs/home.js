@@ -3,7 +3,7 @@
 // Generate a component part by running command `rails generate vue something`
 
 import Vue from 'vue'
-import App from '@/home.vue'
+import App from '../parts/home.vue'
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.appendChild(document.createElement('home'))
