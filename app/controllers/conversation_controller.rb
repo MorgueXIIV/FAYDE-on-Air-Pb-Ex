@@ -41,10 +41,10 @@ class ConversationController < ApplicationController
 				# 	extraConvosNeeded = ((extraConvosLinks.flatten.map{ |e| (e / 10000) }.uniq) - convosWhoseLinksWeHave)
 				# end
 
-				backOptions = convosLinks.select { |l| (l[1] == idsList[0]) }.map{ |e| e[0] }
+				backOptions = convosLinks.select { |l| (l[1].to_i == idsList[0]) }.map{ |e| e[0].to_i }
 				while backOptions.length == 1 do
 					idsList.unshift backOptions[0]
-					backOptions = convosLinks.select{ |l| (l[1]==idsList[0]) }.map { |e| e[0] }
+					backOptions = convosLinks.select{ |l| (l[1].to_i==idsList[0]) }.map { |e| e[0].to_i }
 					checkForOutliers = (backOptions.map{ |e| e / 10000 }.uniq) - convoIDs
 					if not checkForOutliers.blank? then
 						convoIDs += checkForOutliers
@@ -52,10 +52,10 @@ class ConversationController < ApplicationController
 					end
 				end
 
-				forwOptions = convosLinks.select { |l| (l[0]==idsList[-1]) }.map { |e| e[1] }
+				forwOptions = convosLinks.select { |l| (l[0].to_i==idsList.last) }.map { |e| e[1].to_i }
 				while forwOptions.length == 1 do
 					idsList.push forwOptions[0]
-					forwOptions = convosLinks.select { |l| (l[0]==idsList[-1]) }.map { |e| e[1] }
+					forwOptions = convosLinks.select { |l| (l[0].to_i==idsList.last) }.map { |e| e[1].to_i }
 					checkForOutliers = (forwOptions.map{ |e| e / 10000 }.uniq) - convoIDs
 					if not checkForOutliers.blank? then
 						convoIDs += checkForOutliers
@@ -63,16 +63,16 @@ class ConversationController < ApplicationController
 					end
 				end
 
-				idsRetrieving = (idsList)#+forwOptions)
+				idsRetrieving = (idsList+forwOptions)
 				dialoguesUsing = Dialogue.includes(:actor, :alternates, :checks).where(id: idsRetrieving)
-				# dialoguesUsing = dialoguesUsing + Dialogue.includes(:actor, :alternates, :checks, :origin).where(id: backOptions)
+				dialoguesUsing = dialoguesUsing + Dialogue.includes(:actor, :alternates, :checks, :origin).where(id: backOptions)
 
 				@builtConvo = idsList.map { |e| dialoguesUsing.find{|f| f.id==e }}
 
-				# @forwOptions = forwOptions.map { |e| dialoguesUsing.find{|f| f.id==e.to_i}}
-				# @backOptions = backOptions.map { |e| dialoguesUsing.find{|f| f.id==e.to_i}} #Dialogue.includes(:actor, :alternates).find_by_id(backOptions)
-				@forwOptions = @builtConvo.last.destination
-				@backOptions = @builtConvo.first.origin.includes(:actor, :origin)
+				@forwOptions = forwOptions.map { |e| dialoguesUsing.find{|f| f.id==e}}
+				@backOptions = backOptions.map { |e| dialoguesUsing.find{|f| f.id==e}} #Dialogue.includes(:actor, :alternates).find_by_id(backOptions)
+				@forwOptions += @builtConvo.last.destination.includes(:actor).all
+				@backOptions += @builtConvo.first.origin.includes(:actor, :origin).all
 
 				@idsList= idsList.join("-")
 			rescue ActiveRecord::RecordNotFound

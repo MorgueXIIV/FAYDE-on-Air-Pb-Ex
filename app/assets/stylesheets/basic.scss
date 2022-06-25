@@ -19,8 +19,7 @@ body {
 	flex-direction: column;
 }
 
-h2,
-.actor {
+h2, .actor {
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -97,13 +96,10 @@ h2,
 	justify-content:space-evenly;
 	width: 100%;
 	background-color:whitesmoke;
-
 	// adding hight to reduce likelihood of the menu bar juddering horribly
 	// when the buttons are moused over
 	height : 2rem;
 }
-
-
 
 li {
 	/* increase line height between list items*/
@@ -190,7 +186,6 @@ tr.hidden {
 td {
 vertical-align: top;
 padding-bottom: 1.75em;
-
 overflow-wrap: break-word;
 }
 

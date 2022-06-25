@@ -46,8 +46,10 @@
 		height: .3em;
 	}
 
-
 	.actor {
 	  text-transform: uppercase;
 	  font-weight: bold;
+	}
+	.hub .actor {
+	  font-weight: normal;
 	}
