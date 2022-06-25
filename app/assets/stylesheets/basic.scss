@@ -28,6 +28,14 @@ h2, .actor {
   font-weight: normal;
 }
 
+.notHub {
+
+}
+
+.noResize {
+	-webkit-text-size-adjust: none;
+}
+
 #wideline {
 	line-height: 1.5;
 }
@@ -53,6 +61,8 @@ h2, .actor {
 		width: 80%;
 		padding: 2em;
 		align-self: center;
+		-webkit-text-size-adjust: none;
+		font-size: 24pt;
  }
  #hidehubs {
  	position: sticky;
