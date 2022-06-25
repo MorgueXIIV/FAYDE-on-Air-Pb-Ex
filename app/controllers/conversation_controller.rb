@@ -68,11 +68,11 @@ class ConversationController < ApplicationController
 				dialoguesUsing = dialoguesUsing + Dialogue.includes(:actor, :alternates, :checks, :origin).where(id: backOptions)
 
 				@builtConvo = idsList.map { |e| dialoguesUsing.find{|f| f.id==e }}
-
-				@forwOptions = forwOptions.map { |e| dialoguesUsing.find{|f| f.id==e}}
-				@backOptions = backOptions.map { |e| dialoguesUsing.find{|f| f.id==e}} #Dialogue.includes(:actor, :alternates).find_by_id(backOptions)
-				@forwOptions += @builtConvo.last.destination.includes(:actor).all
-				@backOptions += @builtConvo.first.origin.includes(:actor, :origin).all
+				#
+				# @forwOptions = forwOptions.map { |e| dialoguesUsing.find{|f| f.id==e}}
+				# @backOptions = backOptions.map { |e| dialoguesUsing.find{|f| f.id==e}} #Dialogue.includes(:actor, :alternates).find_by_id(backOptions)
+				@forwOptions = @builtConvo.last.destination.includes(:actor).all
+				@backOptions = @builtConvo.first.origin.includes(:actor, :origin).all
 
 				@idsList= idsList.join("-")
 			rescue ActiveRecord::RecordNotFound
