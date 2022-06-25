@@ -66,6 +66,17 @@ class Dialogue < ActiveRecord::Base
     end
   end
 
+
+	scope :searchAlts, ->(query) do
+		quer1= query.pop
+		sqlquer="alternates.alternateline LIKE ?", "%#{quer1}%"
+		if query.empty?
+			where(sqlquer)
+		else
+			searchAlts(query).where(sqlquer)
+		end
+	end
+
   scope :searchTextsAct, ->(query, actor=nil) do
 		if actor.blank? then
 			searchTexts(query)
@@ -155,7 +166,7 @@ class Dialogue < ActiveRecord::Base
     return lomgpossinfo
   end
 
-      
+
   def getDifficulty(difficultypassed)
     return difficultypassed>7 ? ((difficultypassed-7)*2)-1 : difficultypassed*2
   end
@@ -184,7 +195,7 @@ class Dialogue < ActiveRecord::Base
       # This is a vastly stripped down one that only checks up 1 level...
 			# but the previous version was running so many queries,
 			# at least 1 level can be eager loaded.
-      
+
 			# prefer parents with dialogue:
       parents.each do |parent|
         if (parent[1].length>2)

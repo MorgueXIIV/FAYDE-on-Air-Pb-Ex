@@ -33,7 +33,7 @@ class SearchController < ApplicationController
 		@actorText = actorLimit #enables persistent actor name
 		@searchMessages=[]
 
-		if query.blank? then
+		if query.blank? and actor.blank? then
 			@results=[]
 			@searchMessages=[]
 		else
@@ -46,7 +46,7 @@ class SearchController < ApplicationController
 			# we stopped filtering out things for doing BIG searches cos of pagination.
 			# but serachign several keywords is still hard work so if people look like
 			# they're on a whole sentence, get rid of boring words.
-			if query.length > 5 then
+			if query.length > 5 or @isWordBoundaries then
 				commonWords = ["the", "you", "to", "of", "it", "and", "in", "is",
 					"he", "this", "that", "your", "for", "on", "not", "what", "his", "it's"]
 				query=query-commonWords
@@ -63,10 +63,10 @@ class SearchController < ApplicationController
 					you won't want to read all that!)"""
 			else
 				querystringdisplay = query.join(", ")
-				# query=query.map{|e| e.strip }
 
 				# search for dialogue and specify how many results to get from which "page"
-				searchResults = Dialogue.offset(@pageNum * maxSearchResults).limit(maxSearchResults)
+				searchResults = actor.blank? ? Dialogue.includes(:alternates) : Dialogue.includes(:alternates).smartSaidBy(actor)
+				searchResults = searchResults.offset(@pageNum * maxSearchResults).limit(maxSearchResults)
 
 				if @isSearchVariable then
 					#variable search is a different method and gets different attributes
@@ -79,27 +79,35 @@ class SearchController < ApplicationController
 					if actor.blank? and not actorLimit.blank? then
 						@searchMessages.push "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
 					end
-					searchResults= searchResults.unscope(:includes).searchTextsAct(query.reverse, actor)
-					searchResultIDs = searchResults.ids
-					countResults = searchResultIDs.length
-					@showPageNext = countResults >= maxSearchResults
-					# query not run cos it's crazy expensive
-					# @resultsCount = searchResults.unscope(:includes,:limit,:offset).count if @showPageNext
-
-
-					if not @showPageNext
-						altResults = Alternate.unscope(:includes)
-						altResults= altResults.searchAlts(query.reverse).pluck(:dialogue_id)
-						searchResultIDs = altResults + searchResultIDs
+					searchResults= searchResults.searchTexts(query.reverse).or( searchResults.searchAlts(query.reverse))
+					if @isWordBoundaries then
+						resultIDs = []
+						querregexes = query.map { |e| Regexp.new("\\b#{e}\\b", Regexp::IGNORECASE ) }
+						searchResults = searchResults.unscope(:limit, :offset)
+						scanResults = searchResults.pluck(:id, :dialoguetext, :alternateline).map { |e| [e[0],"#{e[1]} #{e[2]}"] }
+						scanResults.each do | result |
+							passSoFar=true
+							querregexes.each do | boundWord |
+								if passSoFar then
+									passSoFar= result[1].match?(boundWord)
+								end
+							end
+							if passSoFar then
+								resultIDs.push result[0]
+								if resultIDs.length>=100 then
+									break
+								end
+							end
+							searchResults = Dialogue.includes(:alternates).where(id: resultIDs)
+						end
 					end
-
-					searchResults = actor.blank? ? Dialogue : Dialogue.smartSaidBy(actor)
-					searchResults= searchResults.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline, "alternates.conditionstring")
-					if not actor.blank? then
-						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
-					end
+				searchResults=searchResults.pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline, "alternates.conditionstring")
+				countResults=searchResults.length
+				@showPageNext = countResults >= maxSearchResults
+				if not actor.blank? then
+					@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
 				end
-				# NOTE: by this point "query" is destroyed? unless I only handed over the reversed version? because the scope was by reference!
+			end
 
 				if @pageNum > 0 or @showPageNext then
 					@searchMessages.push "Page #{@pageNum + 1} of ??"
@@ -113,15 +121,6 @@ class SearchController < ApplicationController
 					@searchMessages.push "Your search for '#{ querystringdisplay }' gave many results and will be shown as several pages of #{maxSearchResults}. \n Perhaps a more specific search is in order?"
 				else
 					@searchMessages.push "Your search for  '#{ querystringdisplay }' returned #{countResults} dialogue options."
-				end
-			end
-
-			if @isWordBoundaries then
-				# quer= querystringdisplay.split(",")
-				querregexes = query.map { |e| Regexp.new("\\b#{e}\\b", Regexp::IGNORECASE ) }
-				querregexes.each do | boundWord |
-					@searchMessages.push "Your search for #{boundWord.to_s}"
-					searchResults.select!{ |e| e[1].match?(boundWord)}
 				end
 			end
 
