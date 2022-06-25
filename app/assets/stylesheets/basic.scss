@@ -62,7 +62,7 @@ h2, .actor {
 		padding: 2em;
 		align-self: center;
 		-webkit-text-size-adjust: none;
-		font-size: 24pt;
+		// font-size: 24pt;
  }
  #hidehubs {
  	position: sticky;
@@ -83,6 +83,8 @@ h2, .actor {
 		word-wrap: break-word;
     overflow-wrap: break-word;
 		align-self: flex-end;
+		-webkit-text-size-adjust: none;
+		font-size: 18pt;
 	}
 	#hidehubs  {
 	  position: sticky;

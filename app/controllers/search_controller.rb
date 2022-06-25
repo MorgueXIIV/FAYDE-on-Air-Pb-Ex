@@ -5,9 +5,11 @@ class SearchController < ApplicationController
 		actorLimit=params[:actor1]
 
 
+
 		#Ed: This next block sets the default state for "variable search" when results.html.erb updates
 		# Morgue: It made me sad to see a 5 line if then else end, so I made it a trinary op.
 		@isSearchVariable = params[:VariableSearch]=="1" ? true : false
+		@isWordBoundaries = params[:WordBoundaries]=="1" ? true : false
 
 		@queryText = query #enables persistent search query
 
@@ -25,9 +27,6 @@ class SearchController < ApplicationController
 				actor=Actor.find_by_name_part(params[:actor2])
 				actorLimit=params[:actor2]
 		end
-
-# change to work like::
-# Order.joins(:customer, :books).pluck("orders.created_at, customers.email, books.title")
 
 		@pageNum=params[:page].to_i
 		@pageNum = 0 if  @pageNum.blank?
@@ -63,8 +62,6 @@ class SearchController < ApplicationController
 					would return everything with a 'd' in it, and that's like 53,000 records,
 					you won't want to read all that!)"""
 			else
-				# query=query.first(10)
-
 				querystringdisplay = query.join(", ")
 				# query=query.map{|e| e.strip }
 
@@ -89,6 +86,7 @@ class SearchController < ApplicationController
 					# query not run cos it's crazy expensive
 					# @resultsCount = searchResults.unscope(:includes,:limit,:offset).count if @showPageNext
 
+
 					if not @showPageNext
 						altResults = Alternate.unscope(:includes)
 						altResults= altResults.searchAlts(query.reverse).pluck(:dialogue_id)
@@ -98,7 +96,6 @@ class SearchController < ApplicationController
 					searchResults = actor.blank? ? Dialogue : Dialogue.smartSaidBy(actor)
 					searchResults= searchResults.where(id: searchResultIDs).includes(:alternates).pluck(:name, :dialoguetext, :conversation_id, :id, :alternateline, "alternates.conditionstring")
 					if not actor.blank? then
-
 						@searchMessages.push "Searching '#{actor.name}' dialogues only. \n"
 					end
 				end
@@ -116,6 +113,15 @@ class SearchController < ApplicationController
 					@searchMessages.push "Your search for '#{ querystringdisplay }' gave many results and will be shown as several pages of #{maxSearchResults}. \n Perhaps a more specific search is in order?"
 				else
 					@searchMessages.push "Your search for  '#{ querystringdisplay }' returned #{countResults} dialogue options."
+				end
+			end
+
+			if @isWordBoundaries then
+				# quer= querystringdisplay.split(",")
+				querregexes = query.map { |e| Regexp.new("\\b#{e}\\b", Regexp::IGNORECASE ) }
+				querregexes.each do | boundWord |
+					@searchMessages.push "Your search for #{boundWord.to_s}"
+					searchResults.select!{ |e| e[1].match?(boundWord)}
 				end
 			end
 

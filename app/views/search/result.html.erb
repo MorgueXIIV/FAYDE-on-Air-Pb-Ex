@@ -10,6 +10,8 @@
 <%= form_with url:search_path, method: :get do |form| %>
     <%= form.label :query, "Search for:" %>
     <%= form.text_field :query, :value => @queryText %>
+
+    <%= form.check_box :WordBoundaries, :checked => @isWordBoundaries %> Whole Words Only
     </br>
     <%= form.label :actor, "Said by: (optional)" %>
     <%= form.text_field :actor1, :value => @actorText %>
@@ -46,6 +48,6 @@
 	 <% if @showPageNext then %>
 			 	Results Page  <%= @pageNum + 1 %>
 				&mdash;
-				<%= link_to "PAGE #{@pageNum + 2}", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch], :page => (@pageNum + 1) }, :rel => 'nofollow', :title => 'Next Page' %>
+				<%= link_to "PAGE #{@pageNum + 2}", {:controller => 'search', :action => 'result', :query => @queryText, :actor1 => @actorText, :VariableSearch => params[:VariableSearch], :WordBoundaries => params[:WordBoundaries], :page => (@pageNum + 1) }, :rel => 'nofollow', :title => 'Next Page' %>
 		<% end #if @showPageNext %>
 	</p>
