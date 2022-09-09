@@ -1,24 +1,38 @@
 <h2 id="title"> Browsing Conversation </h2>
 
+<a href="#conversationDetails">About this Conversation</a>
+<a href="#optionsBack">Previous dialogue options</a>
+<a href="#tree">Conversation tree</a>
+<a href="#optionsForth">Next dialogue options</a>
 
 <%  @conversationDescribe.each do | conversation | %>
-<h3><%= conversation.id  %>: <%= conversation.title  %>
+
+<h3 id="conversationDetails"><%= conversation.id  %>: <%= conversation.title  %>
 </h3> <p> <%= conversation.description %> </p>
 <p> <%= link_to "Conversation Root", {:controller => 'conversation', :action => 'trace', :dialogueid => (((conversation.id)*10000)+1)}, :rel => 'nofollow' %> </p>
 <% end %>
 
-<p id="options back"> <ol>
-	<%  if not @backOptions.blank?
-				@backOptions.each do | result | %>
-<li> <%= link_to result.showShort(true), {:controller => 'conversation', :action => 'trace', :dialogueid => "#{result.id}-#{@idsList}", :anchor => "#{result.id}" }, :rel => 'nofollow' %><i class="details">
-	<%= result.showDetails(true).join(" | ") %>
-</i></li>
-<% end end %> </ol> </p>
 
-<div id="hidehubs" class="btn">  </div>
+<h3 id="optionsBack"> Previous Dialogue Choices
+ <a href="#tree">Skip to Conversation</a></h3>
+
+<p>
+ <ol>
+		<%  if not @backOptions.blank? then @backOptions.each do | result | %>
+			<li> <%= link_to result.showShort(true), {:controller => 'conversation', :action => 'trace', :dialogueid => "#{result.id}-#{@idsList}", :anchor => "#{result.id}" }, :rel => 'nofollow' %><i class="details">
+				<%= result.showDetails(true).join(" | ") %>
+			</i></li>
+		<% end end %>
+	</ol>
+</p>
 
 <% if not @builtConvo.blank?  %>
-<p> <table class="trace"><%  @builtConvo.each do | result | %>
+<h3 id="tree"> Conversation
+<a href="#optionsForth">Skip to options</a></h3>
+
+<button id="hidehubs" class="btn">  </button>
+<p>
+ <table class="trace"><%  @builtConvo.each do | result | %>
 	<tr class=<%=result.isHub? ? "hub" : "notHub" %> id="<%= result.id %>"><td class="lineage incid"> <% if not result.isHub? %> [<%= result.showLineage %>] <% end %></td><td class="incid"><a href="<%= result.id %>" rel="nofollow"> <%= result.incid %></a>.</td>
 
 			<td><span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue(false,false) %>
@@ -40,9 +54,13 @@
 		</tr>
 <% end end %> </table> </p>
 
-<p id="options forward"> <ol><% if not @forwOptions.blank? then @forwOptions.each do | result | %>
+<h3> Next Dialogue Choices </h3>
+<p id="optionsForth"> <ol><% if not @forwOptions.blank? then @forwOptions.each do | result | %>
 <li><%= link_to result.showShort, { :controller => 'conversation', :action => 'trace', :dialogueid => "#{@idsList}-#{result.id}", :anchor => "#{result.id}" }, :rel => 'nofollow' %>
 				<i class="details">
 					<%= result.showDetails(true).join(" | ") %>
 			</i></li>
 <% end end %> </ol> </p>
+
+<p>
+listies::	<%= @idsList %>  listies 2: <%= @idsLongList %> listies 3: <%= @idsShortList %></p>
