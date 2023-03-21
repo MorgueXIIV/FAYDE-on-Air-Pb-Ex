@@ -1,6 +1,6 @@
 class ConversationController < ApplicationController
 
-	def trace
+	def traceShortBeta
 		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
 			render :controller => 'conversation', :action => "error"
@@ -115,7 +115,7 @@ class ConversationController < ApplicationController
 	end
 
 
-	def traceLong
+	def trace
 		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
 			render :controller => 'conversation', :action => "error"
