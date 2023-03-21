@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_08_020127) do
+ActiveRecord::Schema.define(version: 2023_03_15_184801) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(version: 2022_02_08_020127) do
     t.integer "origin_id"
     t.integer "destination_id"
     t.integer "priority"
+  end
+
+  create_table "dialogue_translations", force: :cascade do |t|
+    t.integer "dialogue_id"
+    t.string "language"
+    t.string "string"
+    t.index ["id"], name: "index_dialogue_translations_on_id"
   end
 
   create_table "dialogues", force: :cascade do |t|

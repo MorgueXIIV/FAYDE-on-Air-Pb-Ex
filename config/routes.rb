@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root  'search#result'
+  root 'search#result'
 	get '/info', to: 'fayde#index'
 
   get '/search', to: 'search#result', as: 'search'
@@ -9,8 +9,11 @@ Rails.application.routes.draw do
   get '/configure', to: 'fayde#css_configuration', as: 'configure'
   get '/configue/:css', to: 'fayde#css_configuration', as: 'configured'
 
+
+	get 'translation/:dialogueid', to:'translation#compare'
+
   get '/dialogue/:dialogueid', to: 'conversation#oldredirect', as: 'redirecttfc'
-	  get '/dialojue/:dialogueid', to: 'conversation#trace', as: 'dialogue'
+	get '/dialojue/:dialogueid', to: 'conversation#trace', as: 'dialogue'
   get '/dialogue/error', to: 'conversation#error', as: 'invalid_dialogue_id'
 
   get '/orbmode', to: 'conversation#orbindex', as: 'orb_index'

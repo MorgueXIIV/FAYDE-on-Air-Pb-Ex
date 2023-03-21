@@ -1,0 +1,10 @@
+<h1>Translation Compare</h1>
+<p>Dumping every available translation for:<a href="<%= @result.id %>" rel="nofollow"> <%= @result.incid %></a>.</p>
+<table class="trace">
+ <tr id="<%= @result.id %>">
+
+		 <td class='actor'><%= @result.showActor %> - </td> <td> <%= @result.showDialogue(false,false) %></td>
+			 </tr>
+				 <% @result.dialogueTranslations.each do | deet | %>
+					 <tr> <td class='actor'><%= deet.language %> - </td> <td> <%= deet.string %></td> </tr>
+				 <% end %></table>

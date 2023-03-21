@@ -4,6 +4,8 @@ class Dialogue < ActiveRecord::Base
   has_many :alternates
   has_many :checks
   has_many :modifiers
+	has_many :dialogueTranslations
+	#, :foreign_key => 'dialogue_id'
 
 
   has_many :parents,  :foreign_key => 'destination_id',

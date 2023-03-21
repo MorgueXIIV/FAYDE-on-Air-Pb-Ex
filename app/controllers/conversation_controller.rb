@@ -37,6 +37,7 @@ class ConversationController < ApplicationController
 				forwOptions= Array.new
 
 					thisID=idsList.pop
+					idsCritList.push thisID
 					# idsCritList.push thisID
 					begin
 						if forwOptions.length != 1 then

@@ -1,0 +1,2 @@
+class DialogueTranslation < ApplicationRecord
+end
