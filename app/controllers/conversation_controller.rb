@@ -33,29 +33,28 @@ class ConversationController < ApplicationController
 			begin # (error catching)
 				idsFullList = Array.new
 				idsCritList = Array.new
-				# forwOptions = pickBLinks.call idsList.first #initialise the forward options so we have the history of the first link
-				forwOptions= Array.new
+				# forwOptions = pickBLinks.call idsList.first
+				#initialise the forward options so we have the history of the first link
+				forwOptions = []
 
-					thisID=idsList.pop
-					idsCritList.push thisID
-					# idsCritList.push thisID
-					begin
+					thisID=idsList.shift
+
+					loop do
+						idsFullList.push thisID
+
 						if forwOptions.length != 1 then
 							idsCritList.push thisID
 						end
-						idsFullList.push thisID
 
 						forwOptions = pickFLinks.call(thisID)
+						break if idsList.empty? and forwOptions.length != 1
 
-						if not forwOptions.index(idsList[0]).nil? then
-							thisID = idsList.pop
-						elsif forwOptions.length==1
+						if forwOptions.include?(idsList[0]) then
+							thisID = idsList.shift
+						elsif forwOptions.length==1 then
 							thisID = forwOptions[0]
-						else
-							break
 						end
-
-					end	until idsList.empty? and forwOptions.length != 1
+					end
 
 
 				#
@@ -116,7 +115,7 @@ class ConversationController < ApplicationController
 	end
 
 
-	def tracelongurl
+	def traceLong
 		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
 			render :controller => 'conversation', :action => "error"
