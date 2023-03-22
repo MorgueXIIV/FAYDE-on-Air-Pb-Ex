@@ -33,7 +33,7 @@
 <button id="hidehubs" class="btn">  </button>
 <p>
  <table class="trace"><%  @builtConvo.each do | result | %>
-	<tr class=<%=result.isHub? ? "hub" : "notHub" %> id="<%= result.id %>"><td class="lineage incid"> <% if not result.isHub? %> [<%= result.showLineage %>] <% end %></td><td class="incid"><a href="<%= result.id %>" rel="nofollow"> <%= result.incid %></a>.</td>
+	<tr class=<%=result.isHub? ? "hub" : "notHub" %> id="<%= result.id %>"><td class="lineage incid"> <% if not result.isHub? %> [<%= result.showLineage %>] <%= link_to "*", {:controller => 'translation', :action => 'compare', :dialogueid => result.id }, :rel => 'nofollow', :title => 'Translate' %> <% end %></td><td class="incid"><a href="<%= result.id %>" rel="nofollow"> <%= result.incid %></a>.</td>
 
 			<td><span class='actor'><%= result.showActor %> - </span> <%= result.showDialogue(false,false) %>
 			<i>

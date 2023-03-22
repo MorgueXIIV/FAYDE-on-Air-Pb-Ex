@@ -1,10 +1,13 @@
 <h1>Translation Compare</h1>
-<p>Dumping every available translation for:<a href="<%= @result.id %>" rel="nofollow"> <%= @result.incid %></a>.</p>
+<p>Available translations for:	<%= link_to @result.id, {:controller => 'conversation', :action => 'trace', :dialogueid => @result.id }, :rel => 'nofollow', :title => 'Trace' %>.</p>
+
 <table class="trace">
  <tr id="<%= @result.id %>">
 
-		 <td class='actor'><%= @result.showActor %> - </td> <td> <%= @result.showDialogue(false,false) %></td>
+		 <td> EN </td> <td class='actor'><%= @result.showActor %> - </td> <td> <%= @result.showDialogue(false,false) %></td>
 			 </tr>
 				 <% @result.dialogueTranslations.each do | deet | %>
-					 <tr> <td class='actor'><%= deet.language %> - </td> <td> <%= deet.string %></td> </tr>
+					 <tr> <td><%= deet.language %> </td><td class='actor'>
+						  <%=@actorsNameT.find_by(language: deet.language).string%>
+						  - </td> <td> <%= deet.string %></td> </tr>
 				 <% end %></table>
