@@ -13,4 +13,6 @@
 		</ul></i>
 	<div class='btn'> <%= link_to raw("&#9664;&#9664;"), {:controller => 'conversation', :action => 'trace', :dialogueid => ((thisResult[2])*10000)+1}, :rel => 'nofollow' , :title => 'View Conversation' %><br /> </div>
 	<div class='btn'><%= link_to raw("&#9654;"), {:controller => 'conversation', :action => 'trace', :dialogueid => thisResult[3] }, :rel => 'nofollow', :title => 'Start Here' %> </div>
+	<div class='btn'><%= link_to raw("&#9663;"), {:controller => 'translation', :action => 'compare', :dialogueid => thisResult[3] }, :rel => 'nofollow', :title => 'Secret' %> </div>
+
 </li>
