@@ -4,7 +4,9 @@ class SearchController < ApplicationController
 		query=params[:query]
 		actorLimit=params[:actor1]
 
-
+		@results=[]
+		@searchMessages=[]
+		maxSearchResults=100
 
 		#Ed: This next block sets the default state for "variable search" when results.html.erb updates
 		# Morgue: It made me sad to see a 5 line if then else end, so I made it a trinary op.
@@ -17,10 +19,10 @@ class SearchController < ApplicationController
 		if not actorLimit.blank? then
 			actor=Actor.find_by_name_part(actorLimit)
 			# check if they maybe mean Harry:
-			if actorLimit.upcase.include?("HAR") or actorLimit.upcase.include?("BOIS") then
-				actor=Actor.find_by_name_part("you")
-				@searchMessages.push "Search for '#{actorLimit}' interpreted to mean 'You' (ie the main character)"
-			end
+			if actor.blank? and (actorLimit.upcase.include?("HARRY") or actorLimit.upcase.include?("BOIS")) then
+					actor=Actor.find_by_name_part("you")
+					@searchMessages.push "Search for '#{actorLimit}' interpreted to mean 'You' (i.e. the main character)"
+				end
 		end
 	  # Ed - if textbox is left blank or doesn't match a character, fallback on the content of Listbox, then identify the actor to use
 		if actor.blank? && !(params[:actor2]).blank? then
@@ -29,30 +31,27 @@ class SearchController < ApplicationController
 		end
 
 		@pageNum=params[:page].to_i
-		@pageNum = 0 if  @pageNum.blank?
+		@pageNum = 0 if @pageNum.blank?
 		@actorText = actorLimit #enables persistent actor name
-		@searchMessages=[]
 
-		if query.blank? and actor.blank? then
-			@results=[]
-			@searchMessages=[]
-		else
-			maxSearchResults=100
+		if not (query.blank? and actor.blank?) then
 			if query.index('"').nil? then
 				query=query.split(" ")
 			else
 				query=query.split('"')
 			end
 			# we stopped filtering out things for doing BIG searches cos of pagination.
-			# but serachign several keywords is still hard work so if people look like
+			# but seraching several keywords is still hard work esp if you're doing Regexp
+			# so if people look like
 			# they're on a whole sentence, get rid of boring words.
 			if query.length > 5 or @isWordBoundaries then
 				commonWords = ["the", "you", "to", "of", "it", "and", "in", "is",
 					"he", "this", "that", "your", "for", "on", "not", "what", "his", "it's"]
 				query=query-commonWords
+			end
+			if not @isWordBoundaries then
 				query=query.reject{ |e| (e.length<2) }
 			end
-
 
 			if query.empty? then
 				searchResults = []
@@ -80,20 +79,27 @@ class SearchController < ApplicationController
 						@searchMessages.push "Sorry, unable to find actor with '#{actorLimit}' in their name. \n"
 					end
 					searchResults= searchResults.searchTexts(query.reverse).or( searchResults.searchAlts(query.reverse))
+					# check regexes if whole word matches only
 					if @isWordBoundaries then
 						resultIDs = []
 						querregexes = query.map { |e| Regexp.new("\\b#{e}\\b", Regexp::IGNORECASE ) }
 						searchResults = searchResults.unscope(:limit, :offset)
+						#create strings of the line and their alts
+						# TODO: would be good if batched?
 						scanResults = searchResults.pluck(:id, :dialoguetext, :alternateline).map { |e| [e[0],"#{e[1]} #{e[2]}"] }
+						#cycle through results
 						scanResults.each do | result |
+							#presume innocence
 							passSoFar=true
 							querregexes.each do | boundWord |
 								if passSoFar then
+									#check result for a match for this loop's word
 									passSoFar= result[1].match?(boundWord)
 								end
 							end
 							if passSoFar then
 								resultIDs.push result[0]
+								#stop after 100 matches
 								if resultIDs.length>=100 then
 									break
 								end
@@ -113,7 +119,7 @@ class SearchController < ApplicationController
 					@searchMessages.push "Page #{@pageNum + 1} of ??"
 					if countResults == 0
 						@searchMessages.push "This page left intentionally blank."
-						@searchMessages.push "(Sorry, if your search has exact multiples of #{maxSearchResults} records in it, it's not a good performance trade off to see how many results there are in advance, this blank page just gets generated to find out when there will be another set.)"
+						@searchMessages.push "(Sorry, if your search has exact multiples of #{maxSearchResults} records in it, it's not a good performance trade off to see how many results there are in advance, this blank page just gets generated to find out when there are no more results. We appologise for the inconvenience. I assume this almost never happens. You should win some kind of special achievement for good-faith encountering this situation... Or it's a bug.)"
 					end
 				end
 
