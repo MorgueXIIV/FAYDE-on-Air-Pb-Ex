@@ -8,6 +8,6 @@
 			 </tr>
 				 <% @result.dialogueTranslations.each do | deet | %>
 					 <tr> <td><%= deet.language %> </td><td class='actor'>
-						  <%=@actorsNameT.find_by(language: deet.language).string%>
+						  <%=@result.actor.name_in(deet.language).string%>
 						  - </td> <td> <%= deet.string %></td> </tr>
 				 <% end %></table>

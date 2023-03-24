@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   get '/dialogue/:dialogueid', to: 'conversation#oldredirect', as: 'redirecttfc'
 	get '/dialojue/:dialogueid', to: 'conversation#trace', as: 'dialogue'
+	get '/dialogue/0-23/:dialogueid', to: 'conversation#traceOldLong', as: 'dialogueLong'
+
   get '/dialogue/error', to: 'conversation#error', as: 'invalid_dialogue_id'
 
   get '/orbmode', to: 'conversation#orbindex', as: 'orb_index'

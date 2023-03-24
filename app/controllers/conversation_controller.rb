@@ -98,9 +98,16 @@ class ConversationController < ApplicationController
 
 				backOptions = pickBLinks.call(idsFullList[0])
 				while backOptions.length == 1 do
-					idsFullList.unshift backOptions[0]
+					thisID=backOptions[0]
+					idsFullList.unshift thisID
+					# todo: try removing this for performance
 					checkConvoDrift.call(backOptions)
-					backOptions = pickBLinks.call idsFullList[0]
+					# add to crit list if the forward options are multiple.
+					forwOptions = pickFLinks.call(thisID)
+					if forwOptions.length>1 then
+						idsCritList.unshift idsFullList[1]
+					end
+					backOptions = pickBLinks.call thisID
 				end
 
 				# forwOptions = convosLinks.select { |l| (l[0].to_i==idsList.last) }.map { |e| e[1].to_i }

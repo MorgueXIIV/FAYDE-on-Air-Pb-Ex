@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_15_184801) do
+ActiveRecord::Schema.define(version: 2023_03_22_190837) do
+
+  create_table "actor_translations", force: :cascade do |t|
+    t.integer "actor_id"
+    t.string "language"
+    t.string "string"
+    t.index ["id"], name: "index_actor_translations_on_id"
+  end
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
