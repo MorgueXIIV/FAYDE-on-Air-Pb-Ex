@@ -31,6 +31,7 @@
 <a href="#optionsForth">Skip to options</a></h3>
 
 <button id="hidehubs" class="btn">  </button>
+	<% if not @brokenChainIDs.blank? then %> <h3 id="warning">Warning! URL contained unresolvable path:</h3> <p> Dropped links include <%= @brokenChainIDs.join(", ") %>. If you can send this URL to the system administrator for testing, he will probably be really greatful. For a limited time offer, try this free fallback URL:<%= link_to "Old style long url router", { :controller => 'conversation', :action => 'traceOldLong', :dialogueid => params[:dialogueid] }, :rel => 'nofollow' %> </p> <% end %>
 <p>
  <table class="trace"><%  @builtConvo.each do | result | %>
 	<tr class=<%=result.isHub? ? "hub" : "notHub" %> id="<%= result.id %>"><td class="lineage incid"> <% if not result.isHub? %> [<%= result.showLineage %>] <%= link_to "*", {:controller => 'translation', :action => 'compare', :dialogueid => result.id }, :rel => 'nofollow', :title => 'Translate' %> <% end %></td><td class="incid"><a href="<%= result.id %>" rel="nofollow"> <%= result.incid %></a>.</td>

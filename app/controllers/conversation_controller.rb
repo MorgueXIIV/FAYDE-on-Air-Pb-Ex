@@ -1,6 +1,6 @@
 class ConversationController < ApplicationController
 
-	def traceShortBeta
+	def trace
 		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
 			render :controller => 'conversation', :action => "error"
@@ -36,6 +36,7 @@ class ConversationController < ApplicationController
 				# forwOptions = pickBLinks.call idsList.first
 				#initialise the forward options so we have the history of the first link
 				forwOptions = []
+				brokenChainIDs=[]
 
 					thisID=idsList.shift
 
@@ -47,13 +48,27 @@ class ConversationController < ApplicationController
 						end
 
 						forwOptions = pickFLinks.call(thisID)
-						break if idsList.empty? and forwOptions.length != 1
 
+						#if the next id is already selected in the URL, go to that id and continue
 						if forwOptions.include?(idsList[0]) then
 							thisID = idsList.shift
-						elsif forwOptions.length==1 then
-							thisID = forwOptions[0]
+							next
 						end
+
+						#if the next options are deterministic, go to that option and continue
+						if forwOptions.length==1 then
+							thisID = forwOptions[0]
+							next
+							#if you're out of IDs, stop
+						elsif idsList.empty?
+							break
+							#if you can't resolve the next ID, create message and stop loop
+						else
+							brokenChainIDs=idsList
+							break
+						end
+
+
 					end
 
 
@@ -115,7 +130,7 @@ class ConversationController < ApplicationController
 	end
 
 
-	def trace
+	def traceL
 		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
 			render :controller => 'conversation', :action => "error"
