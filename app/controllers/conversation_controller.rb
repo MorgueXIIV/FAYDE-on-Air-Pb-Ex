@@ -36,13 +36,18 @@ class ConversationController < ApplicationController
 				# forwOptions = pickBLinks.call idsList.first
 				#initialise the forward options so we have the history of the first link
 				forwOptions = []
-				brokenChainIDs=[]
+				@brokenChainIDs=[]
 
-					thisID=idsList.shift
+					# thisID=idsList.shift
 
-					loop do
+					idsList.each_with_index do | thisID, i |
 						idsFullList.push thisID
 
+						# check for citical path:
+						# in the first loop foptions will be empty so first one will always
+						# be critical,
+						# in subsequent runs, the forward options are from the previous
+						# list item, so they represent BACK options for this ID.
 						if forwOptions.length != 1 then
 							idsCritList.push thisID
 						end
@@ -50,24 +55,27 @@ class ConversationController < ApplicationController
 						forwOptions = pickFLinks.call(thisID)
 
 						#if the next id is already selected in the URL, go to that id and continue
-						if forwOptions.include?(idsList[0]) then
-							thisID = idsList.shift
+						if forwOptions.include?(idsList[i+1]) then
 							next
 						end
 
-						#if the next options are deterministic, go to that option and continue
-						if forwOptions.length==1 then
+						#if the next option is deterministic, go to that option,
+						# add to full list, and continue checking options til they're not
+						while forwOptions.length==1
 							thisID = forwOptions[0]
-							next
-							#if you're out of IDs, stop
-						elsif idsList.empty?
-							break
-							#if you can't resolve the next ID, create message and stop loop
-						else
-							brokenChainIDs=idsList
-							break
+							idsFullList.push thisID
+							forwOptions = pickFLinks.call(thisID)
 						end
 
+						#if the next id is already selected in the URL, go to that id and continue
+						if idsList[i+1].blank? then break end
+						if forwOptions.include?(idsList[i+1]) then
+							next
+						#if you can't resolve the next ID, create message and stop loop
+						else
+							@brokenChainIDs=idsList[i .. idsList.length]
+							break
+						end
 
 					end
 
@@ -119,7 +127,6 @@ class ConversationController < ApplicationController
 
 				@idsList = idsCritList.join("-")
 				@idsLongList = idsFullList.join("-")
-				@idsShortList = idsList.join("-")
 			rescue ActiveRecord::RecordNotFound
 			end
 		end
@@ -130,7 +137,7 @@ class ConversationController < ApplicationController
 	end
 
 
-	def traceL
+	def traceOldLong
 		@pageTitle = "Conversation"
 		if params[:dialogueid].blank? then
 			render :controller => 'conversation', :action => "error"
@@ -195,6 +202,7 @@ class ConversationController < ApplicationController
 			rescue ActiveRecord::RecordNotFound
 			end
 		end
+		render "trace"
 	end
 
 	def error
