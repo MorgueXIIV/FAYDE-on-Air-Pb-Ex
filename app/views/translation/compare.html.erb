@@ -6,8 +6,8 @@
 
 		 <td> EN </td> <td class='actor'><%= @result.showActor %> - </td> <td> <%= @result.showDialogue(false,false) %></td>
 			 </tr>
-				 <% @result.dialogueTranslations.each do | deet | %>
-					 <tr> <td><%= deet.language %> </td><td class='actor'>
-						  <%=@result.actor.name_in(deet.language).string%>
-						  - </td> <td> <%= deet.string %></td> </tr>
+				 <% @results.each do | deet | %>
+					 <tr> <td><%= deet[0] %> </td><td class='actor'>
+						  <%=deet[1]%>
+						  - </td> <td> <%= deet[2] %></td> </tr>
 				 <% end %></table>

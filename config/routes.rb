@@ -13,8 +13,8 @@ Rails.application.routes.draw do
 	get 'translation/:dialogueid', to:'translation#compare'
 
   get '/dialogue/:dialogueid', to: 'conversation#oldredirect', as: 'redirecttfc'
-	get '/dialojue/:dialogueid', to: 'conversation#trace', as: 'dialogue'
-	get '/dialogue/0-23/:dialogueid', to: 'conversation#traceOldLong', as: 'dialogueLong'
+	get '/dialojue/:dialogueid', to: 'conversation#traceOldLong', as: 'dialogueLong'
+	get '/dialogue/0-23/:dialogueid', to: 'conversation#trace', as: 'dialogue'
 
   get '/dialogue/error', to: 'conversation#error', as: 'invalid_dialogue_id'
 

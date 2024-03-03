@@ -7,6 +7,6 @@ class Actor < ActiveRecord::Base
 	end
 
 	def name_in(lang)
-		actorTranslations.where("language=#{lang}").first
+		actorTranslations.find_by(language: "#{lang}")
 	end
 end
